@@ -23,9 +23,9 @@ function getTemplate() {
     <html>
         <head>
             <meta charset="UTF-8">
-            <link href="${config.get('staticURL')}/favicon.ico" rel="icon">
+            <link href="/bundles/favicon.ico" rel="icon">
             <title>Neural networks IDEA</title>
-            <script src="${config.get('staticURL')}/index.js"></script>
+            <script src="/bundles/index.js"></script>
         </head>
         <body>
             <div id="root"></div>

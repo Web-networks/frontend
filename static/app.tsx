@@ -31,7 +31,12 @@ function render() {
     const store = configureStore(sagaMiddleware);
     sagaMiddleware.run(rootSaga);
 
-    ReactDOM.render(<App store={store}/>, document.getElementById('root'));
+    const rootSelector = 'root';
+    const rootElement = document.createElement('div');
+    rootElement.setAttribute('id', rootSelector);
+    document.body.appendChild(rootElement);
+
+    ReactDOM.render(<App store={store}/>, document.getElementById(rootSelector));
 }
 
 window.addEventListener('DOMContentLoaded', render);

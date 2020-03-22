@@ -1,0 +1,32 @@
+name: CI
+
+on: push
+
+jobs:
+    linter:
+        name: Lint checking
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [10]
+        steps:
+        - uses: actions/checkout@v1
+        - name: yarn install
+          run: yarn
+
+        - name: yarn lint
+          run: yarn lint
+
+    ts-building-test:
+        name: TS checking
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [10]
+        steps:
+        - uses: actions/checkout@v1
+        - name: yarn install
+          run: yarn
+
+        - name: yarn tsc --noEmit
+          run: yarn tsc --noEmit

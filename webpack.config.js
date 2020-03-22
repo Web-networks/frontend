@@ -1,6 +1,8 @@
-
 const path = require('path');
 const config = require('config');
+const {DefinePlugin} = require('webpack');
+const {TsconfigPathsPlugin} = require('tsconfig-paths-webpack-plugin');
+
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -35,18 +37,23 @@ module.exports = {
 				test: /\.tsx?$/,
 				loader: 'ts-loader',
 				exclude: /node_modules/,
-				options: {
-					transpileOnly: true,
-				}
 			}
 		]
 	},
 	resolve: {
-		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+		extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+		plugins: [
+			new TsconfigPathsPlugin({configFile: "tsconfig.json"}),
+		]
 	},
 	output: {
-    path: path.resolve(__dirname, './bundles/'),
-    filename: 'index.js',
-    publicPath: `${config.get('staticURL')}`
+		path: path.resolve(__dirname, './bundles/'),
+		filename: 'index.js',
+		publicPath: `${config.get('staticURL')}`
 	},
+	plugins: [
+		new DefinePlugin({
+			'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+		}),
+	]
 };

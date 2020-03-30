@@ -8,6 +8,7 @@
     align-items: center;
     box-sizing: border-box;
     border: 2px solid grey;
+    background-color: var(--base-color-purple);
 }
 
 .buttonControl {
@@ -15,10 +16,16 @@
 }
 
 .content {
-    padding: 20px;
-    width: 700px;
-    border: 2px solid var(--border-color);
-    border-top: 0;
-    margin: 0 auto;
-    height: 800px;
+    padding-top: 20px;
+    box-sizing: border-box;
+    height: 100vh;
+    background: url('../../../assets/neural_network.jpg') no-repeat;
+    background-size: cover;
+}
+
+.logoText {
+    color: var(--base-color-yellow);
+    margin-right: auto;
+    font-size: 30px;
+
 }

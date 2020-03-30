@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import css from './Layout.module.css';
 
 interface OwnPropsT {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 class Layout extends React.Component<OwnPropsT> {
@@ -22,7 +22,8 @@ class Layout extends React.Component<OwnPropsT> {
     private renderHeader() {
         return (
             <div className={css.header}>
-                <Link to='/sign/up'>
+                <div className={css.logoText}>{'Neural networks IDEA'}</div>
+                <Link to='/sign'>
                     <Button
                         variant='primary'
                         className={css.buttonControl}
@@ -34,7 +35,6 @@ class Layout extends React.Component<OwnPropsT> {
 
     private renderContent() {
         const { children } = this.props;
-
         return (
             <div className={css.content}>
                 {children}

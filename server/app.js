@@ -7,29 +7,10 @@ const logger = log4js.getLogger();
 logger.level = 'debug';
 
 const app = express();
+app.use(morgan('dev'));
+app.use(express.static('bundles'));
+app.use('/*', express.static('bundles'));
+
 app.listen(config.get('port'), () => {
     logger.info(`Frontend node is on ${config.get('frontendHost')}`);
 });
-
-app.use('/bundles', express.static('bundles'));
-app.use(morgan('dev'));
-app.get('/', (req, res) => {
-    res.end(getTemplate());
-});
-
-function getTemplate() {
-    return `
-    <!DOCTYPE html5>
-    <html>
-        <head>
-            <meta charset="UTF-8">
-            <link href="/bundles/favicon.ico" rel="icon">
-            <title>Neural networks IDEA</title>
-            <script src="/bundles/index.js"></script>
-        </head>
-        <body>
-            <div id="root"></div>
-        </body>
-    </html>
-    `;
-}

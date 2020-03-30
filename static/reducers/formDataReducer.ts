@@ -57,7 +57,7 @@ const formDataReducer = handleActions({
         const errors = Object.keys(formData).reduce((currentErrors, fieldName) => {
             if (formData[fieldName].isRequired && !formData[fieldName].value) {
                 return { ...currentErrors, [fieldName]: {
-                    error: 'Обязательное поле',
+                    error: 'required field',
                 } };
             }
             return currentErrors;

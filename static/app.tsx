@@ -7,6 +7,8 @@ import createSagaMiddleware from 'redux-saga';
 import Layout from 'containers/Layout/Layout';
 import configureStore from 'store/configureStore';
 import rootSaga from 'sagas/rootSaga';
+import UserSignInForm from 'containers/UserSignInForm/UserSignInForm';
+import UserSignUpForm from 'containers/UserSignUpForm/UserSignUpForm';
 
 interface AppI {
     store: any;
@@ -18,7 +20,16 @@ function App(props: AppI) {
             <Router>
                 <Route path='/'>
                     <Layout>
-                        <div>{'Вот так вот'}</div>
+                        <Route exact path='/sign'>
+                            <UserSignInForm
+                                submitUrl='/passport/signin'
+                            />
+                        </Route>
+                        <Route exact path='/signup'>
+                            <UserSignUpForm
+                                submitUrl='/passport/signup'
+                            />
+                        </Route>
                     </Layout>
                 </Route>
             </Router>
@@ -31,7 +42,12 @@ function render() {
     const store = configureStore(sagaMiddleware);
     sagaMiddleware.run(rootSaga);
 
-    ReactDOM.render(<App store={store}/>, document.getElementById('root'));
+    const rootSelector = 'root';
+    const rootElement = document.createElement('div');
+    rootElement.setAttribute('id', rootSelector);
+    document.body.appendChild(rootElement);
+
+    ReactDOM.render(<App store={store}/>, document.getElementById(rootSelector));
 }
 
 window.addEventListener('DOMContentLoaded', render);

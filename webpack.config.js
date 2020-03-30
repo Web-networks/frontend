@@ -2,9 +2,12 @@ const path = require('path');
 const config = require('config');
 const {DefinePlugin} = require('webpack');
 const {TsconfigPathsPlugin} = require('tsconfig-paths-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 
 const isDev = process.env.NODE_ENV === 'development';
+const backendHost = process.env.BACKEND_HOST || (isDev ? 'http://bigone.demist.ru:7779' : null);
 
 module.exports = {
 	entry: './static/app.tsx',
@@ -21,12 +24,17 @@ module.exports = {
 				test: /\.module.css$/,
 				use: [
 					"style-loader",
-					{
-						loader: "css-loader",
-						options: {
-							modules: true
-						},
-					}
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                mode: 'local',
+                                localIdentName: isDev
+                                    ? '[name]__[local]__[hash:base64:5]'
+                                    : '[hash:base64:5]'
+                            },
+                        }
+                    },
 				],
 			},
 			{
@@ -49,11 +57,19 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, './bundles/'),
 		filename: 'index.js',
-		publicPath: `${config.get('staticURL')}`
+		publicPath: '/'
 	},
 	plugins: [
 		new DefinePlugin({
 			'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+			'BACKEND_HOST': JSON.stringify(backendHost),
 		}),
+		new HtmlWebpackPlugin({
+			title: 'Neural networks IDEA',
+			filename: 'index.html',
+			inject: 'head',
+			scriptLoading: 'defer',
+		}),
+		new FaviconsWebpackPlugin('assets/favicon.ico')
 	]
 };

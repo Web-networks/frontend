@@ -1,3 +1,9 @@
 :root {
     --border-color: #8A9199;
+    
+    --base-color-purple: #2b2137;
+    --base-color-grey: #352c33;
+    --base-color-brown: #945a54;
+    --base-color-pink: #e27d6c;
+    --base-color-yellow: #f6d991;   
 }

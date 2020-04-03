@@ -62,7 +62,6 @@ module.exports = {
 	plugins: [
 		new DefinePlugin({
 			'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-			'BACKEND_HOST': JSON.stringify(backendHost),
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Neural networks IDEA',

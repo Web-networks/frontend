@@ -4,7 +4,7 @@
       "lib": ["dom", "es2015", "es2017", "esnext.asynciterable"],
       "sourceMap": true,
       "jsx": "react",
-      "module": "es6",
+      "module": "commonjs",
       "moduleResolution": "node",
       "forceConsistentCasingInFileNames": true,
       "suppressImplicitAnyIndexErrors": true,
@@ -25,9 +25,11 @@
       "baseUrl": "static/"
   },
   "include": [
-      "static/**/*"
+      "static/**/*",
+      "server/**/*",
+      "tasks/**/*",
   ],
   "exclude": [
-      "node_modules"
+      "node_modules/"
   ]
 }

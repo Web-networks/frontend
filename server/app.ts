@@ -12,5 +12,5 @@ app.use(express.static('bundles'));
 app.use('/*', express.static('bundles'));
 
 app.listen(config.get('port'), () => {
-    logger.info(`Frontend node is on ${config.get('frontendHost')}`);
+    logger.info('Frontend-server starts listening');
 });

@@ -2,7 +2,7 @@ import { take, put, select, fork } from 'redux-saga/effects';
 
 import { FORM_SUBMIT, formValidate } from 'actions/formDataActions';
 import { formDataSelect, isFormWithErrors } from 'selectors/formSelectors';
-import { post } from './fetchSagas';
+import { postSaga } from './fetchSagas';
 
 export function* formSaga() {
     while (true) {
@@ -16,6 +16,6 @@ export function* formSaga() {
             continue;
         }
         const formData = yield select(formDataSelect);
-        yield fork(post, submitUrl, formData);
+        yield fork(postSaga, submitUrl, formData);
     }
 }

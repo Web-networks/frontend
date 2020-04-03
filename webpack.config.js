@@ -70,6 +70,6 @@ module.exports = {
 			inject: 'head',
 			scriptLoading: 'defer',
 		}),
-		new FaviconsWebpackPlugin('assets/favicon.ico')
+		new FaviconsWebpackPlugin('./assets/favicon.png')
 	]
 };

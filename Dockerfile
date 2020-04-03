@@ -1,8 +1,14 @@
 FROM node:10
 
 WORKDIR /app
+
+# установка зависимоcтей
+COPY package.json .
+COPY yarn.lock .
+RUN yarn
+
+# сборка
 COPY . .
-RUN ["yarn"]
-RUN ["yarn", "build"]
+RUN yarn build
 
 CMD [ "yarn", "start"]

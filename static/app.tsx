@@ -2,7 +2,9 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'components/Variables/RootStyles.css';
 
 import Layout from 'containers/Layout/Layout';
 import UserSignInForm from 'containers/UserSignInForm/UserSignInForm';

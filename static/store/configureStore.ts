@@ -11,7 +11,7 @@ export const history = createBrowserHistory();
 
 function configureStore(saga: SagaMiddleware) {
     const rootReducer = createRootReducer(history);
-    if (NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
         return createStore(
             rootReducer,
             composeWithDevTools(applyMiddleware(routerMiddleware(history), saga)),

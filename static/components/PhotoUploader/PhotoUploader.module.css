@@ -1,0 +1,11 @@
+.fileUploader
+{
+    display: none;
+}
+
+.label
+{
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}

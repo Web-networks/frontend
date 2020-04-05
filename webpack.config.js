@@ -1,5 +1,4 @@
 const path = require('path');
-const config = require('config');
 const {DefinePlugin} = require('webpack');
 const {TsconfigPathsPlugin} = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,7 +6,6 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 
 const isDev = process.env.NODE_ENV === 'development';
-const backendHost = process.env.BACKEND_HOST || (isDev ? 'http://bigone.demist.ru:7779' : null);
 
 module.exports = {
 	entry: './static/entry.tsx',
@@ -60,9 +58,6 @@ module.exports = {
 		publicPath: '/'
 	},
 	plugins: [
-		new DefinePlugin({
-			'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-		}),
 		new HtmlWebpackPlugin({
 			title: 'Neural networks IDEA',
 			filename: 'index.html',

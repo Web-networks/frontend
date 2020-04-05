@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --mode production -p --progress",
-    "build-dev": "NODE_ENV=development webpack --mode development --watch -p",
+    "build-dev": "NODE_ENV=development webpack --mode development --watch",
     "start": "NODE_ENV=production node server/app.js",
     "start-dev": "NODE_ENV=development ts-node tasks/start-dev.ts",
     "lint": "yarn eslint . --ext js,tsx,ts"
@@ -44,6 +44,7 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
+    "@types/classnames": "^2.2.10",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "@types/react-redux": "^7.1.7",

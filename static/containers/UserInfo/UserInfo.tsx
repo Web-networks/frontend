@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Dropdown, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import { UserPhotoForm } from 'containers/UserPhotoForm/UserPhotoForm';
 import { ApplicationStateT } from 'types/ApplicationStateT';
 import UserCardImg from '@assets/user.webp';
 
@@ -10,17 +11,22 @@ import css from './UserInfo.module.css';
 
 interface UserInfoProps {
     username?: string;
+    avatar?: string | null;
 }
 
 function UserInfoComponent(props: UserInfoProps): React.ReactElement {
-    const { username } = props;
+    const { username, avatar } = props;
+    const imageSrc = avatar || UserCardImg;
+    const [profileFormPhotoVisibility, setProfileFormVisibility] = React.useState(false);
+    const showPhotoModalForm = React.useCallback(() => setProfileFormVisibility(true), [setProfileFormVisibility]);
     if (username) {
         return (
             <div className={css.root}>
                 <Image
-                    src={UserCardImg}
+                    src={imageSrc}
                     roundedCircle
                     className={css.userSign}
+                    onClick={showPhotoModalForm}
                 />
                 <Dropdown>
                     <Dropdown.Toggle variant="success" id='user-info'>{username}</Dropdown.Toggle>
@@ -33,6 +39,10 @@ function UserInfoComponent(props: UserInfoProps): React.ReactElement {
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+                <UserPhotoForm
+                    visible={profileFormPhotoVisibility}
+                    setVisibility={setProfileFormVisibility}
+                />
             </div>
         );
     }
@@ -49,5 +59,6 @@ function UserInfoComponent(props: UserInfoProps): React.ReactElement {
 export const UserInfo = connect(
     ({ userInfo }: ApplicationStateT): UserInfoProps => ({
         username: userInfo?.username,
+        avatar: userInfo?.avatar,
     }),
 )(UserInfoComponent);

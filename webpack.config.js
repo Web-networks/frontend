@@ -10,7 +10,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const backendHost = process.env.BACKEND_HOST || (isDev ? 'http://bigone.demist.ru:7779' : null);
 
 module.exports = {
-	entry: './static/app.tsx',
+	entry: './static/entry.tsx',
 	devtool: isDev ? 'sourcemap' : 'none',
 	module: {
 		rules: [

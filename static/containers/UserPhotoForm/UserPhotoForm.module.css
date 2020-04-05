@@ -1,0 +1,13 @@
+.imagePreview
+{
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 8px auto;
+}
+
+.formUI
+{
+    width: auto;
+    padding: 0;
+}

@@ -1,3 +1,11 @@
+import { ApplicationStateT } from './ApplicationStateT';
+
+export interface FormI {
+    formData: FormDataI;
+    pending: boolean;
+    error: string | null;
+}
+
 export interface FormDataI {
     [key: string]: FormDataField;
 }
@@ -9,7 +17,8 @@ export interface FormDataField {
     isChanged: boolean;
 }
 
-export interface FormUI {
+export interface FormUIProps {
+    stateField: keyof ApplicationStateT;
     submitUrl: string;
     submitForm?: () => void;
 }

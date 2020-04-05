@@ -4,14 +4,13 @@
       "lib": ["dom", "es2015", "es2017", "esnext.asynciterable"],
       "sourceMap": true,
       "jsx": "react",
-      "module": "es6",
+      "module": "commonjs",
       "moduleResolution": "node",
       "forceConsistentCasingInFileNames": true,
       "suppressImplicitAnyIndexErrors": true,
       "experimentalDecorators": true,
       "noFallthroughCasesInSwitch": true,
       "noImplicitAny": true,
-      "noImplicitReturns": true,
       "noImplicitThis": true,
       "noUnusedLocals": true,
       "noUnusedParameters": false,
@@ -22,12 +21,17 @@
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "keyofStringsOnly": true,
-      "baseUrl": "static/"
+      "baseUrl": "static/",
+      "paths": {
+          "@assets/*": ["../assets/*"],
+      }
   },
   "include": [
-      "static/**/*"
+      "static/**/*",
+      "server/**/*",
+      "tasks/**/*",
   ],
   "exclude": [
-      "node_modules"
+      "node_modules/"
   ]
 }

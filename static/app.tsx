@@ -1,53 +1,41 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
 import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
+import { ConnectedRouter } from 'connected-react-router';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'components/Variables/RootStyles.css';
 
 import Layout from 'containers/Layout/Layout';
-import configureStore from 'store/configureStore';
-import rootSaga from 'sagas/rootSaga';
 import UserSignInForm from 'containers/UserSignInForm/UserSignInForm';
 import UserSignUpForm from 'containers/UserSignUpForm/UserSignUpForm';
 
 interface AppI {
     store: any;
+    history: any;
 }
 
-function App(props: AppI) {
+export function App(props: AppI): React.ReactElement {
     return (
         <Provider store={props.store}>
-            <Router>
-                <Route path='/'>
-                    <Layout>
+            <ConnectedRouter history={props.history}>
+                <Layout>
+                    <Switch>
                         <Route exact path='/sign'>
                             <UserSignInForm
                                 submitUrl='/passport/signin'
+                                stateField='userInfo'
                             />
                         </Route>
                         <Route exact path='/signup'>
                             <UserSignUpForm
                                 submitUrl='/passport/signup'
+                                stateField='userInfo'
                             />
                         </Route>
-                    </Layout>
-                </Route>
-            </Router>
+                    </Switch>
+                </Layout>
+            </ConnectedRouter>
         </Provider>
     );
 }
-
-function render() {
-    const sagaMiddleware = createSagaMiddleware();
-    const store = configureStore(sagaMiddleware);
-    sagaMiddleware.run(rootSaga);
-
-    const rootSelector = 'root';
-    const rootElement = document.createElement('div');
-    rootElement.setAttribute('id', rootSelector);
-    document.body.appendChild(rootElement);
-
-    ReactDOM.render(<App store={store}/>, document.getElementById(rootSelector));
-}
-
-window.addEventListener('DOMContentLoaded', render);

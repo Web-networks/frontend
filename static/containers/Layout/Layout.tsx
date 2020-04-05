@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+
+import { UserInfo } from 'containers/UserInfo/UserInfo';
 
 import css from './Layout.module.css';
 
@@ -23,12 +22,9 @@ class Layout extends React.Component<OwnPropsT> {
         return (
             <div className={css.header}>
                 <div className={css.logoText}>{'Neural networks IDEA'}</div>
-                <Link to='/sign'>
-                    <Button
-                        variant='primary'
-                        className={css.buttonControl}
-                    >{'Войти'}</Button>
-                </Link>
+                <div>
+                    <UserInfo/>
+                </div>
             </div>
         );
     }

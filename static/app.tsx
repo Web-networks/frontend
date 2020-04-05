@@ -1,11 +1,14 @@
+/* eslint-disable no-shadow */
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import { ConnectedRouter } from 'connected-react-router';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Layout from 'containers/Layout/Layout';
-import configureStore from 'store/configureStore';
+import configureStore, { history } from 'store/configureStore';
 import rootSaga from 'sagas/rootSaga';
 import UserSignInForm from 'containers/UserSignInForm/UserSignInForm';
 import UserSignUpForm from 'containers/UserSignUpForm/UserSignUpForm';
@@ -17,22 +20,24 @@ interface AppI {
 function App(props: AppI) {
     return (
         <Provider store={props.store}>
-            <Router>
-                <Route path='/'>
-                    <Layout>
+            <ConnectedRouter history={history}>
+                <Layout>
+                    <Switch>
                         <Route exact path='/sign'>
                             <UserSignInForm
                                 submitUrl='/passport/signin'
+                                stateField='userInfo'
                             />
                         </Route>
                         <Route exact path='/signup'>
                             <UserSignUpForm
                                 submitUrl='/passport/signup'
+                                stateField='userInfo'
                             />
                         </Route>
-                    </Layout>
-                </Route>
-            </Router>
+                    </Switch>
+                </Layout>
+            </ConnectedRouter>
         </Provider>
     );
 }

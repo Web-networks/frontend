@@ -1,0 +1,19 @@
+.userSign
+{
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    transition: all 300ms;
+}
+
+.userSign:hover
+{
+    opacity: 0.5;
+}
+
+
+.root
+{
+    display: flex;
+    align-items: center;
+}

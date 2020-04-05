@@ -27,10 +27,10 @@ function createSpaFormField<T extends OwnPropsT>(
     Component: React.ComponentType<T>,
 ): React.ComponentType<T & OwnPropsT> {
     function SpaFormField(props: T & ExtendsPropsT) {
-        const { createField, fieldName, isRequired = false } = props;
+        const { createField, isRequired = false } = props;
         React.useEffect(() => {
             createField(isRequired);
-        }, [createField, fieldName, isRequired]);
+        }, []);
 
         return (
             <Component {...props} />
@@ -38,7 +38,7 @@ function createSpaFormField<T extends OwnPropsT>(
     }
 
     return connect(
-        ({ formData }: ApplicationStateT, ownProps: T): StatePropsT => {
+        ({ form: { formData } }: ApplicationStateT, ownProps: T): StatePropsT => {
             const { fieldName } = ownProps;
             const { value, error = null } = formData[fieldName] || {};
             return { value, error };

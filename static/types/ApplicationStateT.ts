@@ -1,7 +1,9 @@
 import { StoreI } from './storeTypes';
-import { FormDataI } from './formDataTypes';
+import { FormI } from './formDataTypes';
+import { UserI } from './userTypes';
 
 export interface ApplicationStateT {
     store: StoreI;
-    formData: FormDataI;
+    form: FormI;
+    userInfo: UserI | null;
 }

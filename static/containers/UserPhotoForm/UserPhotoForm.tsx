@@ -52,7 +52,7 @@ function UserPhotoFormComponent(props: UserPhotoFormProps): React.ReactElement {
             }
             closeForm();
         }
-    }, [userImage, file]);
+    }, [file, closeForm, onUserProfileUpdate]);
 
     return (
         <Modal show={visible} onHide={closeForm}>

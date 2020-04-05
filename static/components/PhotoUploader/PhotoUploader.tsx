@@ -25,7 +25,7 @@ export function PhotoUploader(props: PhotoUploaderProps): React.ReactElement {
                 setImage(reader.result.toString());
             }
         };
-    }, []);
+    }, [setFile, setImage]);
     return (
         <form>
             <Button variant='primary'>

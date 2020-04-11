@@ -30,7 +30,7 @@ function createSpaFormField<T extends OwnPropsT>(
         const { createField, isRequired = false } = props;
         React.useEffect(() => {
             createField(isRequired);
-        });
+        }, []);
 
         return (
             <Component {...props} />

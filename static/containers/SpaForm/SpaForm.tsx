@@ -29,7 +29,7 @@ export function createSpaForm<T extends FormUIProps>(FormComponent: React.Compon
         } = props;
         React.useEffect(() => {
             onFormMount();
-        });
+        }, []);
         React.useEffect(() => onFormUnmount, [onFormUnmount]);
         const submitForm = React.useCallback(
             () => onFormSubmit(submitUrl, stateField),

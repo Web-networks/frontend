@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Diff } from 'utility-types';
 
-import { addFieldForm, changeFieldForm } from 'actions/formDataActions';
-import TextInput, { TextInputPropsT } from 'components/TextInput/TextInput';
+import { addFieldForm, changeFieldForm } from 'actions/formActions';
+import { TextInput } from 'components/TextInput/TextInput';
+import { UserSuggest } from 'components/UserSuggest/UserSuggest';
+import { Switcher } from 'components/Switcher/Switcher';
+import { RadioButton } from 'components/RadioButton/RadioButton';
 import { ApplicationStateT } from 'types/ApplicationStateT';
 
 interface StatePropsT {
@@ -13,23 +16,24 @@ interface StatePropsT {
 
 interface DispatchPropsT {
     onChange: (value: any) => void;
-    createField: (isRequired: boolean) => void;
+    createField: (fieldName: string, isRequired: boolean) => void;
 }
 
-interface OwnPropsT {
+interface InjectedPropsT {
     fieldName: string;
     isRequired?: boolean;
 }
 
-type ExtendsPropsT = StatePropsT & DispatchPropsT & OwnPropsT;
-
-function createSpaFormField<T extends OwnPropsT>(
-    Component: React.ComponentType<T>,
-): React.ComponentType<T & OwnPropsT> {
-    function SpaFormField(props: T & ExtendsPropsT) {
-        const { createField, isRequired = false } = props;
+function createSpaFormField<BaseProps extends Object>(Component: React.ComponentType<BaseProps>) {
+    type HocProps = BaseProps & InjectedPropsT & DispatchPropsT & StatePropsT;
+    function SpaFormField(props: HocProps) {
+        const {
+            createField,
+            fieldName,
+            isRequired = false,
+        } = props;
         React.useEffect(() => {
-            createField(isRequired);
+            createField(fieldName, isRequired);
         }, []);
 
         return (
@@ -37,20 +41,25 @@ function createSpaFormField<T extends OwnPropsT>(
         );
     }
 
-    return connect(
-        ({ form: { formData } }: ApplicationStateT, ownProps: T): StatePropsT => {
+    SpaFormField.displayName = `Form${Component.name}`;
+    type OwnHocProps = Diff<BaseProps & InjectedPropsT, StatePropsT & DispatchPropsT>;
+    return connect<StatePropsT, DispatchPropsT, OwnHocProps>(
+        ({ form: { formData } }: ApplicationStateT, ownProps) => {
             const { fieldName } = ownProps;
             const { value, error = null } = formData[fieldName] || {};
             return { value, error };
         },
-        (dispatch: Dispatch, ownProps: T): DispatchPropsT => {
+        (dispatch, ownProps) => {
             const { fieldName } = ownProps;
             return {
-                createField: (isRequired: boolean) => dispatch(addFieldForm(fieldName, isRequired)),
-                onChange: (value: any) => dispatch(changeFieldForm(fieldName, value)),
+                createField: (fieldName, isRequired) => dispatch(addFieldForm(fieldName, isRequired)),
+                onChange: value => dispatch(changeFieldForm(fieldName, value)),
             };
         },
     )(SpaFormField);
 }
 
-export const FormTextInput = createSpaFormField<TextInputPropsT>(TextInput);
+export const FormTextInput = createSpaFormField(TextInput);
+export const FormUserSuggest = createSpaFormField(UserSuggest);
+export const FormSwitcher = createSpaFormField(Switcher);
+export const FormRadioButton = createSpaFormField(RadioButton);

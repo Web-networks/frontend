@@ -1,10 +1,33 @@
-import { take, put, select, call } from 'redux-saga/effects';
+import { take, put, select, call, all } from 'redux-saga/effects';
+import { goBack } from 'connected-react-router';
 
-import { FORM_SUBMIT, formValidate, formRequestEnd, FormSubmitActionT, formSubmitFail } from 'actions/formDataActions';
+import {
+    FORM_SUBMIT,
+    FORM_CANCEL,
+
+    formValidate,
+    formRequestEnd,
+    FormSubmitActionT,
+    formSubmitFail,
+} from 'actions/formActions';
 import { formDataSelect, isFormWithErrors } from 'selectors/formSelectors';
-import { postSaga } from './fetchSagas';
+import { postSaga } from 'sagas/fetchSagas';
 
 export function* formSaga() {
+    yield all([
+        call(formSubmitSaga),
+        call(formCancelSaga),
+    ]);
+}
+
+function* formCancelSaga() {
+    while (true) {
+        yield take(FORM_CANCEL);
+        yield put(goBack());
+    }
+}
+
+function* formSubmitSaga() {
     while (true) {
         const action: FormSubmitActionT = yield take(FORM_SUBMIT);
         const { submitUrl, stateField } = action.payload;

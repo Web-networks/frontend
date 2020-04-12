@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions';
 import { UserI } from 'types/userTypes';
 import { USER_INFO_UPDATE, UserInfoUpdateActionT } from 'actions/userActions';
-import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formDataActions';
+import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formActions';
 
 const USER_INITIAL_STATE: UserI | null = null;
 

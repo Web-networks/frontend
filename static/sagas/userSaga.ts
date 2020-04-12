@@ -2,7 +2,7 @@ import { put, delay, call, all, take } from 'redux-saga/effects';
 import { push, LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 
 import { userInfoUpdate } from 'actions/userActions';
-import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formDataActions';
+import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formActions';
 
 import { UserI } from 'types/userTypes';
 

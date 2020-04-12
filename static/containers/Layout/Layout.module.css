@@ -16,16 +16,35 @@
 }
 
 .content {
-    padding-top: 20px;
     box-sizing: border-box;
     height: 100vh;
     background: url('../../../assets/neural_network.jpg') no-repeat;
     background-size: cover;
+    display: flex;
+    flex-direction: column;
 }
 
-.logoText {
+.logoText 
+{
     color: var(--base-color-yellow);
     margin-right: auto;
     font-size: 30px;
+    cursor: pointer;
+}
 
+.logoText:hover
+{
+    text-decoration: none;
+    color: var(--base-color-yellow);
+}
+
+.innerPage
+{
+    width: 80%;
+    max-width: 1000px;
+    background: white;
+    margin: 0 auto;
+    height: 500px;
+    flex-grow: 1;
+    padding: 20px;
 }

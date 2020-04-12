@@ -32,6 +32,9 @@ function UserInfoComponent(props: UserInfoProps): React.ReactElement {
                     <Dropdown.Toggle variant="success" id='user-info'>{username}</Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item>
+                            <Link to={`/${username}`}>{'Projects'}</Link>
+                        </Dropdown.Item>
+                        <Dropdown.Item>
                             <Link to={'/sign'}>{'Change user'}</Link>
                         </Dropdown.Item>
                         <Dropdown.Item>

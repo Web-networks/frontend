@@ -2,3 +2,10 @@
 {
 
 }
+
+.navbar
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}

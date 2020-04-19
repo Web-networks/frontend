@@ -1,9 +1,8 @@
 import React from 'react';
-
 import { UserInfo } from 'containers/UserInfo/UserInfo';
+import { Link } from 'react-router-dom';
 
 import css from './Layout.module.css';
-import { Link } from 'react-router-dom';
 
 interface OwnPropsT {
     children?: React.ReactNode;
@@ -23,7 +22,7 @@ class Layout extends React.Component<OwnPropsT> {
         return (
             <div className={css.header}>
                 <Link to='/' className={css.logoText}>
-                    <div>{'Neural networks IDEA'}</div>
+                    <div>{'WEB IDE'}</div>
                 </Link>
                 <div>
                     <UserInfo/>

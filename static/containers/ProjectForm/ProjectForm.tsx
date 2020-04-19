@@ -26,7 +26,7 @@ function ProjectFormComponent(props: ProjectFormProps): React.ReactElement {
                 as='textarea'
             />
             <FormUserSuggest
-                fieldName='sharedUsers'
+                fieldName='sharedWith'
                 label='Shared with'
                 placeholder='user1'
             />

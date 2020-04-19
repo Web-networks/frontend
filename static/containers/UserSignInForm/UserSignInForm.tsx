@@ -30,7 +30,7 @@ function UserSignInForm(props: PropsT) {
             <Button
                 onClick={submitForm}
             >{'Sign In'}</Button>
-            <Button variant="secondary" onClick={cancelForm}>{'Cancel'}</Button>
+            <Button variant="secondary" onClick={cancelForm} className={css.exitButton}>{'Cancel'}</Button>
             <Link to='/signup' className={css.exitButton}>
                 <Button variant="info">{'Sign Up'}</Button>
             </Link>

@@ -2,3 +2,15 @@ img
 {
     image-orientation: from-image;
 }
+
+a
+{
+    text-decoration: inherit;
+    color: inherit;
+}
+
+a:hover
+{
+    text-decoration: inherit;
+    color: inherit;  
+}

@@ -43,8 +43,8 @@ function* formSubmitSaga() {
         const response = yield call(postSaga, submitUrl, formData);
         const body = yield response.json();
         if (!response.ok) {
-            const { message } = body;
-            yield put(formRequestEnd(stateField, {}, message));
+            const { message, error } = body;
+            yield put(formRequestEnd(stateField, {}, message || error));
         } else {
             yield put(formRequestEnd(stateField, body, null));
         }

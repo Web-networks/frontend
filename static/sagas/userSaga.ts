@@ -25,7 +25,7 @@ function* userInfoUpdatingSaga() {
 }
 
 function* fetchUserInfoSaga() {
-    const delayTime = 600000;
+    const delayTime = 3600000;
     while (true) {
         const userRespone = yield fetch('/passport/current');
         const body = yield userRespone.json() as UserI;

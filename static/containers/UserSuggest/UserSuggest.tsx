@@ -1,14 +1,30 @@
 import React from 'react';
 import axios from 'axios';
 import Autosuggest from 'react-autosuggest';
+import { connect } from 'react-redux';
 import { memoize, uniqBy } from 'lodash';
 import { UserSelectItem } from 'components/UserSelectItem/UserSelectItem';
 import { TextInputForSuggest } from 'components/TextInputForSuggest/TextInputForSuggest';
+import { UsersList } from 'components/UsersList/UsersList';
+import { ApplicationStateT } from 'types/ApplicationStateT';
 
 import { MinUserInfo } from 'types/userTypes';
 
 import css from './UserSuggest.module.css';
-import { UsersList } from 'components/UsersList/UsersList';
+
+interface UserSuggestConnectProps {
+    currentUser?: string;
+}
+
+interface UserSuggestDispatchProps {
+}
+
+interface UserSuggestOwnProps extends Omit<React.ComponentProps<typeof TextInputForSuggest>, 'onChange' | 'value'> {
+    value: MinUserInfo[];
+    onChange: (value: MinUserInfo[]) => void;
+}
+
+type UserSuggestProps = UserSuggestConnectProps & UserSuggestDispatchProps & UserSuggestOwnProps;
 
 const fetchUsers = memoize(async (username?: string): Promise<MinUserInfo[]> => {
     const limit = 10;
@@ -25,31 +41,29 @@ const fetchUsers = memoize(async (username?: string): Promise<MinUserInfo[]> => 
     }
 });
 
-interface UserSuggestProps extends Omit<React.ComponentProps<typeof TextInputForSuggest>, 'onChange' | 'value'> {
-    value: MinUserInfo[];
-    onChange: (value: MinUserInfo[]) => void;
-}
-
-export function UserSuggest(props: UserSuggestProps): React.ReactElement {
+function UserSuggestComponent(props: UserSuggestProps) {
     const {
         value: choosingUsers,
         onChange: onUsersChange,
         label,
         placeholder,
+        currentUser,
     } = props;
     const [currentInputValue, setValue] = React.useState('');
     const [users, setUsers] = React.useState<MinUserInfo[]>([]);
     React.useEffect(() => {
         async function addUsers() {
-            const users = await fetchUsers();
-            setUsers(users);
+            const fetchingUsers = await fetchUsers();
+            const nextUsers = fetchingUsers.filter(({ username }) => currentUser !== username);
+            setUsers(nextUsers);
         }
         addUsers();
-    }, []);
+    }, [currentUser]);
     const onSuggestionsFetchRequested = React.useCallback(async ({ value: nextValue }: { value: string }) => {
-        const nextUsers = await fetchUsers(nextValue);
+        const fetchingUsers = await fetchUsers(nextValue);
+        const nextUsers = fetchingUsers.filter(({ username }) => currentUser !== username);
         setUsers(nextUsers);
-    }, [setUsers]);
+    }, [setUsers, currentUser]);
     const onSuggestionsClearRequested = React.useCallback(() => {
         setUsers([]);
     }, [setUsers]);
@@ -71,6 +85,9 @@ export function UserSuggest(props: UserSuggestProps): React.ReactElement {
         label,
         placeholder,
     };
+    if (!currentUser) {
+        return null;
+    }
     return (
         <div className={css.root}>
             <Autosuggest
@@ -90,3 +107,9 @@ export function UserSuggest(props: UserSuggestProps): React.ReactElement {
         </div>
     );
 }
+
+export const UserSuggest = connect<UserSuggestConnectProps, UserSuggestDispatchProps, UserSuggestOwnProps>(
+    ({ userInfo }: ApplicationStateT) => ({
+        currentUser: userInfo?.username,
+    }),
+)(UserSuggestComponent);

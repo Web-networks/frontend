@@ -4,7 +4,7 @@ import { Diff } from 'utility-types';
 
 import { addFieldForm, changeFieldForm } from 'actions/formActions';
 import { TextInput } from 'components/TextInput/TextInput';
-import { UserSuggest } from 'components/UserSuggest/UserSuggest';
+import { UserSuggest } from 'containers/UserSuggest/UserSuggest';
 import { Switcher } from 'components/Switcher/Switcher';
 import { RadioButton } from 'components/RadioButton/RadioButton';
 import { ApplicationStateT } from 'types/ApplicationStateT';

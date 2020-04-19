@@ -6,12 +6,17 @@ import css from './EmptyProjectsPage.module.css';
 
 import RocketImg from '@assets/rocket.png';
 
-export function EmptyProjectsPage(): React.ReactElement {
+interface EmptyProjectsPageProps {
+    creationUrl: string;
+}
+
+export function EmptyProjectsPage(props: EmptyProjectsPageProps): React.ReactElement {
+    const { creationUrl } = props;
     return (
         <div className={css.root}>
-            <Alert variant='info' className={css.description}>{'You have not any projects now'}</Alert>
+            <Alert variant='info' className={css.description}>{'You have not any own projects'}</Alert>
             <Image src={RocketImg} className={css.rocket}/>
-            <Link to={'/create_project'}>
+            <Link to={creationUrl}>
                 <Button>{'Start new project'}</Button>
             </Link>
         </div>

@@ -6,7 +6,6 @@ import { routerMiddleware } from 'connected-react-router';
 
 import { createRootReducer } from 'reducers/rootReducer';
 
-// eslint-disable-next-line no-shadow
 export const history = createBrowserHistory();
 
 function configureStore(saga: SagaMiddleware) {

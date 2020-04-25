@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserInfo } from 'containers/UserInfo/UserInfo';
+import { UserInfo } from 'containers/User/UserInfo/UserInfo';
 import { Link } from 'react-router-dom';
 
 import css from './Layout.module.css';
@@ -8,7 +8,7 @@ interface OwnPropsT {
     children?: React.ReactNode;
 }
 
-class Layout extends React.Component<OwnPropsT> {
+export class Layout extends React.Component<OwnPropsT> {
     public render() {
         return (
             <div className={css.mainContent}>
@@ -42,5 +42,3 @@ class Layout extends React.Component<OwnPropsT> {
         );
     }
 }
-
-export default Layout;

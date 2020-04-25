@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'components/Variables/RootStyles.css';
+import 'components/Styles/RootStyles.css';
 
-import Layout from 'containers/Layout/Layout';
-import UserSignInForm from 'containers/UserSignInForm/UserSignInForm';
-import UserSignUpForm from 'containers/UserSignUpForm/UserSignUpForm';
-import { ProjectsPage } from 'containers/ProjectsPage/ProjectsPage';
+import { Layout } from 'containers/Layout/Layout';
+import { UserSignInForm } from 'containers/User/UserSignInForm/UserSignInForm';
+import { UserSignUpForm } from 'containers/User/UserSignUpForm/UserSignUpForm';
+import { ProjectsPage } from 'containers/Projects/ProjectsPage/ProjectsPage';
 
 interface AppI {
     store: any;
@@ -25,13 +25,13 @@ export function App(props: AppI): React.ReactElement {
                         <Route exact path='/sign'>
                             <UserSignInForm
                                 submitUrl='/passport/signin'
-                                stateField='userInfo'
+                                stateField='user'
                             />
                         </Route>
                         <Route exact path='/signup'>
                             <UserSignUpForm
                                 submitUrl='/passport/signup'
-                                stateField='userInfo'
+                                stateField='user'
                             />
                         </Route>
                         <Route path='/:user'>

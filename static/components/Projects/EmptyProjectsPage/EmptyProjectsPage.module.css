@@ -1,0 +1,23 @@
+@import "../../Styles/Variables.css";
+
+.root
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.rocket
+{
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.description
+{
+    font-size: 25px;
+    margin-bottom: 12px;
+}

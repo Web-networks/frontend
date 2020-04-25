@@ -1,0 +1,45 @@
+@import '../../Styles/Variables.css';
+
+.root
+{
+    margin-bottom: 12px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 300ms;
+    flex-basis: 40%;
+}
+
+.root:hover
+{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.name
+{
+    color: blue;
+    font-size: 26px;
+    font-style: italic;
+}
+
+.description
+{
+    color: green;
+}
+
+.owner
+{
+    display: flex;
+    align-items: center;
+}
+
+.ownerTitle
+{
+    margin-right: 16px;
+}
+
+.projectCard
+{
+    height: 250px;
+    overflow: auto;
+}

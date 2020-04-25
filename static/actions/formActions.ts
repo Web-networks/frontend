@@ -53,3 +53,10 @@ export type FormUnmountActionT = Action<{}>;
 export function formUnmount(): FormUnmountActionT {
     return { type: FORM_UNMOUNT, payload: {} };
 }
+
+export const FORM_CANCEL = 'FORM_CANCEL';
+export type FormCancelActionT = Action<{}>;
+export function formCancel(): FormCancelActionT {
+    return { type: FORM_CANCEL, payload: {} };
+}
+

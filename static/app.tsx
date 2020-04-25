@@ -9,6 +9,7 @@ import 'components/Variables/RootStyles.css';
 import Layout from 'containers/Layout/Layout';
 import UserSignInForm from 'containers/UserSignInForm/UserSignInForm';
 import UserSignUpForm from 'containers/UserSignUpForm/UserSignUpForm';
+import { ProjectsPage } from 'containers/ProjectsPage/ProjectsPage';
 
 interface AppI {
     store: any;
@@ -32,6 +33,9 @@ export function App(props: AppI): React.ReactElement {
                                 submitUrl='/passport/signup'
                                 stateField='userInfo'
                             />
+                        </Route>
+                        <Route path='/:user'>
+                            <ProjectsPage/>
                         </Route>
                     </Switch>
                 </Layout>

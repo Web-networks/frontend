@@ -1,0 +1,12 @@
+.root
+{
+    margin-bottom: 12px;
+}
+
+.root ul
+{
+    padding: 0;
+    list-style: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}

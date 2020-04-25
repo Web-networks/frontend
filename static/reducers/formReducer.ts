@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 
-import { FormDataField, FormI } from 'types/formDataTypes';
+import { FormDataField, FormI } from 'types/formTypes';
 import {
     ADD_FIELD_FORM,
     AddFieldFormActionT,
@@ -13,7 +13,7 @@ import {
     FormRequestEndActionT,
     FORM_SUBMIT,
     FORM_SUBMIT_FAIL,
-} from 'actions/formDataActions';
+} from 'actions/formActions';
 
 export const FORM_INITIAL_STATE: FormI = {
     formData: {},

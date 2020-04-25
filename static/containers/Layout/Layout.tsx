@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { UserInfo } from 'containers/UserInfo/UserInfo';
+import { Link } from 'react-router-dom';
 
 import css from './Layout.module.css';
 
@@ -21,7 +21,9 @@ class Layout extends React.Component<OwnPropsT> {
     private renderHeader() {
         return (
             <div className={css.header}>
-                <div className={css.logoText}>{'Neural networks IDEA'}</div>
+                <Link to='/' className={css.logoText}>
+                    <div>{'WEB IDE'}</div>
+                </Link>
                 <div>
                     <UserInfo/>
                 </div>
@@ -33,7 +35,9 @@ class Layout extends React.Component<OwnPropsT> {
         const { children } = this.props;
         return (
             <div className={css.content}>
-                {children}
+                <div className={css.innerPage}>
+                    {children}
+                </div>
             </div>
         );
     }

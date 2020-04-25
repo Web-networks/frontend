@@ -2,7 +2,7 @@ import { put, delay, call, all, take } from 'redux-saga/effects';
 import { push, LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 
 import { userInfoUpdate } from 'actions/userActions';
-import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formDataActions';
+import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formActions';
 
 import { UserI } from 'types/userTypes';
 
@@ -25,7 +25,7 @@ function* userInfoUpdatingSaga() {
 }
 
 function* fetchUserInfoSaga() {
-    const delayTime = 600000;
+    const delayTime = 3600000;
     while (true) {
         const userRespone = yield fetch('/passport/current');
         const body = yield userRespone.json() as UserI;

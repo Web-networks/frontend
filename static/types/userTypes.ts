@@ -4,3 +4,5 @@ export interface UserI {
     id: string;
     avatar: string | null;
 }
+
+export type MinUserInfo = Omit<UserI, 'email'>;

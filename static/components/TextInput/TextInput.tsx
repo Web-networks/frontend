@@ -8,17 +8,25 @@ export interface TextInputPropsT {
     onChange?: (value?: any) => void;
     placeholder?: string;
     type?: 'email' | 'password';
-    fieldName: string;
+    as?: 'textarea' | 'select';
 }
 
-function TextInput(props: TextInputPropsT) {
-    const { error, value, onChange, label, placeholder, type } = props;
+export function TextInput(props: TextInputPropsT) {
+    const {
+        error,
+        value,
+        onChange,
+        label,
+        placeholder,
+        type,
+        as,
+    } = props;
     const isInvalid = Boolean(error);
-    const onInputChange = React.useCallback(
-        // @ts-ignore
-        (inputEvent: SyntheticEvent) => onChange && onChange(inputEvent.currentTarget.value),
+    const onChangeValue = React.useCallback(
+        (inputEvent: SyntheticEvent<HTMLInputElement>) => onChange && onChange(inputEvent.currentTarget.value),
         [onChange]);
-
+    // eslint-disable-next-line no-undefined
+    const onInputChange = typeof onChange === 'function' ? onChangeValue : undefined;
     return (
         <Form.Group>
             <Form.Label>{label}</Form.Label>
@@ -28,10 +36,9 @@ function TextInput(props: TextInputPropsT) {
                 value={value}
                 type={type}
                 onChange={onInputChange}
+                as={as}
             />
             <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
         </Form.Group>
     );
 }
-
-export default TextInput;

@@ -11,7 +11,7 @@ export function formDataSelect({ form: { formData } }: ApplicationStateT): {[key
         if (isChanged) {
             return { ...currentData, [key]: value };
         }
-        return data;
+        return currentData;
     }, {});
     return data;
 }

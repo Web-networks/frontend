@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 import { FormUIPropsT } from 'types/formTypes';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
@@ -11,35 +10,29 @@ import css from './UserSignUpForm.module.css';
 interface PropsT extends FormUIPropsT {}
 
 function UserSignUpFormComponent(props: PropsT) {
-    const { submitForm, cancelForm } = props;
+    const { submitForm } = props;
     return (
         <Form>
             <FormTextInput
-                label='email'
+                label='Email'
                 type='email'
                 placeholder='example@gmail.com'
                 fieldName='email'
                 isRequired={true}
             />
             <FormTextInput
-                label='username'
+                label='Username'
                 placeholder='username'
                 fieldName='username'
                 isRequired={true}
             />
             <FormTextInput
-                label='password'
+                label='Password'
                 type='password'
                 fieldName='password'
                 isRequired={true}
             />
-            <Button
-                onClick={submitForm}
-            >{'Sign Up'}</Button>
-            <Button variant="secondary" onClick={cancelForm}>{'Cancel'}</Button>
-            <Link to='/sign' className={css.exitButton}>
-                <Button variant="info">{'Sign In'}</Button>
-            </Link>
+            <Button onClick={submitForm} variant={'success'} className={css.signupButton}>{'Sign Up'}</Button>
         </Form>
     );
 }

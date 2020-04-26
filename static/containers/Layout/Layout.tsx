@@ -22,7 +22,7 @@ export class Layout extends React.Component<OwnPropsT> {
         return (
             <div className={css.header}>
                 <Link to='/' className={css.logoText}>
-                    <div>{'WEB IDE'}</div>
+                    <div>{'Neuro IDE'}</div>
                 </Link>
                 <div>
                     <UserInfo/>

@@ -43,6 +43,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             error,
             pending,
             onFormCancel,
+            formClassName,
         } = props;
         React.useEffect(() => {
             onFormMount();
@@ -57,6 +58,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             <FormUI
                 error={error}
                 pending={pending}
+                className={formClassName}
             >
                 <FormComponent
                     cancelForm={onFormCancel}

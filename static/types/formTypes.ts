@@ -18,4 +18,5 @@ export interface FormDataFieldT {
 export interface FormUIPropsT {
     submitForm: () => void;
     cancelForm: () => void;
+    formClassName?: string;
 }

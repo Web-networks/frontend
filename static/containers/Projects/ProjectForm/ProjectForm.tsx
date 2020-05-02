@@ -9,7 +9,7 @@ import css from './ProjectForm.module.css';
 interface ProjectFormProps extends FormUIPropsT { }
 
 function ProjectFormComponent(props: ProjectFormProps): React.ReactElement {
-    const { submitForm, cancelForm } = props;
+    const { submitForm } = props;
     return (
         <div className={css.root}>
             <h2>{'Create new project'}</h2>
@@ -36,10 +36,6 @@ function ProjectFormComponent(props: ProjectFormProps): React.ReactElement {
                 labelOn='Public'
                 labelOff='Private'
             />
-            <Button
-                variant='secondary'
-                onClick={cancelForm}
-            >{'Cancel'}</Button>
             <Button
                 className={css.submitButton}
                 onClick={submitForm} variant='primary'>{'Create'}</Button>

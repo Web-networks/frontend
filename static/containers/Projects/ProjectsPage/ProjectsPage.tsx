@@ -1,8 +1,7 @@
 import React from 'react';
-import { Location } from 'history';
 import { connect } from 'react-redux';
-import { Nav } from 'react-bootstrap';
-import { withRouter, Link, Switch, Route } from 'react-router-dom';
+import { Image } from 'react-bootstrap';
+import { Link, Switch, Route, NavLink } from 'react-router-dom';
 import { projectsFetch } from 'actions/projectsActions';
 import { ProjectsList } from 'components/Projects/ProjectsList/ProjectsList';
 import { EmptyProjectsPage } from 'components/Projects/EmptyProjectsPage/EmptyProjectsPage';
@@ -10,6 +9,7 @@ import { ProjectForm } from 'containers/Projects/ProjectForm/ProjectForm';
 import { ApplicationStateT } from 'types';
 import { ProjectT } from 'types/projectsTypes';
 
+import PlusIcon from './icons/plus.png';
 import css from './ProjectsPage.module.css';
 
 
@@ -28,17 +28,12 @@ interface ProjectsPageDispatchProps {
 interface ProjectsPageOwnProps {
 }
 
-interface RouterInjectecProps {
-    location: Location;
-}
-
 type ProjectsPageProps = ProjectsPageConnectProps
 & ProjectsPageDispatchProps
-& ProjectsPageOwnProps
-& RouterInjectecProps;
+& ProjectsPageOwnProps;
 
 function ProjectsPageComponent(props: ProjectsPageProps) {
-    const { projects, username, location, updateProjects, availableProjects } = props;
+    const { projects, username, updateProjects, availableProjects } = props;
     React.useEffect(() => {
         updateProjects();
     }, []);
@@ -47,37 +42,42 @@ function ProjectsPageComponent(props: ProjectsPageProps) {
     }
     const ownProjectsUrl = `/${username}/projects/`;
     const availableProjectsUrl = `/${username}/projects/available_projects/`;
-    const createionProjectUrl = `/${username}/projects/create_project/`;
+    const creationProjectUrl = `/${username}/projects/create_project/`;
 
     return (
         <div className={css.root}>
-            <Nav
-                justify
-                variant="tabs"
-                className={css.navbar}
-                activeKey={location.pathname}
-            >
-                <Nav.Item>
-                    <Nav.Link eventKey={ownProjectsUrl} as={Link} to={ownProjectsUrl}>
-                        {'My projects'}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey={availableProjectsUrl} as={Link} to={availableProjectsUrl}>
-                        {'Available projects'}
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey={createionProjectUrl} as={Link} to={createionProjectUrl}>
-                        {'Create new project'}
-                    </Nav.Link>
-                </Nav.Item>
-            </Nav>
+            <div className={css.header}>
+                <h2>{'Projects'}</h2>
+                <Link
+                    to={creationProjectUrl}
+                    className={css.createLink}
+                >
+                    <div>{'Create'}</div>
+                    <Image src={PlusIcon} width={30} />
+                </Link>
+            </div>
+            <div className={css.menu}>
+                <NavLink
+                    exact
+                    to={ownProjectsUrl}
+                    className={css.menuItem}
+                    activeClassName={css.activeMenuItem}
+                >{'Own projects'}</NavLink>
+                <NavLink
+                    exact
+                    to={availableProjectsUrl}
+                    className={css.menuItem}
+                    activeClassName={css.activeMenuItem}
+                >
+                    {'Shared projects'}
+                </NavLink>
+                <div className={css.lastMenuItem}></div>
+            </div>
             <Switch>
                 <Route path={'/:user/projects/available_projects'}>
                     {availableProjects.length
                         ? <ProjectsList projects={availableProjects}/>
-                        : <div>{'You have not available projects'}</div>
+                        : <EmptyProjectsPage />
                     }
                 </Route>
                 <Route path={'/:user/projects/create_project'}>
@@ -89,7 +89,7 @@ function ProjectsPageComponent(props: ProjectsPageProps) {
                 <Route path={'/:user/projects'}>
                     {projects.length
                         ? <ProjectsList projects={projects}/>
-                        : <EmptyProjectsPage creationUrl={createionProjectUrl} />
+                        : <EmptyProjectsPage />
                     }
                 </Route>
             </Switch>
@@ -97,17 +97,17 @@ function ProjectsPageComponent(props: ProjectsPageProps) {
     );
 }
 
-export const ProjectsPage = withRouter(
-    connect<ProjectsPageConnectProps, ProjectsPageDispatchProps, ProjectsPageOwnProps>(
-        ({ projects, user }: ApplicationStateT) => ({
-            projects: projects.data.projects,
-            availableProjects: projects.data.availableProjects,
-            pending: projects.pending,
-            error: projects.error,
-            username: user.data?.username,
-        }),
-        dispatch => ({
-            updateProjects: () => dispatch(projectsFetch.emitRequest({})),
-        }),
-    )(ProjectsPageComponent),
-);
+export const ProjectsPage = connect<ProjectsPageConnectProps, ProjectsPageDispatchProps, ProjectsPageOwnProps>(
+    ({ projects, user }: ApplicationStateT) => ({
+        projects: projects.data.projects,
+        availableProjects: projects.data.availableProjects,
+        pending: projects.pending,
+        error: projects.error,
+        username: user.data?.username,
+    }),
+    dispatch => ({
+        updateProjects: () => dispatch(projectsFetch.emitRequest({})),
+    }),
+    null,
+    { pure: false },
+)(ProjectsPageComponent);

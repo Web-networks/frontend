@@ -6,9 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'components/Styles/RootStyles.css';
 
-import { Layout } from 'containers/Layout/Layout';
-import { UserSignInForm } from 'containers/User/UserSignInForm/UserSignInForm';
-import { UserSignUpForm } from 'containers/User/UserSignUpForm/UserSignUpForm';
+import { Layout } from 'containers/PageLayout/Layout/Layout';
 import { ProjectsPage } from 'containers/Projects/ProjectsPage/ProjectsPage';
 import { Landing } from 'containers/Landing/Landing';
 import { EntranceForm } from 'components/Form/EntranceForm/EntranceForm';
@@ -29,22 +27,15 @@ export function App(props: AppI): React.ReactElement {
                     <Route path='/entrance'>
                         <EntranceForm/>
                     </Route>
-                    <Route path='/sign'>
-                        <UserSignInForm
-                            submitUrl='/passport/signin'
-                            stateField='user'
-                        />
-                    </Route>
-                    <Route path='/signup'>
-                        <UserSignUpForm
-                            submitUrl='/passport/signup'
-                            stateField='user'
-                        />
-                    </Route>
                     <Layout>
-                        <Route path='/:user'>
-                            <ProjectsPage/>
-                        </Route>
+                        <Switch>
+                            <Route path='/:user/profile/'>
+                                <div>{'User profile page'}</div>
+                            </Route>
+                            <Route path='/:user'>
+                                <ProjectsPage/>
+                            </Route>
+                        </Switch>
                     </Layout>
                 </Switch>
             </ConnectedRouter>

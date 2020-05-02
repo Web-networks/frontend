@@ -1,18 +1,17 @@
-import { MinUserInfo } from 'types/userTypes';
+import { MinUserInfoT } from 'types/userTypes';
+import { StateFieldT } from 'types/utilityTypes';
 
-export interface Project {
-    owner: MinUserInfo;
-    sharedWith: MinUserInfo[];
+export interface ProjectT {
+    owner: MinUserInfoT;
+    sharedWith: MinUserInfoT[];
     description: string;
     name: string;
     isPublic: boolean;
 }
 
-export interface ProjectsStateField {
-    pending: boolean;
-    error: string | null;
+export interface ProjectsStateT extends StateFieldT {
     data: {
-        projects: Project[];
-        availableProjects: Project[];
+        projects: ProjectT[];
+        availableProjects: ProjectT[];
     };
 }

@@ -1,17 +1,17 @@
-import { ApplicationStateT } from 'types/ApplicationStateT';
+import { ApplicationStateT } from 'types';
 
-export function isFormWithErrors({ form: { formData } }: ApplicationStateT) {
-    const error = Object.keys(formData).reduce((currentError, key) => currentError || formData[key].error, null);
+export function isFormWithErrors({ form: { data } }: ApplicationStateT) {
+    const error = Object.keys(data).reduce((currentError, key) => currentError || data[key].error, null);
     return Boolean(error);
 }
 
-export function formDataSelect({ form: { formData } }: ApplicationStateT): {[key: string]: any} {
-    const data: {[key: string]: any} = Object.keys(formData).reduce((currentData, key) => {
-        const { value, isChanged } = formData[key];
+export function formDataSelect({ form: { data } }: ApplicationStateT): Record<string, any> {
+    const changedData = Object.keys(data).reduce((currentData, key) => {
+        const { value, isChanged } = data[key];
         if (isChanged) {
             return { ...currentData, [key]: value };
         }
         return currentData;
     }, {});
-    return data;
+    return changedData;
 }

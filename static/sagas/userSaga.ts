@@ -1,25 +1,29 @@
-import { put, delay, call, all, take } from 'redux-saga/effects';
+import { put, delay, call, fork, take, takeEvery, race } from 'redux-saga/effects';
 import { push, LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
-
 import { userInfoUpdate } from 'actions/userActions';
-import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formActions';
+import { FORM_SUBMIT, FormEmitRequestActionT } from 'actions/formActions';
+import { UserT } from 'types/userTypes';
+import { SuccesFetchActionT, FailureFetchActionT } from 'actions/utils';
+import { makeProjectsUrl } from 'lib/url';
 
-import { UserI } from 'types/userTypes';
 
 export function* userSaga() {
-    yield all([
-        call(fetchUserInfoSaga),
-        call(userInfoUpdatingSaga),
-        call(userSignOutSaga),
-    ]);
+    yield fork(fetchUserInfoSaga);
+    yield fork(userSignOutSaga);
+    yield takeEvery(FORM_SUBMIT.EMIT_REQUEST, userFormSubmitSaga);
 }
 
-function* userInfoUpdatingSaga() {
-    while (true) {
-        const action: FormRequestEndActionT = yield take(FORM_REQUEST_END);
-        const { error, stateField } = action.payload;
-        if (stateField === 'userInfo' && !error) {
-            yield put(push('/'));
+function* userFormSubmitSaga(action: FormEmitRequestActionT) {
+    const { stateField } = action.payload;
+    if (stateField === 'user') {
+        const [success]: [SuccesFetchActionT?, FailureFetchActionT?] = yield race([
+            take(FORM_SUBMIT.REQUEST_SUCCESS),
+            take(FORM_SUBMIT.REQUEST_FAILURE),
+        ]);
+        if (success) {
+            const { username } = success.payload.body;
+            const projectsUrl = makeProjectsUrl(username);
+            yield put(push(projectsUrl));
         }
     }
 }
@@ -28,7 +32,7 @@ function* fetchUserInfoSaga() {
     const delayTime = 3600000;
     while (true) {
         const userRespone = yield fetch('/passport/current');
-        const body = yield userRespone.json() as UserI;
+        const body = yield userRespone.json() as UserT;
         if (userRespone.ok) {
             yield put(userInfoUpdate(body));
         }
@@ -47,5 +51,3 @@ function* userSignOutSaga() {
         }
     }
 }
-
-

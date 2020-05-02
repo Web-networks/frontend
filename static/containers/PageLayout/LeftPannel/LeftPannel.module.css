@@ -1,0 +1,25 @@
+.root
+{
+    background-color: rgb(57, 83, 197);
+    width: 400px;
+    color: white;
+    display: flex;
+    padding: 50px 20px;
+    align-items: center;
+    flex-direction: column;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.logo
+{
+    margin-top: auto;
+    margin-bottom: 50px;
+    background-color: white;  
+    border-radius: 50%;
+    width: 100px; 
+    height: 100px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

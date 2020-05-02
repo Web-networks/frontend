@@ -1,0 +1,28 @@
+.root
+{
+    margin-top: 100px;
+    font-size: 35px;
+}
+
+.activeMenuItem
+{
+    opacity: 1 !important;
+}
+
+.menuItem
+{
+    transition: 300ms all;
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+}
+
+.menuItem:hover
+{
+    opacity: 1;
+}
+
+.menuItem img
+{
+    margin-right: 20px;
+}

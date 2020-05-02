@@ -1,11 +1,12 @@
 import { handleActions } from 'redux-actions';
 
-import { ProjectsStateField } from 'types/projectsTypes';
-import { FORM_REQUEST_END, FormRequestEndActionT } from 'actions/formActions';
+import { ProjectsStateT } from 'types/projectsTypes';
+import { UPDATE_STATE_DATA } from 'actions/formActions';
 import { PROJECTS_FETCH } from 'actions/projectsActions';
-import { FailureFetchAction, SuccesFetchAction } from 'actions/utils';
+import { FailureFetchActionT, SuccesFetchActionT } from 'actions/utils';
+import { updateStateDataField } from './utils';
 
-const ProjectsInitialState: ProjectsStateField = {
+const ProjectsInitialState: ProjectsStateT = {
     pending: false,
     data: {
         projects: [],
@@ -14,26 +15,15 @@ const ProjectsInitialState: ProjectsStateField = {
     error: null,
 };
 
-export const projectsReducer = handleActions<ProjectsStateField>({
-    // @ts-ignore
-    [FORM_REQUEST_END]: (projects, action: FormRequestEndActionT) => {
-        const { body, error, stateField } = action.payload;
-        if (error || stateField !== 'projects') {
-            return projects;
-        }
-        return {
-            ...projects,
-            pending: false,
-            data: body,
-        };
-    },
+export const projectsReducer = handleActions<ProjectsStateT, any>({
+    [UPDATE_STATE_DATA]: updateStateDataField('projects'),
 
     [PROJECTS_FETCH.REQUEST_START]: projects => ({
         ...projects,
         pending: true,
     }),
 
-    [PROJECTS_FETCH.REQUEST_FAILURE]: (projects, action: FailureFetchAction) => {
+    [PROJECTS_FETCH.REQUEST_FAILURE]: (projects, action: FailureFetchActionT) => {
         const { message } = action.payload;
         return {
             ...projects,
@@ -41,11 +31,11 @@ export const projectsReducer = handleActions<ProjectsStateField>({
         };
     },
 
-    [PROJECTS_FETCH.REQUEST_SUCCESS]: (projects, action: SuccesFetchAction) => {
-        const response = action.payload.body;
+    [PROJECTS_FETCH.REQUEST_SUCCESS]: (projects, action: SuccesFetchActionT) => {
+        const { body: data } = action.payload;
         return {
             ...projects,
-            data: response,
+            data,
         };
     },
 

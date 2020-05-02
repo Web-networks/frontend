@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
@@ -9,7 +8,7 @@ import { projectsReducer } from 'reducers/projectsReducer';
 // @ts-ignore
 export const createRootReducer = history => combineReducers({
     form: formReducer,
-    userInfo: userReducer,
+    user: userReducer,
     projects: projectsReducer,
     router: connectRouter(history),
 });

@@ -1,0 +1,21 @@
+@import "../../Styles/Variables.css";
+
+.root
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.noProjectsImg
+{
+    margin-bottom: 20px;
+}
+
+.description
+{
+    font-size: 30px;
+    margin-bottom: 20px;
+}

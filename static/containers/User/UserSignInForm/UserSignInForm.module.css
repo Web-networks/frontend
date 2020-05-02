@@ -1,0 +1,22 @@
+.exitButton
+{
+    margin-left: 20px;
+    float: right;
+}
+
+.root
+{
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    width: 500px;
+    border-radius: 20px;
+}
+
+.loginButton
+{
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}

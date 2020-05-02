@@ -1,21 +1,22 @@
-export interface FormI {
-    formData: FormDataI;
-    pending: boolean;
-    error: string | null;
+import { StateFieldT } from 'types/utilityTypes';
+
+export interface FormStateT extends StateFieldT {
+    data: FormDataT;
 }
 
-export interface FormDataI {
-    [key: string]: FormDataField;
+export interface FormDataT {
+    [key: string]: FormDataFieldT;
 }
 
-export interface FormDataField {
+export interface FormDataFieldT {
     value: any;
     error: string | null;
     isRequired: boolean;
     isChanged: boolean;
 }
 
-export interface FormUIProps {
+export interface FormUIPropsT {
     submitForm: () => void;
     cancelForm: () => void;
+    formClassName?: string;
 }

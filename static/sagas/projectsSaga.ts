@@ -1,11 +1,29 @@
-import { all, call, take, put } from 'redux-saga/effects';
-import { PROJECTS_FETCH } from 'actions/projectsActions';
-import { successFetchAction, failureFetchAction, requestEndAction } from 'actions/utils';
+import { fork, take, put, takeEvery, race, select } from 'redux-saga/effects';
+import { PROJECTS_FETCH, projectsFetch } from 'actions/projectsActions';
+import { push } from 'connected-react-router';
+import { FORM_SUBMIT, FormEmitRequestActionT } from 'actions/formActions';
+import { usernameSelector } from 'selectors/userSelectors';
+import { SuccesFetchActionT } from 'actions/utils';
+import { makeProjectsUrl } from 'lib/url';
 
 export function* projectsSaga() {
-    yield all([
-        call(projectsFetchSaga),
-    ]);
+    yield fork(projectsFetchSaga);
+    yield takeEvery(FORM_SUBMIT.EMIT_REQUEST, projectAddFormSubmitSaga);
+}
+
+function* projectAddFormSubmitSaga(action: FormEmitRequestActionT) {
+    const { stateField } = action.payload;
+    if (stateField === 'projects') {
+        const [actionSuccess]: [SuccesFetchActionT] = yield race([
+            take(FORM_SUBMIT.REQUEST_SUCCESS),
+            take(FORM_SUBMIT.REQUEST_FAILURE),
+        ]);
+        if (actionSuccess) {
+            const username = yield select(usernameSelector);
+            const projectsUrl = makeProjectsUrl(username);
+            yield put(push(projectsUrl));
+        }
+    }
 }
 
 function* projectsFetchSaga() {
@@ -14,10 +32,10 @@ function* projectsFetchSaga() {
         const response = yield fetch('/restapi/projects/my');
         if (response.ok) {
             const body = yield response.json();
-            yield put(successFetchAction(PROJECTS_FETCH, body));
+            yield put(projectsFetch.requestSuccess(body));
         } else {
-            yield put(failureFetchAction(PROJECTS_FETCH, response.message));
+            yield put(projectsFetch.requestFailure(response.message));
         }
-        yield put(requestEndAction(PROJECTS_FETCH));
+        yield put(projectsFetch.requestEnd());
     }
 }

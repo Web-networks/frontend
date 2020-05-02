@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 
-import { FormDataField, FormI } from 'types/formTypes';
+import { FormDataFieldT, FormStateT } from 'types/formTypes';
 import {
     ADD_FIELD_FORM,
     AddFieldFormActionT,
@@ -9,24 +9,23 @@ import {
     FORM_MOUNT,
     FORM_UNMOUNT,
     FORM_VALIDATE,
-    FORM_REQUEST_END,
-    FormRequestEndActionT,
     FORM_SUBMIT,
     FORM_SUBMIT_FAIL,
 } from 'actions/formActions';
+import { FailureFetchActionT } from 'actions/utils';
 
-export const FORM_INITIAL_STATE: FormI = {
-    formData: {},
+export const FORM_INITIAL_STATE: FormStateT = {
+    data: {},
     pending: false,
     error: null,
 };
 
-function createFormField(form: FormI, fieldName: string, isRequired: boolean): FormI {
-    const { formData } = form;
+function createFormField(form: FormStateT, fieldName: string, isRequired: boolean): FormStateT {
+    const { data } = form;
     return {
         ...form,
-        formData: {
-            ...formData,
+        data: {
+            ...data,
             [fieldName]: {
                 value: null,
                 error: null,
@@ -37,49 +36,39 @@ function createFormField(form: FormI, fieldName: string, isRequired: boolean): F
     };
 }
 
-function updateFormFields(form: FormI, nextFormData: {[key: string]: Partial<FormDataField>}): FormI {
-    const { formData } = form;
-    const nextData = Object.assign({}, formData);
+function updateFormFields(form: FormStateT, nextFormData: {[key: string]: Partial<FormDataFieldT>}): FormStateT {
+    const { data } = form;
+    const nextData = Object.assign({}, data);
     for (const fieldName in nextFormData) {
-        nextData[fieldName] = { ...formData[fieldName], ...nextFormData[fieldName] };
+        nextData[fieldName] = { ...data[fieldName], ...nextFormData[fieldName] };
     }
-    return { ...form, formData: nextData };
+    return { ...form, data: nextData };
 }
 
-// @ts-ignore
-export const formReducer = handleActions({
-    [FORM_MOUNT]: (form: FormI): FormI => ({ ...FORM_INITIAL_STATE, ...form }),
+export const formReducer = handleActions<FormStateT, any>({
+    [FORM_MOUNT]: form => ({ ...FORM_INITIAL_STATE, ...form }),
 
-    [ADD_FIELD_FORM]: (
-        state: FormI,
-        action: AddFieldFormActionT,
-    ): FormI => {
+    [ADD_FIELD_FORM]: (form, action: AddFieldFormActionT) => {
         const { payload: { fieldName, isRequired } } = action;
-        return createFormField(state, fieldName, isRequired);
+        return createFormField(form, fieldName, isRequired);
     },
 
-    [FORM_REQUEST_END]: (
-        form: FormI,
-        action: FormRequestEndActionT,
-    ): FormI => {
-        const { payload: { error } } = action;
-        return { ...form, error, pending: false };
+    [FORM_SUBMIT.REQUEST_FAILURE]: (form, action: FailureFetchActionT) => {
+        const { payload: { message } } = action;
+        return { ...form, error: message };
     },
 
-    [CHANGE_FIELD_FORM]: (
-        state: FormI,
-        action: ChangeFieldFormActionT,
-    ): FormI => {
+    [FORM_SUBMIT.REQUEST_END]: form => ({ ...form, pending: false }),
+
+    [CHANGE_FIELD_FORM]: (form, action: ChangeFieldFormActionT) => {
         const { payload: { fieldName, value } } = action;
-        return updateFormFields(state, { [fieldName]: { value, error: null, isChanged: true } });
+        return updateFormFields(form, { [fieldName]: { value, error: null, isChanged: true } });
     },
 
-    [FORM_VALIDATE]: (
-        form: FormI,
-    ): FormI => {
-        const { formData } = form;
-        const errors = Object.keys(formData).reduce((currentErrors, fieldName) => {
-            if (formData[fieldName].isRequired && !formData[fieldName].value) {
+    [FORM_VALIDATE]: form => {
+        const { data } = form;
+        const errors = Object.keys(data).reduce((currentErrors, fieldName) => {
+            if (data[fieldName].isRequired && !data[fieldName].value) {
                 return { ...currentErrors, [fieldName]: {
                     error: 'required field',
                 } };
@@ -89,12 +78,10 @@ export const formReducer = handleActions({
         return updateFormFields(form, errors);
     },
 
-    [FORM_SUBMIT]: (
-        form: FormI,
-    ): FormI => ({ ...form, pending: true }),
+    [FORM_SUBMIT.REQUEST_START]: form => ({ ...form, pending: true }),
 
-    [FORM_SUBMIT_FAIL]: (form: FormI): FormI => ({ ...form, pending: false }),
+    [FORM_SUBMIT_FAIL]: form => ({ ...form, pending: false }),
 
-    [FORM_UNMOUNT]: (): FormI => FORM_INITIAL_STATE,
+    [FORM_UNMOUNT]: () => FORM_INITIAL_STATE,
 
 }, FORM_INITIAL_STATE);

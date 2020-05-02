@@ -1,23 +1,28 @@
-import { take, put, select, call, all } from 'redux-saga/effects';
+import { take, put, select, call, all, cancel } from 'redux-saga/effects';
 import { goBack } from 'connected-react-router';
 
 import {
     FORM_SUBMIT,
     FORM_CANCEL,
+    FORM_UNMOUNT,
 
     formValidate,
-    formRequestEnd,
-    FormSubmitActionT,
+    formSubmit,
     formSubmitFail,
+    updateStateData,
+
+    FormEmitRequestActionT,
 } from 'actions/formActions';
 import { formDataSelect, isFormWithErrors } from 'selectors/formSelectors';
 import { postSaga } from 'sagas/fetchSagas';
 
 export function* formSaga() {
-    yield all([
+    const tasks = yield all([
         call(formSubmitSaga),
         call(formCancelSaga),
     ]);
+    yield take(FORM_UNMOUNT);
+    yield cancel(tasks);
 }
 
 function* formCancelSaga() {
@@ -29,9 +34,9 @@ function* formCancelSaga() {
 
 function* formSubmitSaga() {
     while (true) {
-        const action: FormSubmitActionT = yield take(FORM_SUBMIT);
-        const { submitUrl, stateField } = action.payload;
-        if (!submitUrl) {
+        const action: FormEmitRequestActionT = yield take(FORM_SUBMIT.EMIT_REQUEST);
+        const { url, stateField } = action.payload;
+        if (!url) {
             continue;
         }
         yield put(formValidate());
@@ -40,13 +45,15 @@ function* formSubmitSaga() {
             continue;
         }
         const formData = yield select(formDataSelect);
-        const response = yield call(postSaga, submitUrl, formData);
+        const response = yield call(postSaga, url, formData);
         const body = yield response.json();
         if (!response.ok) {
             const { message, error } = body;
-            yield put(formRequestEnd(stateField, {}, message || error));
+            yield put(formSubmit.requestFailure(message || error));
         } else {
-            yield put(formRequestEnd(stateField, body, null));
+            yield put(formSubmit.requestSuccess(body));
+            yield put(updateStateData(stateField, body));
         }
+        yield put(formSubmit.requestEnd());
     }
 }

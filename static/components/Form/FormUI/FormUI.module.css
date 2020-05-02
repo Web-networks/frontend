@@ -1,0 +1,27 @@
+.root
+{
+    position: relative;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 20px;
+}
+
+.errorMsg
+{
+    margin-bottom: 12px;
+}
+
+.pendingScrimer
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

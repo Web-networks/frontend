@@ -58,7 +58,7 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: 'Neural networks IDEA',
+			title: 'Neuro IDE',
 			filename: 'index.html',
 			inject: 'head',
 			scriptLoading: 'defer',

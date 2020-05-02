@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'components/Variables/RootStyles.css';
+import 'components/Styles/RootStyles.css';
 
-import Layout from 'containers/Layout/Layout';
-import UserSignInForm from 'containers/UserSignInForm/UserSignInForm';
-import UserSignUpForm from 'containers/UserSignUpForm/UserSignUpForm';
-import { ProjectsPage } from 'containers/ProjectsPage/ProjectsPage';
+import { Layout } from 'containers/PageLayout/Layout/Layout';
+import { ProjectsPage } from 'containers/Projects/ProjectsPage/ProjectsPage';
+import { Landing } from 'containers/Landing/Landing';
+import { EntranceForm } from 'components/Form/EntranceForm/EntranceForm';
 
 interface AppI {
     store: any;
@@ -20,25 +20,24 @@ export function App(props: AppI): React.ReactElement {
     return (
         <Provider store={props.store}>
             <ConnectedRouter history={props.history}>
-                <Layout>
-                    <Switch>
-                        <Route exact path='/sign'>
-                            <UserSignInForm
-                                submitUrl='/passport/signin'
-                                stateField='userInfo'
-                            />
-                        </Route>
-                        <Route exact path='/signup'>
-                            <UserSignUpForm
-                                submitUrl='/passport/signup'
-                                stateField='userInfo'
-                            />
-                        </Route>
-                        <Route path='/:user'>
-                            <ProjectsPage/>
-                        </Route>
-                    </Switch>
-                </Layout>
+                <Switch>
+                    <Route exact path='/'>
+                        <Landing/>
+                    </Route>
+                    <Route path='/entrance'>
+                        <EntranceForm/>
+                    </Route>
+                    <Layout>
+                        <Switch>
+                            <Route path='/:user/profile/'>
+                                <div>{'User profile page'}</div>
+                            </Route>
+                            <Route path='/:user'>
+                                <ProjectsPage/>
+                            </Route>
+                        </Switch>
+                    </Layout>
+                </Switch>
             </ConnectedRouter>
         </Provider>
     );

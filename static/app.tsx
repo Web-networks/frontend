@@ -21,22 +21,21 @@ export function App(props: AppI): React.ReactElement {
         <Provider store={props.store}>
             <ConnectedRouter history={props.history}>
                 <Switch>
-                    <Route exact path='/'>
-                        <Landing/>
+                    <Route exact path='/' component={Landing}/>
+                    <Route path='/entrance' component={EntranceForm}/>
+                    <Route path={['/:user/profile/', '/:user/projects', '/:user/available_projects']}>
+                        <Layout>
+                            <Switch>
+                                <Route path='/:user/profile/'>
+                                    <div>{'User profile page'}</div>
+                                </Route>
+                                <Route component={ProjectsPage}/>
+                            </Switch>
+                        </Layout>
                     </Route>
-                    <Route path='/entrance'>
-                        <EntranceForm/>
+                    <Route path='/:user/:project'>
+                        <div>{'Project'}</div>
                     </Route>
-                    <Layout>
-                        <Switch>
-                            <Route path='/:user/profile/'>
-                                <div>{'User profile page'}</div>
-                            </Route>
-                            <Route path='/:user'>
-                                <ProjectsPage/>
-                            </Route>
-                        </Switch>
-                    </Layout>
                 </Switch>
             </ConnectedRouter>
         </Provider>

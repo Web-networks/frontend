@@ -6,6 +6,7 @@ export interface ProjectT {
     sharedWith: MinUserInfoT[];
     description: string;
     name: string;
+    displayName: string;
     isPublic: boolean;
 }
 

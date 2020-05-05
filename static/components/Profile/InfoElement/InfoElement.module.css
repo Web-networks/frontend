@@ -1,0 +1,14 @@
+.root {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.name {
+    color: #808080;
+    width: 30%;
+}
+
+.value {
+    width: 70%;
+}

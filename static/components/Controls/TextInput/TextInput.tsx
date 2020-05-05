@@ -7,7 +7,7 @@ export interface TextInputPropsT {
     value?: string;
     onChange?: (value?: any) => void;
     placeholder?: string;
-    type?: 'email' | 'password';
+    type?: 'email' | 'password' | 'text';
     as?: 'textarea' | 'select';
 }
 

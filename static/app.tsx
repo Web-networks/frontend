@@ -10,6 +10,7 @@ import { Layout } from 'containers/PageLayout/Layout/Layout';
 import { ProjectsPage } from 'containers/Projects/ProjectsPage/ProjectsPage';
 import { Landing } from 'containers/Landing/Landing';
 import { EntranceForm } from 'components/Form/EntranceForm/EntranceForm';
+import { ProfilePage } from './containers/Profile/ProfilePage/ProfilePage';
 
 interface AppI {
     store: any;
@@ -30,7 +31,7 @@ export function App(props: AppI): React.ReactElement {
                     <Layout>
                         <Switch>
                             <Route path='/:user/profile/'>
-                                <div>{'User profile page'}</div>
+                                <ProfilePage/>
                             </Route>
                             <Route path='/:user'>
                                 <ProjectsPage/>

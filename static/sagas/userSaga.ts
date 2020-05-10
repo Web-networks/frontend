@@ -14,13 +14,14 @@ export function* userSaga() {
 }
 
 function* userFormSubmitSaga(action: FormEmitRequestActionT) {
-    const { stateField } = action.payload;
+    const { stateField, url } = action.payload;
     if (stateField === 'user') {
         const [success]: [SuccesFetchActionT?, FailureFetchActionT?] = yield race([
             take(FORM_SUBMIT.REQUEST_SUCCESS),
             take(FORM_SUBMIT.REQUEST_FAILURE),
         ]);
-        if (success) {
+        // TODO: сделать что-то нормальное с маршрутизацией
+        if (success && url !== '/passport/editinfo') {
             const { username } = success.payload.body;
             const projectsUrl = makeProjectsUrl(username);
             yield put(push(projectsUrl));

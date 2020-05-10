@@ -22,6 +22,7 @@ interface DispatchPropsT {
 interface InjectedPropsT {
     fieldName: string;
     isRequired?: boolean;
+    defaultValue?: string | null;
 }
 
 function createSpaFormField<BaseProps extends Object>(Component: React.ComponentType<BaseProps>) {
@@ -31,10 +32,15 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
             createField,
             fieldName,
             isRequired = false,
+            onChange,
+            defaultValue,
         } = props;
         React.useEffect(() => {
             createField(fieldName, isRequired);
-        }, []);
+            if (defaultValue) {
+                onChange(defaultValue);
+            }
+        }, [fieldName, isRequired, onChange, createField, defaultValue]);
 
         return (
             <Component {...props} />

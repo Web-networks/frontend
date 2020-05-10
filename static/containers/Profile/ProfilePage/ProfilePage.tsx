@@ -50,6 +50,8 @@ function ProfilePageComponent(props: ProfilePageProps): React.ReactElement {
                             submitUrl={'/passport/editinfo'}
                             stateField={'user'}
                             setIsEditFormOpened={_setIsEditFromOpened}
+                            firstName={firstName}
+                            lastName={lastName}
                         />
                     }
                 </div>

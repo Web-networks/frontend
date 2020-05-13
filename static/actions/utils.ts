@@ -1,7 +1,7 @@
 import { Action } from 'redux-actions';
 import { partial } from 'lodash';
 
-interface FetchableActionT {
+export interface FetchableActionT {
     EMIT_REQUEST: string;
     REQUEST_START: string;
     REQUEST_FAILURE: string;

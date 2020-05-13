@@ -7,6 +7,7 @@ import DefaultUserImg from '@assets/user.webp';
 import PackImg from './icons/pack.svg';
 import css from './ProjectsListItem.module.css';
 import { MinUserInfoT } from 'types/userTypes';
+import { Link } from 'react-router-dom';
 
 interface ProjectsListItemProps {
     project: ProjectT;
@@ -30,10 +31,11 @@ export function ProjectsListItem(props: ProjectsListItemProps): React.ReactEleme
         return result;
     }, { withAvatars: [], restUsers: [] });
     const { owner } = project;
+    const projectUrl = `/${owner.username}/${project.name}/`;
     return (
-        <div className={css.root}>
+        <Link className={css.root} to={projectUrl}>
             <Image src={PackImg} width={50} />
-            <div className={css.projectName}>{project.name}</div>
+            <div className={css.projectName}>{project.displayName}</div>
             <div className={css.description}>{project.description}</div>
             <div className={css.users}>
                 {withAvatars.map(({ avatar }, index) =>
@@ -49,11 +51,11 @@ export function ProjectsListItem(props: ProjectsListItemProps): React.ReactEleme
                 <div className={css.restUsers}>{restUsers.length}{'+'}</div>
             </div>
             <div className={css.owner}>
-                <Image src={owner.avatar || DefaultUserImg} width={60} roundedCircle/>
+                <Image src={owner.avatar || DefaultUserImg} width={60} height={60} roundedCircle/>
             </div>
             <div className={classnames(css.status, {
                 [css.publicStatus]: project.isPublic,
             })}>{project.isPublic ? 'Public' : 'Private'}</div>
-        </div>
+        </Link>
     );
 }

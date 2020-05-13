@@ -22,8 +22,13 @@
 {
     font-size: 20px;
     margin-left: 16px;
-    width: 100px;
+    width: 150px;
     border-right: 2px solid var(--border-color);
+}
+
+.projectName:hover
+{
+    color: red;
 }
 
 .description

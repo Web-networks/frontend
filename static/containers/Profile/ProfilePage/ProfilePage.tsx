@@ -32,11 +32,16 @@ function ProfilePageComponent(props: ProfilePageProps): React.ReactElement {
                     {!isEditFormOpened ?
                         <>
                             <InfoElement name={'email'} value={email} />
-                            {firstName && <InfoElement name={'First name'} value={firstName} />}
-                            {lastName && <InfoElement
+                            <InfoElement
+                                name={'First name'}
+                                value={firstName}
+                                title={'first name'}
+                            />
+                            <InfoElement
                                 name={'Last name'}
                                 value={lastName}
-                            />}
+                                title={'last name'}
+                            />
                             <Button
                                 variant='primary'
                                 onClick={onEditForm}

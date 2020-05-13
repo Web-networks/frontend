@@ -13,7 +13,6 @@ interface PropsT extends FormUIPropsT {
     lastName?: string | null;
 }
 
-// TODO: Добавить значения по умолчанию для firstName и lastName
 function ProfileEditFormComponent(props: PropsT) {
     const { submitForm, setIsEditFormOpened, firstName, lastName } = props;
     const onSave = React.useCallback(() => {

@@ -40,7 +40,7 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
             if (defaultValue) {
                 onChange(defaultValue);
             }
-        }, [fieldName, isRequired, onChange, createField, defaultValue]);
+        }, []);
 
         return (
             <Component {...props} />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 import css from './ProfilePage.module.css';
@@ -58,13 +58,7 @@ function ProfilePageComponent(props: ProfilePageProps): React.ReactElement {
             </div>
         );
     }
-    return (
-        <div className={css.signInContainer}>
-            <Link to="/entrance/signin">
-                <Button variant="primary">{'Sign In'}</Button>
-            </Link>
-        </div>
-    );
+    return <Redirect to={'/entrance/signin'}/>;
 }
 
 export const ProfilePage = connect(

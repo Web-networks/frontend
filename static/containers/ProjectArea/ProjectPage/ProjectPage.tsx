@@ -11,7 +11,6 @@ import LogoImg from '@assets/logo.png';
 import BrainImg from './icons/neuro.svg';
 import DefaultUserPhoto from '@assets/user.webp';
 import AnalyticsSvg from './icons/analytics.svg';
-import MenuImg from './icons/menu_project_icon.png';
 
 import css from './ProjectPage.module.css';
 
@@ -69,7 +68,6 @@ function ProjectPageComponent(props: ProjectPageProps) {
             <div className={css.menu}>
                 <Image src={AnalyticsSvg} width={100} className={css.menuIcon} />
                 <Menu projectOwner={user} projectName={project}/>
-                <Image src={MenuImg} className={css.menuFooterImg}/>
             </div>
         </div>
     );

@@ -29,7 +29,7 @@ export function App(props: AppI): React.ReactElement {
                         <Layout>
                             <Switch>
                                 <Route path='/:user/profile/'>
-                                    <div>{'User profile page'}</div>
+                                    <ProfilePage/>
                                 </Route>
                                 <Route component={ProjectsPage}/>
                             </Switch>

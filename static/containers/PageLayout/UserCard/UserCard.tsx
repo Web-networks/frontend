@@ -27,8 +27,9 @@ function UserCardComponent(props: UserCardProps) {
     if (!userInfo) {
         return null;
     }
-    const { avatar, username } = userInfo;
+    const { avatar, username, firstName, lastName } = userInfo;
     const userImg = avatar || DefaultUserImage;
+    const name = firstName && lastName && `${firstName} ${lastName}` || username;
     return (
         <div className={css.root}>
             <div className={css.imgParanja} onClick={showPhotoModalForm}>
@@ -39,7 +40,7 @@ function UserCardComponent(props: UserCardProps) {
                     roundedCircle
                 />
             </div>
-            <div className={css.name}>{username}</div>
+            <div className={css.name}>{name}</div>
             <UserPhotoForm
                 visible={profileFormPhotoVisibility}
                 setVisibility={setProfileFormVisibility}

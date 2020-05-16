@@ -1,11 +1,13 @@
 .root
 {
-
+    display: flex;
+    flex-direction: column;
 }
 
 .imgParanja
 {
     position: relative;
+    margin: auto;
 }
 
 .imgParanja::after

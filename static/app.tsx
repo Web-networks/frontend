@@ -11,6 +11,7 @@ import { ProjectsPage } from 'containers/Projects/ProjectsPage/ProjectsPage';
 import { ProjectPage } from 'containers/ProjectArea/ProjectPage/ProjectPage';
 import { Landing } from 'containers/Landing/Landing';
 import { EntranceForm } from 'components/Form/EntranceForm/EntranceForm';
+import { ProfilePage } from './containers/Profile/ProfilePage/ProfilePage';
 
 interface AppI {
     store: any;
@@ -34,6 +35,19 @@ export function App(props: AppI): React.ReactElement {
                             </Switch>
                         </Layout>
                     </Route>
+                    <Route path='/entrance'>
+                        <EntranceForm/>
+                    </Route>
+                    <Layout>
+                        <Switch>
+                            <Route path='/:user/profile/'>
+                                <ProfilePage/>
+                            </Route>
+                            <Route path='/:user'>
+                                <ProjectsPage/>
+                            </Route>
+                        </Switch>
+                    </Layout>
                     <Route path='/:user/:project' component={ProjectPage}/>
                 </Switch>
             </ConnectedRouter>

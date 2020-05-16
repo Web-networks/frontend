@@ -1,0 +1,24 @@
+.root {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 20px 50px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    padding: 20px 50px;
+}
+
+.editButton {
+    margin-top: 20px;
+    width: 100px;
+}
+
+.editIcon {
+    margin-right: 10px;
+}

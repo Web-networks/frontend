@@ -11,6 +11,8 @@ export interface UserT {
     username: string;
     id: string;
     avatar: string | null;
+    firstName: string | null;
+    lastName: string | null;
 }
 
 export type MinUserInfoT = Omit<UserT, 'email'>;

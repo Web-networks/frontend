@@ -1,0 +1,75 @@
+.root
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.header
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 16px 50px;
+    width: 100%;
+}
+
+.logo
+{
+    display: flex;
+    align-items: center;
+}
+
+.logoName
+{
+    margin-left: 12px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.projectName
+{
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+}
+
+.projectName img
+{
+    margin-right: 12px;
+}
+
+.projectNameText
+{
+    padding: 5px;
+    background-image: linear-gradient(to right, rgb(182, 140, 238), rgb(234, 143, 179));
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+}
+
+.menu
+{
+    display: flex;
+    min-width: 300px;
+    padding-top: 20px;
+    flex-grow: 1;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+}
+
+.menuIcon
+{
+    display: block;
+    margin: 20px auto;
+    margin-bottom: 40px;
+}
+
+.menuFooterImg
+{
+    margin-top: auto;
+    width: 300px;
+    margin-bottom: 20%;
+}

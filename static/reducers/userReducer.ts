@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import { UserStateT } from 'types/userTypes';
 import { USER_INFO_UPDATE, UserInfoUpdateActionT } from 'actions/userActions';
 import { UPDATE_STATE_DATA } from 'actions/formActions';
-import { updateStateDataField } from './utils';
+import { updateStateDataFieldReducer } from './utils';
 
 const USER_INITIAL_STATE: UserStateT = {
     pending: false,
@@ -19,5 +19,5 @@ export const userReducer = handleActions<UserStateT, any>({
         };
     },
 
-    [UPDATE_STATE_DATA]: updateStateDataField('user'),
+    [UPDATE_STATE_DATA]: updateStateDataFieldReducer('user'),
 }, USER_INITIAL_STATE);

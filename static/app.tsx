@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
@@ -8,6 +8,7 @@ import 'components/Styles/RootStyles.css';
 
 import { Layout } from 'containers/PageLayout/Layout/Layout';
 import { ProjectsPage } from 'containers/Projects/ProjectsPage/ProjectsPage';
+import { ProjectPage } from 'containers/ProjectArea/ProjectPage/ProjectPage';
 import { Landing } from 'containers/Landing/Landing';
 import { EntranceForm } from 'components/Form/EntranceForm/EntranceForm';
 import { ProfilePage } from './containers/Profile/ProfilePage/ProfilePage';
@@ -22,8 +23,17 @@ export function App(props: AppI): React.ReactElement {
         <Provider store={props.store}>
             <ConnectedRouter history={props.history}>
                 <Switch>
-                    <Route exact path='/'>
-                        <Landing/>
+                    <Route exact path='/' component={Landing}/>
+                    <Route path='/entrance' component={EntranceForm}/>
+                    <Route path={['/:user/profile/', '/:user/projects', '/:user/available_projects']}>
+                        <Layout>
+                            <Switch>
+                                <Route path='/:user/profile/'>
+                                    <div>{'User profile page'}</div>
+                                </Route>
+                                <Route component={ProjectsPage}/>
+                            </Switch>
+                        </Layout>
                     </Route>
                     <Route path='/entrance'>
                         <EntranceForm/>
@@ -38,6 +48,7 @@ export function App(props: AppI): React.ReactElement {
                             </Route>
                         </Switch>
                     </Layout>
+                    <Route path='/:user/:project' component={ProjectPage}/>
                 </Switch>
             </ConnectedRouter>
         </Provider>

@@ -6,13 +6,15 @@
     "settings": {
         "react": {
             "version": "detect"
-        }
+		}
     },
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		"plugin:import/errors",
+		"plugin:import/typescript"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -28,7 +30,8 @@
         "project": "tsconfig.json"
     },
     "plugins": [
-        "react",
+		"react",
+		"import",
         "@typescript-eslint",
         "react-hooks",
         "promise",
@@ -36,6 +39,8 @@
         "sonarjs"
     ],
     "rules": {
+		"import/no-relative-parent-imports": "error",
+		"import/no-unresolved": "off",
 		"no-unused-vars": "off",
 		"no-duplicate-imports": ["error", { "includeExports": true }], // disallow duplicate module imports
 		"no-template-curly-in-string": "error", // disallow template literal placeholder syntax in regular strings

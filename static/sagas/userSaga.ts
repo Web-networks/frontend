@@ -10,22 +10,22 @@ import { makeProjectsUrl } from 'lib/url';
 export function* userSaga() {
     yield fork(fetchUserInfoSaga);
     yield fork(userSignOutSaga);
-    yield takeEvery(FORM_SUBMIT.EMIT_REQUEST, userFormSubmitSaga);
+    yield takeEvery(FORM_SUBMIT.EMIT_REQUEST, userFormEntranceSubmitSaga);
 }
 
-function* userFormSubmitSaga(action: FormEmitRequestActionT) {
+function* userFormEntranceSubmitSaga(action: FormEmitRequestActionT) {
     const { stateField, url } = action.payload;
-    if (stateField === 'user') {
-        const [success]: [SuccesFetchActionT?, FailureFetchActionT?] = yield race([
-            take(FORM_SUBMIT.REQUEST_SUCCESS),
-            take(FORM_SUBMIT.REQUEST_FAILURE),
-        ]);
-        // TODO: сделать что-то нормальное с маршрутизацией
-        if (success && url !== '/passport/editinfo') {
-            const { username } = success.payload.body;
-            const projectsUrl = makeProjectsUrl(username);
-            yield put(push(projectsUrl));
-        }
+    if (!url.match(/\/passport\/signin/) && !url.match(/\/passport\/signup/) || stateField !== 'user') {
+        return;
+    }
+    const [success]: [SuccesFetchActionT?, FailureFetchActionT?] = yield race([
+        take(FORM_SUBMIT.REQUEST_SUCCESS),
+        take(FORM_SUBMIT.REQUEST_FAILURE),
+    ]);
+    if (success) {
+        const { username } = success.payload.body;
+        const projectsUrl = makeProjectsUrl(username);
+        yield put(push(projectsUrl));
     }
 }
 

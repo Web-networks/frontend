@@ -7,10 +7,13 @@ import { FormTextInput } from 'containers/Form/SpaFormField/SpaFormField';
 
 import css from './UserSignUpForm.module.css';
 
-interface PropsT extends FormUIPropsT {}
+interface OwnPropsT extends FormUIPropsT {}
+
+type PropsT = OwnPropsT;
 
 function UserSignUpFormComponent(props: PropsT) {
     const { submitForm } = props;
+
     return (
         <Form>
             <FormTextInput
@@ -38,4 +41,4 @@ function UserSignUpFormComponent(props: PropsT) {
 }
 
 
-export const UserSignUpForm = createSpaForm<PropsT>(UserSignUpFormComponent);
+export const UserSignUpForm = createSpaForm(UserSignUpFormComponent);

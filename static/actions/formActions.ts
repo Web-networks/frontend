@@ -29,6 +29,7 @@ export function formValidate(): FormValidateActionT {
 export interface FormPayloadT extends MinEmitFetchActionPayloadT {
     url: string;
     stateField: StateFieldKeyT;
+    redirectSuccessUrl?: string;
 }
 export type FormEmitRequestActionT = EmitFetchActionT<FormPayloadT>;
 export const [FORM_SUBMIT, formSubmit] = makeFetchableAction<FormPayloadT>('FORM_SUBMIT');

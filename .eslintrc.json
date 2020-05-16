@@ -129,7 +129,7 @@
 				"ignoreEnums": true,
 				"enforceConst": true,
 				"ignoreReadonlyClassProperties": true,
-				"ignore": [0, 24, 60, 1000]
+				"ignore": [0, 24, 60, 1000, 400]
 			}
 		], // Disallows magic numbers
 		"@typescript-eslint/brace-style": ["error", "1tbs"], // Enforce consistent brace style for blocks
@@ -142,6 +142,7 @@
 		"@typescript-eslint/no-unnecessary-type-arguments": "warn", // Warns if an explicitly specified type argument is the default for that type parameter
 		"@typescript-eslint/prefer-function-type": "warn", // Use function types instead of interfaces with call signatures
 		"@typescript-eslint/prefer-readonly": "warn", // Requires that private members are marked as readonly if they're never modified outside of the constructor
+		"@typescript-eslint/prefer-regexp-exec": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/camelcase": ["error", { "properties": "never" }],
 		"@typescript-eslint/interface-name-prefix": "off",
@@ -164,6 +165,6 @@
 		"react/jsx-pascal-case": "error", // Enforce PascalCase for user-defined JSX components
 
 		"react-hooks/rules-of-hooks": "error",
-		"react-hooks/exhaustive-deps": "warn"
+		"react-hooks/exhaustive-deps": "off"
     }
 }

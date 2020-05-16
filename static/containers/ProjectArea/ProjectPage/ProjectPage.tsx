@@ -11,7 +11,7 @@ import LogoImg from '@assets/logo.png';
 import BrainImg from './icons/neuro.svg';
 import DefaultUserPhoto from '@assets/user.webp';
 import AnalyticsSvg from './icons/analytics.svg';
-import MenuImg from './icons/menu_project_img.png';
+import MenuImg from './icons/menu_project_icon.png';
 
 import css from './ProjectPage.module.css';
 

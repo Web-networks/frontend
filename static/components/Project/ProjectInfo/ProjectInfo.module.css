@@ -15,7 +15,7 @@
 
 .displayName, .description, .privacy, .owner, .sharedWith {
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .displayNameTitle, .descriptionTitle, .privacyTitle, .ownerTitle {
@@ -38,6 +38,7 @@
 .ownerUserCard {
     width: 40%;
     box-shadow: 0 0 10px grey;
+    min-width: 200px;
 }
 
 .sharedWith {
@@ -46,4 +47,7 @@
 
 .sharedWithList {
     width: 40%;
+    min-width: 200px;
+    max-height: 375px;
+    overflow: auto;
 }

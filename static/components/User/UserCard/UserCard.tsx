@@ -1,14 +1,12 @@
 import React from 'react';
 
 import css from './UserCard.module.css';
-import { UserT } from 'types/userTypes';
+import { MinUserInfoT } from 'types/userTypes';
 import UserCardImg from '@assets/user.webp';
 import { Image } from 'react-bootstrap';
 
-type userCardType = Pick<UserT, 'username' | 'avatar' | 'firstName' | 'lastName'>;
-
 interface UserCardProps {
-    userInfo: userCardType;
+    userInfo: MinUserInfoT;
 }
 
 export function UserCard(props: UserCardProps): React.ReactElement {

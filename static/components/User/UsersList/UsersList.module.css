@@ -1,22 +1,12 @@
-.root
-{
-
+.root {
 }
 
-.userItem
+.root > div > :nth-child(odd)
 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    box-shadow: 0 0 10px grey;
 }
 
-.username
+.root > div > :nth-child(even)
 {
-    margin-left: 20px;
-    font-size: 18px;
-}
-
-.removeButton
-{
-    margin-left: auto;
+    background-color: #bfc5c9;
 }

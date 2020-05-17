@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { memoize, uniqBy } from 'lodash';
 import { UserSelectItem } from 'components/User/UserSelectItem/UserSelectItem';
 import { TextInputForSuggest } from 'components/Controls/TextInputForSuggest/TextInputForSuggest';
-import { UsersList } from 'components/User/UsersList/UsersList';
+import { UsersListWithDelete } from 'components/User/UsersListWithDelete/UsersListWithDelete';
 import { ApplicationStateT } from 'types';
 import { MinUserInfoT } from 'types/userTypes';
 
@@ -97,7 +97,7 @@ function UserSuggestComponent(props: UserSuggestProps) {
                 renderInputComponent={TextInputForSuggest}
                 onSuggestionSelected={onSuggestionSelected}
             />
-            <UsersList
+            <UsersListWithDelete
                 users={choosingUsers}
                 onDelete={onDeleteUser}
             />

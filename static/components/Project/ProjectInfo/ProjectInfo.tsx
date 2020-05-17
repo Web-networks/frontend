@@ -7,6 +7,7 @@ import PrivateIcon from './icons/private.svg';
 import PublicIcon from './icons/public.svg';
 import classNames from 'classnames';
 import { UserCard } from 'components/User/UserCard/UserCard';
+import { UsersList } from 'components/User/UsersList/UsersList';
 
 interface ProjectPageProps {
     projectInfo: CurrentProjectDataT;
@@ -49,7 +50,7 @@ export function ProjectInfo(props: ProjectPageProps): React.ReactElement {
             <div className={css.sharedWith}>
                 <span className={css.sharedWithTitle}>{`Shared with ${sharedWith.length} people`}</span>
                 <div className={css.sharedWithList}>
-
+                    <UsersList users={sharedWith} />
                 </div>
             </div>
         </div>

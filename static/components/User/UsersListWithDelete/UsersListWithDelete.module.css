@@ -1,0 +1,22 @@
+.root
+{
+
+}
+
+.userItem
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.username
+{
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.removeButton
+{
+    margin-left: auto;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Spinner } from 'react-bootstrap';
 
 import css from './ProjectInfo.module.css';
-import { CurrentProjectDataT } from '../../../types/currentProjectTypes';
+import { CurrentProjectDataT } from 'types/currentProjectTypes';
 
 interface ProjectPageProps {
     projectInfo: CurrentProjectDataT;

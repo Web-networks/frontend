@@ -6,10 +6,13 @@ import { FormTextInput } from 'containers/Form/SpaFormField/SpaFormField';
 
 import css from './UserSignInForm.module.css';
 
-interface PropsT extends FormUIPropsT {}
+interface OwnPropsT extends FormUIPropsT {}
+
+type PropsT = OwnPropsT;
 
 function UserSignInFormComponent(props: PropsT) {
     const { submitForm } = props;
+
 
     return (
         <Form>
@@ -32,4 +35,4 @@ function UserSignInFormComponent(props: PropsT) {
 }
 
 
-export const UserSignInForm = createSpaForm<PropsT>(UserSignInFormComponent);
+export const UserSignInForm = createSpaForm(UserSignInFormComponent);

@@ -3,23 +3,17 @@ import { Form, Button } from 'react-bootstrap';
 import { FormUIPropsT } from 'types/formTypes';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
 import { FormTextInput } from 'containers/Form/SpaFormField/SpaFormField';
+import { changeFieldForm } from 'actions/formActions';
 
 import css from './ProfileEditForm.module.css';
-import { changeFieldForm } from '../../../actions/formActions';
 
 interface PropsT extends FormUIPropsT {
-    setIsEditFormOpened: (value: boolean) => void;
     firstName?: string | null;
     lastName?: string | null;
 }
 
 function ProfileEditFormComponent(props: PropsT) {
-    const { submitForm, setIsEditFormOpened, firstName, lastName } = props;
-    const onSave = React.useCallback(() => {
-        setIsEditFormOpened(false);
-        submitForm();
-    }, [setIsEditFormOpened, submitForm]);
-    const onCancel = React.useCallback(() => setIsEditFormOpened(false), [setIsEditFormOpened]);
+    const { submitForm, cancelForm, firstName, lastName } = props;
 
     useEffect(() => {
         changeFieldForm('firstName', 'value');
@@ -43,14 +37,14 @@ function ProfileEditFormComponent(props: PropsT) {
                     defaultValue={lastName}
                 />
                 <Button
-                    onClick={onSave}
+                    onClick={submitForm}
                     variant={'success'}
                     className={css.saveButton}
                 >
                     {'Save'}
                 </Button>
                 <Button
-                    onClick={onCancel}
+                    onClick={cancelForm}
                     variant={'danger'}
                     className={css.cancelButton}
                 >
@@ -61,4 +55,4 @@ function ProfileEditFormComponent(props: PropsT) {
     );
 }
 
-export const ProfileEditForm = createSpaForm<PropsT>(ProfileEditFormComponent);
+export const ProfileEditForm = createSpaForm(ProfileEditFormComponent);

@@ -1,10 +1,9 @@
-import { take, put, select, call, all, cancel } from 'redux-saga/effects';
-import { goBack } from 'connected-react-router';
+import { take, put, select, call, takeEvery } from 'redux-saga/effects';
+import { goBack, push } from 'connected-react-router';
 
 import {
     FORM_SUBMIT,
     FORM_CANCEL,
-    FORM_UNMOUNT,
 
     formValidate,
     formSubmit,
@@ -17,43 +16,44 @@ import { formDataSelect, isFormWithErrors } from 'selectors/formSelectors';
 import { postSaga } from 'sagas/fetchSagas';
 
 export function* formSaga() {
-    const tasks = yield all([
-        call(formSubmitSaga),
-        call(formCancelSaga),
-    ]);
-    yield take(FORM_UNMOUNT);
-    yield cancel(tasks);
+    yield takeEvery(FORM_SUBMIT.EMIT_REQUEST, formSubmitSaga);
+    yield takeEvery(FORM_CANCEL, formCancelSaga);
 }
 
 function* formCancelSaga() {
-    while (true) {
-        yield take(FORM_CANCEL);
-        yield put(goBack());
-    }
+    yield take(FORM_CANCEL);
+    yield put(goBack());
 }
 
-function* formSubmitSaga() {
-    while (true) {
-        const action: FormEmitRequestActionT = yield take(FORM_SUBMIT.EMIT_REQUEST);
-        const { url, stateField } = action.payload;
-        if (!url) {
-            continue;
-        }
-        yield put(formValidate());
-        if (yield select(isFormWithErrors)) {
-            yield put(formSubmitFail());
-            continue;
-        }
-        const formData = yield select(formDataSelect);
-        const response = yield call(postSaga, url, formData);
-        const body = yield response.json();
-        if (!response.ok) {
-            const { message, error } = body;
-            yield put(formSubmit.requestFailure(message || error));
+function* formSubmitSaga(action: FormEmitRequestActionT) {
+    const { url, stateField, redirectSuccessUrl } = action.payload;
+    if (!url) {
+        return;
+    }
+    yield put(formValidate());
+    if (yield select(isFormWithErrors)) {
+        yield put(formSubmitFail());
+        return;
+    }
+    const formData = yield select(formDataSelect);
+    const response: Response = yield call(postSaga, url, formData);
+    if (!response.ok) {
+        let error: string;
+        if (response.status !== 400) {
+            error = `${response.status}: ${response.statusText}`;
         } else {
-            yield put(formSubmit.requestSuccess(body));
-            yield put(updateStateData(stateField, body));
+            const body = yield response.json();
+            const { message, error: bodyError } = body;
+            error = message || bodyError;
         }
-        yield put(formSubmit.requestEnd());
+        yield put(formSubmit.requestFailure(error));
+    } else {
+        const body = yield response.json();
+        yield put(formSubmit.requestSuccess(body));
+        yield put(updateStateData(stateField, body));
+    }
+    yield put(formSubmit.requestEnd());
+    if (response.ok && redirectSuccessUrl) {
+        yield put(push(redirectSuccessUrl));
     }
 }

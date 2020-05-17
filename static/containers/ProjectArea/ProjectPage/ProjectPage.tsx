@@ -13,7 +13,7 @@ import DefaultUserPhoto from '@assets/user.webp';
 import AnalyticsSvg from './icons/analytics.svg';
 
 import css from './ProjectPage.module.css';
-import { ProjectInfo } from '../../../components/Project/ProjectInfo/ProjectInfo';
+import { ProjectInfo } from 'components/Project/ProjectInfo/ProjectInfo';
 
 interface ProjectPageConnectProps {
     currentProjectInfo: CurrentProjectDataT;

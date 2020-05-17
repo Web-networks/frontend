@@ -28,16 +28,12 @@ export function App(props: AppI): React.ReactElement {
                     <Route path={['/:user/profile/', '/:user/projects', '/:user/available_projects']}>
                         <Layout>
                             <Switch>
-                                <Route path='/:user/profile/'>
-                                    <ProfilePage/>
-                                </Route>
+                                <Route path='/:user/profile/' component={ProfilePage}/>
                                 <Route component={ProjectsPage}/>
                             </Switch>
                         </Layout>
                     </Route>
-                    <Route path='/entrance'>
-                        <EntranceForm/>
-                    </Route>
+                    <Route path='/entrance' component={EntranceForm}/>
                     <Route path='/:user/:project' component={ProjectPage}/>
                 </Switch>
             </ConnectedRouter>

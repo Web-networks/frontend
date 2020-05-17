@@ -14,7 +14,7 @@ interface SpaFormStateProps {
 }
 
 interface SpaFormDispatchProps {
-    onFormSubmit: (submitUrl: string, stateField: StateFieldKeyT) => void;
+    onFormSubmit: (submitUrl: string, stateField: StateFieldKeyT, redirectSuccessUrl?: string) => void;
     onFormCancel: () => void;
     onFormMount: () => void;
     onFormUnmount: () => void;
@@ -23,6 +23,7 @@ interface SpaFormDispatchProps {
 interface InjectedOutProps {
     submitUrl: string;
     stateField: StateFieldKeyT;
+    redirectSuccessUrl?: string;
 }
 
 interface InjectedInProps {
@@ -40,6 +41,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             onFormUnmount,
             submitUrl,
             stateField,
+            redirectSuccessUrl,
             error,
             pending,
             onFormCancel,
@@ -50,7 +52,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
         }, []);
         React.useEffect(() => onFormUnmount, [onFormUnmount]);
         const submitForm = React.useCallback(
-            () => onFormSubmit(submitUrl, stateField),
+            () => onFormSubmit(submitUrl, stateField, redirectSuccessUrl),
             [submitUrl, onFormSubmit, stateField],
         );
 
@@ -76,7 +78,11 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             pending: form.pending,
         }),
         dispatch => ({
-            onFormSubmit: (submitUrl, stateField) => dispatch(formSubmit.emitRequest({ url: submitUrl, stateField })),
+            onFormSubmit: (submitUrl, stateField, redirectSuccessUrl) => dispatch(formSubmit.emitRequest({
+                url: submitUrl,
+                stateField,
+                redirectSuccessUrl,
+            })),
             onFormMount: () => dispatch(formMount()),
             onFormUnmount: () => dispatch(formUnmount()),
             onFormCancel: () => dispatch(formCancel()),

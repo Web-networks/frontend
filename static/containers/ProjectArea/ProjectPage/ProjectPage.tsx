@@ -13,6 +13,7 @@ import DefaultUserPhoto from '@assets/user.webp';
 import AnalyticsSvg from './icons/analytics.svg';
 
 import css from './ProjectPage.module.css';
+import { ProjectInfo } from '../../../components/Project/ProjectInfo/ProjectInfo';
 
 interface ProjectPageConnectProps {
     currentProjectInfo: CurrentProjectDataT;
@@ -56,18 +57,23 @@ function ProjectPageComponent(props: ProjectPageProps) {
         <div className={css.root}>
             <div className={css.header}>
                 <Link to={`/${user}/projects/`} className={css.logo}>
-                    <Image src={LogoImg} width={60} />
+                    <Image src={LogoImg} width={60}/>
                     <div className={css.logoName}>{'Neuro IDE'}</div>
                 </Link>
                 <div className={css.projectName}>
-                    <Image src={BrainImg} width={60} />
+                    <Image src={BrainImg} width={60}/>
                     <div className={css.projectNameText}>{currentProjectInfo.displayName}</div>
                 </div>
-                <Image src={userImg} width={60} className={css.userAvatar} roundedCircle />
+                <Image src={userImg} width={60} className={css.userAvatar} roundedCircle/>
             </div>
-            <div className={css.menu}>
-                <Image src={AnalyticsSvg} width={100} className={css.menuIcon} />
-                <Menu projectOwner={user} projectName={project}/>
+            <div className={css.body}>
+                <div className={css.menu}>
+                    <Image src={AnalyticsSvg} width={100} className={css.menuIcon}/>
+                    <Menu projectOwner={user} projectName={project}/>
+                </div>
+                <div className={css.content}>
+                    <ProjectInfo projectInfo={currentProjectInfo}/>
+                </div>
             </div>
         </div>
     );

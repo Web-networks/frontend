@@ -51,3 +51,8 @@
     max-height: 375px;
     overflow: auto;
 }
+
+.editButton {
+    margin-top: 5px;
+    width: 100px;
+}

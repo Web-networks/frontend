@@ -22,7 +22,7 @@ interface DispatchPropsT {
 interface InjectedPropsT {
     fieldName: string;
     isRequired?: boolean;
-    defaultValue?: string | null;
+    defaultValue?: any;
 }
 
 function createSpaFormField<BaseProps extends Object>(Component: React.ComponentType<BaseProps>) {
@@ -37,7 +37,8 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
         } = props;
         React.useEffect(() => {
             createField(fieldName, isRequired);
-            if (defaultValue) {
+            // eslint-disable-next-line no-undefined
+            if (defaultValue !== undefined) {
                 onChange(defaultValue);
             }
         }, []);

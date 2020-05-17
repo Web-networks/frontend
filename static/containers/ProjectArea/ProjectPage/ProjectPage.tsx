@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Image } from 'react-bootstrap';
 import { ApplicationStateT } from 'types';
-import { withRouter, match, Link } from 'react-router-dom';
+import { withRouter, match, Link, Route, Switch } from 'react-router-dom';
 import { currentProjectFetch } from 'actions/currentProjectActions';
 import { CurrentProjectDataT } from 'types/currentProjectTypes';
 import { Menu } from 'containers/ProjectArea/Menu/Menu';
@@ -14,6 +14,7 @@ import AnalyticsSvg from './icons/analytics.svg';
 
 import css from './ProjectPage.module.css';
 import { ProjectInfo } from 'components/Project/ProjectInfo/ProjectInfo';
+import { ProjectEditForm } from 'containers/ProjectArea/ProjectEditForm/ProjectEditForm';
 
 interface ProjectPageConnectProps {
     currentProjectInfo: CurrentProjectDataT;
@@ -53,6 +54,8 @@ function ProjectPageComponent(props: ProjectPageProps) {
         return null;
     }
     const userImg = userAvatar || DefaultUserPhoto;
+    const projectPageUrl = `/${user}/${project}`;
+    const projectEditPageUrl = `${projectPageUrl}/edit`;
     return (
         <div className={css.root}>
             <div className={css.header}>
@@ -72,7 +75,22 @@ function ProjectPageComponent(props: ProjectPageProps) {
                     <Menu projectOwner={user} projectName={project}/>
                 </div>
                 <div className={css.content}>
-                    <ProjectInfo projectInfo={currentProjectInfo}/>
+                    <Switch>
+                        <Route path={projectEditPageUrl} >
+                            <ProjectEditForm
+                                submitUrl={'/restapi/projects/edit_current'}
+                                stateField={'projects'}
+                                redirectSuccessUrl={projectPageUrl}
+                                displayName={currentProjectInfo.displayName}
+                                description={currentProjectInfo.description}
+                                isPublic={currentProjectInfo.isPublic}
+                                sharedWith={currentProjectInfo.sharedWith}
+                            />
+                        </Route>
+                        <Route>
+                            <ProjectInfo projectInfo={currentProjectInfo} username={user}/>
+                        </Route>
+                    </Switch>
                 </div>
             </div>
         </div>

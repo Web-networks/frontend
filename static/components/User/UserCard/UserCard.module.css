@@ -1,0 +1,22 @@
+.root {
+    display: flex;
+    width: 100%;
+    border: 1px grey solid;
+    align-items: center;
+    padding: 4px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+}
+
+.name {
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+

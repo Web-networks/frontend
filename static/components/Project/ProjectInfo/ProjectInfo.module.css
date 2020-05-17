@@ -13,22 +13,37 @@
     transform: scale(2);
 }
 
-.displayName {
+.displayName, .description, .privacy, .owner, .sharedWith {
     font-size: 20px;
     margin-bottom: 10px;
 }
 
-.displayNameTitle {
+.displayNameTitle, .descriptionTitle, .privacyTitle, .ownerTitle {
     margin-right: 15px;
     color: grey;
 }
 
-.description {
-    font-size: 20px;
-    margin-bottom: 10px;
+.privacyValue {
+    margin-right: 10px;
 }
 
-.descriptionTitle {
-    margin-right: 15px;
-    color: grey;
+.private {
+    color: red;
+}
+
+.public {
+    color: green;
+}
+
+.ownerUserCard {
+    width: 40%;
+    box-shadow: 0 0 10px grey;
+}
+
+.sharedWith {
+    margin-top: 10px;
+}
+
+.sharedWithList {
+    width: 40%;
 }

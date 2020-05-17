@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Image } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import css from './ProfilePage.module.css';
 import { connect } from 'react-redux';
 import { ApplicationStateT } from '../../../types';
 import { InfoElement } from '../../../components/Profile/InfoElement/InfoElement';
 import { ProfileEditForm } from '../ProfileEditForm/ProfileEditForm';
-import EditInfo from './icons/edit_info.png';
 
 interface ProfilePageProps {
     email?: string;
@@ -27,7 +26,6 @@ function ProfilePageComponent(props: ProfilePageProps): React.ReactElement {
         return (
             <div className={css.root}>
                 <div className={css.header}>
-                    <Image className={css.editIcon} src={EditInfo} width={60} />
                     <h2 style={{ margin: 0 }}>{'Profile page'}</h2>
                 </div>
                 <div className={css.content}>

@@ -11,8 +11,8 @@ import { UsersList } from 'components/User/UsersList/UsersList';
 import { Link } from 'react-router-dom';
 
 interface ProjectPageProps {
-    username: string;
     projectInfo: CurrentProjectDataT;
+    projectEditPageUrl: string;
 }
 
 export function ProjectInfo(props: ProjectPageProps): React.ReactElement {
@@ -23,10 +23,8 @@ export function ProjectInfo(props: ProjectPageProps): React.ReactElement {
             </div>
         );
     }
-    const { description, displayName, isPublic, sharedWith, owner, name } = props.projectInfo;
+    const { description, displayName, isPublic, sharedWith, owner } = props.projectInfo;
     const privacyClass = isPublic ? css.public : css.private;
-    const projectPageUrl = `/${props.username}/${name}`;
-    const projectEditPageUrl = `${projectPageUrl}/edit`;
 
     return (
         <div className={css.root}>
@@ -60,7 +58,7 @@ export function ProjectInfo(props: ProjectPageProps): React.ReactElement {
             <Button
                 variant='primary'
                 className={css.editButton}
-                to={projectEditPageUrl}
+                to={props.projectEditPageUrl}
                 as={Link}
             >
                 {'Edit'}

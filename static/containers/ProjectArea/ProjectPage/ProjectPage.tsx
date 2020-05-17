@@ -15,6 +15,7 @@ import AnalyticsSvg from './icons/analytics.svg';
 import css from './ProjectPage.module.css';
 import { ProjectInfo } from 'components/Project/ProjectInfo/ProjectInfo';
 import { ProjectEditForm } from 'containers/ProjectArea/ProjectEditForm/ProjectEditForm';
+import { makeProjectUrl } from 'lib/url';
 
 interface ProjectPageConnectProps {
     currentProjectInfo: CurrentProjectDataT;
@@ -54,7 +55,7 @@ function ProjectPageComponent(props: ProjectPageProps) {
         return null;
     }
     const userImg = userAvatar || DefaultUserPhoto;
-    const projectPageUrl = `/${user}/${project}`;
+    const projectPageUrl = makeProjectUrl(user, project);
     const projectEditPageUrl = `${projectPageUrl}/edit`;
     return (
         <div className={css.root}>
@@ -85,10 +86,11 @@ function ProjectPageComponent(props: ProjectPageProps) {
                                 description={currentProjectInfo.description}
                                 isPublic={currentProjectInfo.isPublic}
                                 sharedWith={currentProjectInfo.sharedWith}
+                                name={currentProjectInfo.name}
                             />
                         </Route>
                         <Route>
-                            <ProjectInfo projectInfo={currentProjectInfo} username={user}/>
+                            <ProjectInfo projectInfo={currentProjectInfo} projectEditPageUrl={projectEditPageUrl}/>
                         </Route>
                     </Switch>
                 </div>

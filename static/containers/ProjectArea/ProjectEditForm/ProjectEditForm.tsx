@@ -10,26 +10,51 @@ import {
 
 import css from './ProjectEditForm.module.css';
 import { MinUserInfoT } from 'types/userTypes';
+import { connect } from 'react-redux';
+import { ApplicationStateT } from 'types';
+import { get } from 'lodash';
+import { changeFieldForm } from 'actions/formActions';
+import { getName } from 'lib/utils';
 
 interface PropsT extends FormUIPropsT {
     displayName?: string | null;
     description?: string | null;
     isPublic?: boolean | null;
     sharedWith?: MinUserInfoT[] | null;
+    name?: string | null;
 }
 
-/*
-            <FormTextInput
-                label='Name'
-                fieldName='name'
-                placeholder='my_own_project'
-                isRequired={true}
-            />
-*/
+interface ProjectEditFormStatePropsT {
+    _displayName: string | null;
+}
 
-function ProjectEditFormComponent(props: PropsT) {
-    const { submitForm, cancelForm, displayName, description, isPublic, sharedWith } = props;
+interface ProjectEditFormDispatchPropsT {
+    onChange: (fieldName: string, value: any) => void;
+}
 
+type ProjectEditFormProps = PropsT & ProjectEditFormDispatchPropsT & ProjectEditFormStatePropsT;
+
+function ProjectEditFormComponent(props: ProjectEditFormProps) {
+    const {
+        submitForm,
+        cancelForm,
+        displayName,
+        description,
+        isPublic,
+        sharedWith,
+        name,
+        onChange,
+        _displayName,
+    } = props;
+
+    React.useEffect(() => {
+        if (typeof _displayName === 'string' && _displayName) {
+            const nextName = getName(_displayName);
+            if (nextName) {
+                onChange('name', nextName);
+            }
+        }
+    }, [_displayName, onChange]);
     return (
         <div className={css.root}>
             <Form>
@@ -39,6 +64,13 @@ function ProjectEditFormComponent(props: PropsT) {
                     placeholder="My own project"
                     fieldName="displayName"
                     defaultValue={displayName}
+                    isRequired={true}
+                />
+                <FormTextInput
+                    label='Name'
+                    fieldName='name'
+                    placeholder='my_own_project'
+                    defaultValue={name}
                     isRequired={true}
                 />
                 <FormTextInput
@@ -80,4 +112,11 @@ function ProjectEditFormComponent(props: PropsT) {
     );
 }
 
-export const ProjectEditForm = createSpaForm(ProjectEditFormComponent);
+export const ProjectEditForm = connect<ProjectEditFormStatePropsT, ProjectEditFormDispatchPropsT>(
+    ({ form } : ApplicationStateT) => ({
+        _displayName: get(form ,'data.displayName.value', null),
+    }),
+    dispatch => ({
+        onChange: (fieldName, value) => dispatch(changeFieldForm(fieldName, value)),
+    }),
+)(createSpaForm(ProjectEditFormComponent));

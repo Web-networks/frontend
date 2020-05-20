@@ -1,9 +1,9 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { MinUserInfoT } from 'types/userTypes';
+import { UserCard } from 'components/User/UserCard/UserCard';
 
 import css from './UsersList.module.css';
-import { UserCard } from 'components/User/UserCard/UserCard';
 
 interface UsersListProps {
     users?: MinUserInfoT[];

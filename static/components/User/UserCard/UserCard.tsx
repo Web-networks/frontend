@@ -1,9 +1,10 @@
 import React from 'react';
-
-import css from './UserCard.module.css';
 import { MinUserInfoT } from 'types/userTypes';
+
 import UserCardImg from '@assets/user.webp';
 import { Image } from 'react-bootstrap';
+
+import css from './UserCard.module.css';
 
 interface UserCardProps {
     userInfo: MinUserInfoT;

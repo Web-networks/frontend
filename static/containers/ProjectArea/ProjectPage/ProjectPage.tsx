@@ -3,19 +3,20 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Image } from 'react-bootstrap';
 import { ApplicationStateT } from 'types';
+import { CurrentProjectDataT } from 'types/currentProjectTypes';
 import { withRouter, match, Link, Route, Switch } from 'react-router-dom';
 import { currentProjectFetch } from 'actions/currentProjectActions';
-import { CurrentProjectDataT } from 'types/currentProjectTypes';
 import { Menu } from 'containers/ProjectArea/Menu/Menu';
+import { ProjectInfo } from 'components/Project/ProjectInfo/ProjectInfo';
+import { ProjectEditForm } from 'containers/ProjectArea/ProjectEditForm/ProjectEditForm';
+import { makeProjectUrl } from 'lib/url';
+
 import LogoImg from '@assets/logo.png';
 import BrainImg from './icons/neuro.svg';
 import DefaultUserPhoto from '@assets/user.webp';
 import AnalyticsSvg from './icons/analytics.svg';
 
 import css from './ProjectPage.module.css';
-import { ProjectInfo } from 'components/Project/ProjectInfo/ProjectInfo';
-import { ProjectEditForm } from 'containers/ProjectArea/ProjectEditForm/ProjectEditForm';
-import { makeProjectUrl } from 'lib/url';
 
 interface ProjectPageConnectProps {
     currentProjectInfo: CurrentProjectDataT;
@@ -57,6 +58,7 @@ function ProjectPageComponent(props: ProjectPageProps) {
     const userImg = userAvatar || DefaultUserPhoto;
     const projectPageUrl = makeProjectUrl(user, project);
     const projectEditPageUrl = `${projectPageUrl}/edit`;
+    const submitUrl = `/restapi/projects/${project}/edit`;
     return (
         <div className={css.root}>
             <div className={css.header}>
@@ -77,9 +79,9 @@ function ProjectPageComponent(props: ProjectPageProps) {
                 </div>
                 <div className={css.content}>
                     <Switch>
-                        <Route path={projectEditPageUrl} >
+                        <Route exact path={projectEditPageUrl} >
                             <ProjectEditForm
-                                submitUrl={'/restapi/projects/edit_current'}
+                                submitUrl={submitUrl}
                                 stateField={'projects'}
                                 redirectSuccessUrl={projectPageUrl}
                                 displayName={currentProjectInfo.displayName}
@@ -89,7 +91,7 @@ function ProjectPageComponent(props: ProjectPageProps) {
                                 name={currentProjectInfo.name}
                             />
                         </Route>
-                        <Route>
+                        <Route exact path={projectPageUrl}>
                             <ProjectInfo projectInfo={currentProjectInfo} projectEditPageUrl={projectEditPageUrl}/>
                         </Route>
                     </Switch>

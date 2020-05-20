@@ -1,20 +1,20 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { get } from 'lodash';
 import { FormUIPropsT } from 'types/formTypes';
+import { MinUserInfoT } from 'types/userTypes';
+import { ApplicationStateT } from 'types';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
 import {
     FormRadioButton,
     FormTextInput,
     FormUserSuggest,
 } from 'containers/Form/SpaFormField/SpaFormField';
-
-import css from './ProjectEditForm.module.css';
-import { MinUserInfoT } from 'types/userTypes';
-import { connect } from 'react-redux';
-import { ApplicationStateT } from 'types';
-import { get } from 'lodash';
 import { changeFieldForm } from 'actions/formActions';
 import { getName } from 'lib/utils';
+
+import css from './ProjectEditForm.module.css';
 
 interface PropsT extends FormUIPropsT {
     displayName?: string | null;
@@ -59,7 +59,7 @@ function ProjectEditFormComponent(props: ProjectEditFormProps) {
         <div className={css.root}>
             <Form>
                 <FormTextInput
-                    label="Display name"
+                    label="Project name"
                     type="text"
                     placeholder="My own project"
                     fieldName="displayName"
@@ -114,7 +114,7 @@ function ProjectEditFormComponent(props: ProjectEditFormProps) {
 
 export const ProjectEditForm = connect<ProjectEditFormStatePropsT, ProjectEditFormDispatchPropsT>(
     ({ form } : ApplicationStateT) => ({
-        _displayName: get(form ,'data.displayName.value', null),
+        _displayName: get(form,'data.displayName.value', null),
     }),
     dispatch => ({
         onChange: (fieldName, value) => dispatch(changeFieldForm(fieldName, value)),

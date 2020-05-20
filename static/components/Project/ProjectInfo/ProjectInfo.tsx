@@ -1,14 +1,15 @@
 import React from 'react';
 import { Spinner, Image, Button } from 'react-bootstrap';
-
-import css from './ProjectInfo.module.css';
+import { Link } from 'react-router-dom';
 import { CurrentProjectDataT } from 'types/currentProjectTypes';
-import PrivateIcon from './icons/private.svg';
-import PublicIcon from './icons/public.svg';
-import classNames from 'classnames';
 import { UserCard } from 'components/User/UserCard/UserCard';
 import { UsersList } from 'components/User/UsersList/UsersList';
-import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+
+import PrivateIcon from './icons/private.svg';
+import PublicIcon from './icons/public.svg';
+
+import css from './ProjectInfo.module.css';
 
 interface ProjectPageProps {
     projectInfo: CurrentProjectDataT;
@@ -28,29 +29,29 @@ export function ProjectInfo(props: ProjectPageProps): React.ReactElement {
 
     return (
         <div className={css.root}>
-            <div className={css.displayName}>
-                <span className={css.displayNameTitle}>{'Display name:'}</span>
-                <span className={css.displayNameValue}>{displayName}</span>
+            <div className={classNames(css.infoContainer, css.displayName)}>
+                <span className={css.infoTitle}>{'Display name:'}</span>
+                <span>{displayName}</span>
             </div>
-            <div className={css.description}>
-                <span className={css.descriptionTitle}>{'Description:'}</span>
-                <span className={css.descriptionValue}>{description}</span>
+            <div className={classNames(css.infoContainer, css.description)}>
+                <span className={css.infoTitle}>{'Description:'}</span>
+                <span>{description}</span>
             </div>
-            <div className={css.privacy}>
-                <span className={css.privacyTitle}>{'Privacy: '}</span>
+            <div className={classNames(css.infoContainer, css.privacy)}>
+                <span className={css.infoTitle}>{'Privacy: '}</span>
                 <span className={classNames(css.privacyValue, privacyClass)}>
                     {(isPublic ? 'Public' : 'Private') + ' project'}
                 </span>
                 <Image className={css.privacyIcon} src={isPublic ? PublicIcon : PrivateIcon} width={40} />
             </div>
-            <div className={css.owner}>
-                <span className={css.ownerTitle}>{'Owner:'}</span>
+            <div className={classNames(css.infoContainer, css.owner)}>
+                <span className={css.infoTitle}>{'Owner:'}</span>
                 <div className={css.ownerUserCard}>
                     <UserCard userInfo={owner} />
                 </div>
             </div>
-            <div className={css.sharedWith}>
-                <span className={css.sharedWithTitle}>{`Shared with ${sharedWith.length} people`}</span>
+            <div className={classNames(css.infoContainer, css.sharedWith)}>
+                <span>{`Shared with ${sharedWith.length} people`}</span>
                 <div className={css.sharedWithList}>
                     <UsersList users={sharedWith} />
                 </div>

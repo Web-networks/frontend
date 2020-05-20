@@ -13,12 +13,12 @@
     transform: scale(2);
 }
 
-.displayName, .description, .privacy, .owner, .sharedWith {
+.infoContainer {
     font-size: 20px;
     margin-bottom: 15px;
 }
 
-.displayNameTitle, .descriptionTitle, .privacyTitle, .ownerTitle {
+.infoTitle {
     margin-right: 15px;
     color: grey;
 }
@@ -37,7 +37,6 @@
 
 .ownerUserCard {
     width: 40%;
-    box-shadow: 0 0 10px grey;
     min-width: 200px;
 }
 

@@ -79,11 +79,10 @@ function ProjectPageComponent(props: ProjectPageProps) {
                 </div>
                 <div className={css.content}>
                     <Switch>
-                        <Route exact path={projectEditPageUrl} >
+                        <Route exact path={projectEditPageUrl}>
                             <ProjectEditForm
                                 submitUrl={submitUrl}
-                                stateField={'projects'}
-                                redirectSuccessUrl={projectPageUrl}
+                                stateField={'currentProject'}
                             />
                         </Route>
                         <Route exact path={projectPageUrl}>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
 import { FormUIPropsT } from 'types/formTypes';
 import { MinUserInfoT } from 'types/userTypes';
 import { ApplicationStateT } from 'types';
@@ -16,23 +15,21 @@ import { getName } from 'lib/utils';
 
 import css from './ProjectEditForm.module.css';
 
-interface PropsT extends FormUIPropsT {
-    displayName?: string | null;
+interface PropsT extends FormUIPropsT {}
+
+interface ProjectEditFormConnectProps {
+    displayName: string | null;
     description?: string | null;
     isPublic?: boolean | null;
     sharedWith?: MinUserInfoT[] | null;
     name?: string | null;
 }
 
-interface ProjectEditFormStatePropsT {
-    _displayName: string | null;
-}
-
 interface ProjectEditFormDispatchPropsT {
     onChange: (fieldName: string, value: any) => void;
 }
 
-type ProjectEditFormProps = PropsT & ProjectEditFormDispatchPropsT & ProjectEditFormStatePropsT;
+type ProjectEditFormProps = PropsT & ProjectEditFormDispatchPropsT & ProjectEditFormConnectProps;
 
 function ProjectEditFormComponent(props: ProjectEditFormProps) {
     const {
@@ -44,17 +41,16 @@ function ProjectEditFormComponent(props: ProjectEditFormProps) {
         sharedWith,
         name,
         onChange,
-        _displayName,
     } = props;
 
     React.useEffect(() => {
-        if (typeof _displayName === 'string' && _displayName) {
-            const nextName = getName(_displayName);
+        if (typeof displayName === 'string' && displayName) {
+            const nextName = getName(displayName);
             if (nextName) {
                 onChange('name', nextName);
             }
         }
-    }, [_displayName, onChange]);
+    }, [displayName, onChange]);
     return (
         <div className={css.root}>
             <Form>
@@ -112,9 +108,13 @@ function ProjectEditFormComponent(props: ProjectEditFormProps) {
     );
 }
 
-export const ProjectEditForm = connect<ProjectEditFormStatePropsT, ProjectEditFormDispatchPropsT>(
-    ({ form } : ApplicationStateT) => ({
-        _displayName: get(form,'data.displayName.value', null),
+export const ProjectEditForm = connect<ProjectEditFormConnectProps, ProjectEditFormDispatchPropsT>(
+    ({ form, currentProject }: ApplicationStateT) => ({
+        displayName: form.data.displayName?.value || currentProject.data?.displayName,
+        name: currentProject.data?.name,
+        description: currentProject.data?.description,
+        isPublic: currentProject.data?.isPublic,
+        sharedWith: currentProject.data?.sharedWith,
     }),
     dispatch => ({
         onChange: (fieldName, value) => dispatch(changeFieldForm(fieldName, value)),

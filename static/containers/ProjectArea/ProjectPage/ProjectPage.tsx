@@ -84,11 +84,6 @@ function ProjectPageComponent(props: ProjectPageProps) {
                                 submitUrl={submitUrl}
                                 stateField={'projects'}
                                 redirectSuccessUrl={projectPageUrl}
-                                displayName={currentProjectInfo.displayName}
-                                description={currentProjectInfo.description}
-                                isPublic={currentProjectInfo.isPublic}
-                                sharedWith={currentProjectInfo.sharedWith}
-                                name={currentProjectInfo.name}
                             />
                         </Route>
                         <Route exact path={projectPageUrl}>

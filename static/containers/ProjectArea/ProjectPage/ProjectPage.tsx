@@ -50,15 +50,18 @@ function ProjectPageComponent(props: ProjectPageProps) {
     const { fetchCurrentProject, match, currentProjectInfo, userAvatar } = props;
     const { project, user } = match.params;
     React.useEffect(() => {
-        fetchCurrentProject(project, user);
-    }, []);
+        if (user) {
+            fetchCurrentProject(project, user);
+        }
+    }, [user]);
     if (!currentProjectInfo) {
         return null;
     }
+    const { id } = currentProjectInfo;
     const userImg = userAvatar || DefaultUserPhoto;
     const projectPageUrl = makeProjectUrl(user, project);
     const projectEditPageUrl = `${projectPageUrl}/edit`;
-    const submitUrl = `/restapi/projects/${project}/edit`;
+    const submitUrl = `/restapi/projects/${id}/edit`;
     return (
         <div className={css.root}>
             <div className={css.header}>
@@ -86,7 +89,10 @@ function ProjectPageComponent(props: ProjectPageProps) {
                             />
                         </Route>
                         <Route exact path={projectPageUrl}>
-                            <ProjectInfo projectInfo={currentProjectInfo} projectEditPageUrl={projectEditPageUrl}/>
+                            <ProjectInfo
+                                projectInfo={currentProjectInfo}
+                                projectEditPageUrl={projectEditPageUrl}
+                            />
                         </Route>
                     </Switch>
                 </div>

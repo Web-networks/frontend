@@ -6,6 +6,13 @@
     padding: 4px;
     margin-bottom: 5px;
     border-radius: 10px;
+    cursor: pointer;
+    transition: all 300ms;
+}
+
+.root:hover
+{
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 .avatar {

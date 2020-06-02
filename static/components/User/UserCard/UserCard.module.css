@@ -1,0 +1,31 @@
+.root {
+    display: flex;
+    width: 100%;
+    border: 1px grey solid;
+    align-items: center;
+    padding: 4px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 300ms;
+}
+
+.root:hover
+{
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+}
+
+.name {
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+

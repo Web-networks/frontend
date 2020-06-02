@@ -1,0 +1,18 @@
+.cancelButton {
+    padding: 10px 20px;
+    float: right;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.root {
+    background: white;
+    width: 500px;
+    border-radius: 20px;
+}
+
+.saveButton {
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 18px;
+}

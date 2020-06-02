@@ -1,0 +1,57 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.spinner {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    transform: scale(2);
+}
+
+.infoContainer {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.infoTitle {
+    margin-right: 15px;
+    color: grey;
+}
+
+.privacyValue {
+    margin-right: 10px;
+}
+
+.private {
+    color: red;
+}
+
+.public {
+    color: green;
+}
+
+.ownerUserCard {
+    width: 40%;
+    min-width: 200px;
+}
+
+.sharedWith {
+    margin-top: 10px;
+}
+
+.sharedWithList {
+    width: 40%;
+    min-width: 200px;
+    max-height: 375px;
+    overflow: auto;
+}
+
+.editButton {
+    margin-top: 5px;
+    width: 100px;
+}

@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { FormUIPropsT } from 'types/formTypes';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
 import { FormTextInput } from 'containers/Form/SpaFormField/SpaFormField';
-import { changeFieldForm } from 'actions/formActions';
 
 import css from './ProfileEditForm.module.css';
 
@@ -14,10 +13,6 @@ interface PropsT extends FormUIPropsT {
 
 function ProfileEditFormComponent(props: PropsT) {
     const { submitForm, cancelForm, firstName, lastName } = props;
-
-    useEffect(() => {
-        changeFieldForm('firstName', 'value');
-    }, []);
 
     return (
         <div className={css.root}>

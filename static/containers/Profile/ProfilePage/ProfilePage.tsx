@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { ApplicationStateT } from 'types';
 import { InfoElement } from 'components/Profile/InfoElement/InfoElement';
 import { ProfileEditForm } from 'containers/Profile/ProfileEditForm/ProfileEditForm';
-import EditInfo from './icons/edit_info.png';
+import EditInfo from './icons/edit_profile.svg';
 
 import css from './ProfilePage.module.css';
 

@@ -55,7 +55,6 @@
     display: flex;
     min-width: 300px;
     padding-top: 20px;
-    flex-grow: 1;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
     flex-direction: column;
 }
@@ -72,4 +71,16 @@
     margin-top: auto;
     width: 300px;
     margin-bottom: 20%;
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+    padding: 15px;
 }

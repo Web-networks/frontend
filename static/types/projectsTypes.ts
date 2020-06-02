@@ -8,6 +8,7 @@ export interface ProjectT {
     name: string;
     displayName: string;
     isPublic: boolean;
+    id: string;
 }
 
 export interface ProjectsStateT extends StateFieldT {

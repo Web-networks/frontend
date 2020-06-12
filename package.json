@@ -15,8 +15,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint"
+      "pre-commit": "npx --no-install lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": "npx eslint",
+    "*.ts?(x)": "npx eslint"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -72,6 +76,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.0.0-beta.14",
     "husky": "^4.2.1",
+    "lint-staged": "^10.2.10",
     "nodemon": "^2.0.2",
     "shelljs": "^0.8.3",
     "style-loader": "^1.1.3",

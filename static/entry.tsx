@@ -4,7 +4,7 @@ import configureStore, { history } from 'store/configureStore';
 import createSagaMiddleware from 'redux-saga';
 
 import { App } from 'app';
-import rootSaga from 'sagas/rootSaga';
+import { rootSaga } from 'sagas/rootSaga';
 
 
 function render() {

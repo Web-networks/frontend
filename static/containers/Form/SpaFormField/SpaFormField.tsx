@@ -7,6 +7,7 @@ import { TextInput } from 'components/Controls/TextInput/TextInput';
 import { UserSuggest } from 'containers/User/UserSuggest/UserSuggest';
 import { Switcher } from 'components/Controls/Switcher/Switcher';
 import { RadioButton } from 'components/Controls/RadioButton/RadioButton';
+import { Typeahead } from 'components/Controls/Typeahead/Typeahead';
 import { ApplicationStateT } from 'types';
 
 interface StatePropsT {
@@ -70,3 +71,4 @@ export const FormTextInput = createSpaFormField(TextInput);
 export const FormUserSuggest = createSpaFormField(UserSuggest);
 export const FormSwitcher = createSpaFormField(Switcher);
 export const FormRadioButton = createSpaFormField(RadioButton);
+export const FormTypeahead = createSpaFormField(Typeahead);

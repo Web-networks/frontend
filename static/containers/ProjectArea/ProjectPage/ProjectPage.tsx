@@ -78,7 +78,7 @@ function ProjectPageComponent(props: ProjectPageProps) {
                     <Image src={BrainImg} width={60}/>
                     <div className={css.projectNameText}>{currentProjectInfo.displayName}</div>
                 </div>
-                <Image src={userImg} width={60} className={css.userAvatar} roundedCircle/>
+                <Image src={userImg} width={60} height={60} className={css.userAvatar} roundedCircle/>
             </div>
             <div className={css.body}>
                 <div className={css.menu}>

@@ -42,8 +42,6 @@ function ModelPageComponent(props: ModelPageProps): React.ReactElement {
             <ModelCreationForm
                 opened={showModelCreationForm}
                 closeForm={closeModelCreationForm}
-                submitUrl={'/restapi/model/create'}
-                stateField={'model'}
             />
         </div>
     );

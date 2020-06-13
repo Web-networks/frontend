@@ -7,23 +7,20 @@ import { TextInputForSuggest } from 'components/Controls/TextInputForSuggest/Tex
 
 import css from './Typeahead.module.css';
 
-interface TypeaheadProps {
-    options: string[];
-    value: string;
-    onChange: (value: string) => void;
-    label?: string;
-    placeholder?: string;
-}
-
 type AutosuggestProps = React.ComponentProps<typeof Autosuggest>;
 type TextInputForSuggestProps = React.ComponentProps<typeof TextInputForSuggest>;
 
+interface TypeaheadProps extends Omit<TextInputForSuggestProps, 'onChange'>, PopupContainerExtendProps {
+    options: string[];
+    value: string;
+    onChange: (value: string) => void;
+}
+
 export function Typeahead(props: TypeaheadProps): React.ReactElement {
-    const { options, value, onChange, label, placeholder } = props;
+    const { options, value, onChange, maxSuggestHeight, ...restInputProps } = props;
     const [suggestions, setSuggestions] = React.useState<string[]>(options);
     const [inputValue, setInputValue] = React.useState<string>(value || '');
     const [fieldRef, setFieldRef] = React.useState<HTMLDivElement | null>(null);
-    // React.useEffect(() => { setInputValue(value); }, [value]);
     const onInputChange = React.useCallback((_, { newValue }) => {
         setInputValue(newValue);
     }, [setInputValue]);
@@ -40,20 +37,18 @@ export function Typeahead(props: TypeaheadProps): React.ReactElement {
         fieldRef && <PopupContainer
             anchor={fieldRef}
             containerProps={containerProps}
+            maxSuggestHeight={maxSuggestHeight}
         >{children}</PopupContainer>,
     [fieldRef]);
     type InputProps = AutosuggestProps['inputProps'] & TextInputForSuggestProps;
     const inputProps: InputProps = {
         onChange: onInputChange,
         value: inputValue,
-        label,
-        placeholder,
+        inputRef: setFieldRef,
+        ...restInputProps,
     };
     return (
-        <div
-            className={css.root}
-            ref={setFieldRef}
-        >
+        <div className={css.root}>
             <Autosuggest
                 suggestions={suggestions}
                 onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -70,21 +65,29 @@ export function Typeahead(props: TypeaheadProps): React.ReactElement {
     );
 }
 
-interface PopupContainerProps {
+interface PopupContainerInjectedProps {
     containerProps: any;
     children: React.ReactNode;
     anchor: HTMLDivElement;
 }
 
+interface PopupContainerExtendProps {
+    maxSuggestHeight?: number;
+}
+
+type PopupContainerProps = PopupContainerInjectedProps & PopupContainerExtendProps;
+
 function PopupContainer(props: PopupContainerProps) {
-    const { children, containerProps, anchor } = props;
+    const { children, containerProps, anchor, maxSuggestHeight } = props;
     const domNode = document.body;
     const anchorWidth = getComputedStyle(anchor).width;
     const position = anchor.getBoundingClientRect();
+    const suggestMaxHeight = maxSuggestHeight || 400;
     const stylesForPopup = {
         top: position.bottom + 'px',
         left: position.left + 'px',
         width: anchorWidth,
+        'max-height': suggestMaxHeight + 'px',
     };
     return ReactDOM.createPortal(
         <div {...containerProps} className={classnames(css.popup, 'popup')} style={stylesForPopup}>

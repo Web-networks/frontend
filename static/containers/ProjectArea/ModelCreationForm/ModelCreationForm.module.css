@@ -2,3 +2,20 @@
 {
 
 }
+
+.form
+{
+    padding: 0;
+}
+
+.buttons
+{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.buttons button
+{
+    margin-left: 20px;
+}

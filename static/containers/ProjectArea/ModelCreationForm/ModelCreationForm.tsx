@@ -3,7 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
 import { FormUIPropsT } from 'types/formTypes';
 import { FormTypeahead } from 'containers/Form/SpaFormField/SpaFormField';
-import ModelCreationSettings from 'settings/ModelCreationSettings.json';
+import { ModelCreationSettings } from 'settings/ModelCreationSettings';
 
 import css from './ModelCreationForm.module.css';
 
@@ -13,7 +13,7 @@ interface ModelCreationFormConnectProps {
 interface ModelCreationFormDispatchProps {
 }
 
-interface ModelCreationFormOwnProps extends FormUIPropsT {
+interface ModelCreationFormOwnProps {
     opened: boolean;
     closeForm: () => void;
 }
@@ -23,8 +23,45 @@ type ModelCreationFormProps =
     ModelCreationFormDispatchProps &
     ModelCreationFormOwnProps;
 
-function ModelCreationFormComponent(props: ModelCreationFormProps): React.ReactElement {
-    const { opened, closeForm, submitForm } = props;
+interface CreationFormProps extends FormUIPropsT {
+    closeForm: () => void;
+}
+
+function CreationForm(props: CreationFormProps) {
+    const { submitForm, closeForm } = props;
+    return (
+        <Form>
+            <div className={css.root}>
+                {Object.keys(ModelCreationSettings).map(settingName => {
+                    const setting = ModelCreationSettings[settingName];
+                    if (setting.fieldType === 'typeahead') {
+                        return (
+                            <FormTypeahead
+                                key={settingName}
+                                fieldName={settingName}
+                                options={setting.options}
+                                label={setting.label}
+                                isRequired={setting.required}
+                                clarification={setting.clarification}
+                                maxSuggestHeight={200}
+                            />
+                        );
+                    }
+                    return null;
+                })}
+            </div>
+            <div className={css.buttons}>
+                <Button variant='secondary' onClick={closeForm}>{'Close'}</Button>
+                <Button variant='success' onClick={submitForm}>{'Create'}</Button>
+            </div>
+        </Form>
+    );
+}
+
+const SpaModelCreationForm = createSpaForm(CreationForm);
+
+export function ModelCreationForm(props: ModelCreationFormProps): React.ReactElement {
+    const { opened, closeForm } = props;
     return (
         <Modal
             show={opened}
@@ -36,30 +73,14 @@ function ModelCreationFormComponent(props: ModelCreationFormProps): React.ReactE
                     <Modal.Title>{'Model creation'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className={css.root}>
-                        {Object.keys(ModelCreationSettings).map(settingName => {
-                            const setting = ModelCreationSettings[settingName];
-                            if (setting.fieldType === 'typeahead') {
-                                return (
-                                    <FormTypeahead
-                                        key={settingName}
-                                        fieldName={settingName}
-                                        options={setting.options}
-                                        label={setting.label}
-                                    />
-                                );
-                            }
-                            return null;
-                        })}
-                    </div>
+                    <SpaModelCreationForm
+                        closeForm={closeForm}
+                        submitUrl={'/restapi/model/create'}
+                        stateField={'model'}
+                        formClassName={css.form}
+                    />
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant='secondary' onClick={closeForm}>{'Close'}</Button>
-                    <Button variant='primary' onClick={submitForm}>{'Submit form'}</Button>
-                </Modal.Footer>
             </Form>
         </Modal>
     );
 }
-
-export const ModelCreationForm = createSpaForm(ModelCreationFormComponent);

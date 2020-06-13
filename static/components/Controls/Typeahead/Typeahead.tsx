@@ -21,6 +21,11 @@ export function Typeahead(props: TypeaheadProps): React.ReactElement {
     const [suggestions, setSuggestions] = React.useState<string[]>(options);
     const [inputValue, setInputValue] = React.useState<string>(value || '');
     const [fieldRef, setFieldRef] = React.useState<HTMLDivElement | null>(null);
+    React.useEffect(() => {
+        if (value) {
+            setInputValue(value);
+        }
+    }, [value, setInputValue]);
     const onInputChange = React.useCallback((_, { newValue }) => {
         setInputValue(newValue);
     }, [setInputValue]);

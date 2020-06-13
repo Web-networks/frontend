@@ -15,9 +15,9 @@ export function addFormData(additionalData: Record<string, any>): AddFormDataAct
 }
 
 export const ADD_FIELD_FORM = 'ADD_FIELD_FORM';
-export type AddFieldFormActionT = Action<{fieldName: string; isRequired: boolean}>;
-export function addFieldForm(fieldName: string, isRequired: boolean = false): AddFieldFormActionT {
-    return { type: ADD_FIELD_FORM, payload: { fieldName, isRequired } };
+export type AddFieldFormActionT = Action<{fieldName: string; isRequired: boolean; defaultValue?: any}>;
+export function addFieldForm(fieldName: string, isRequired: boolean = false, defaultValue?: any): AddFieldFormActionT {
+    return { type: ADD_FIELD_FORM, payload: { fieldName, isRequired, defaultValue } };
 }
 
 export const CHANGE_FIELD_FORM = 'CHANGE_FIELD_FORM';

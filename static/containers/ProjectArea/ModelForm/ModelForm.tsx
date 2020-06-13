@@ -4,34 +4,38 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { ApplicationStateT } from 'types';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
 import { FormUIPropsT } from 'types/formTypes';
+import { ModelT } from 'types/modelTypes';
 import { FormTypeahead } from 'containers/Form/SpaFormField/SpaFormField';
 import { ModelCreationSettings } from 'settings/ModelCreationSettings';
 
-import css from './ModelCreationForm.module.css';
+import css from './ModelForm.module.css';
 
-interface ModelCreationFormStateProps {
+interface ModelFormStateProps {
     projectId?: string;
+    defaultFields: ModelT | null;
 }
 
-interface ModelCreationFormDispatchProps {
+interface ModelFormDispatchProps {
 }
 
-interface ModelCreationFormOwnProps {
+interface ModelFormOwnProps {
     opened: boolean;
     closeForm: () => void;
+    isEditing?: boolean;
 }
 
-type ModelCreationFormProps =
-    ModelCreationFormStateProps &
-    ModelCreationFormDispatchProps &
-    ModelCreationFormOwnProps;
+type ModelFormProps =
+    ModelFormStateProps &
+    ModelFormDispatchProps &
+    ModelFormOwnProps;
 
-interface CreationFormProps extends FormUIPropsT {
+interface FormProps extends FormUIPropsT {
     closeForm: () => void;
+    defaultFields: Object;
 }
 
-function CreationForm(props: CreationFormProps) {
-    const { submitForm, closeForm } = props;
+function ModelFormDeclaration(props: FormProps) {
+    const { submitForm, closeForm, defaultFields, isReadyToSubmit } = props;
     return (
         <Form>
             <div className={css.root}>
@@ -47,6 +51,7 @@ function CreationForm(props: CreationFormProps) {
                                 isRequired={setting.required}
                                 clarification={setting.clarification}
                                 maxSuggestHeight={200}
+                                defaultValue={defaultFields[settingName]}
                             />
                         );
                     }
@@ -55,20 +60,23 @@ function CreationForm(props: CreationFormProps) {
             </div>
             <div className={css.buttons}>
                 <Button variant='secondary' onClick={closeForm}>{'Close'}</Button>
-                <Button variant='success' onClick={submitForm}>{'Create'}</Button>
+                <Button variant='success' onClick={submitForm} disabled={!isReadyToSubmit}>{'Submit'}</Button>
             </div>
         </Form>
     );
 }
 
-const SpaModelCreationForm = createSpaForm(CreationForm);
+const SpaModelForm = createSpaForm(ModelFormDeclaration);
 
-function ModelCreationFormComponent(props: ModelCreationFormProps) {
-    const { opened, closeForm, projectId } = props;
+function ModelFormComponent(props: ModelFormProps) {
+    const { opened, closeForm, projectId, isEditing, defaultFields } = props;
     if (!projectId) {
         return null;
     }
+    const submitUrl = isEditing ? '/restapi/model/edit' : '/restapi/model/create';
+    const formTitle = isEditing ? 'Edit model' : 'Model creation';
     const additionalDataToForm = { project: projectId };
+    const formDefaultFields = defaultFields || {};
     return (
         <Modal
             show={opened}
@@ -77,16 +85,17 @@ function ModelCreationFormComponent(props: ModelCreationFormProps) {
         >
             <Form>
                 <Modal.Header closeButton>
-                    <Modal.Title>{'Model creation'}</Modal.Title>
+                    <Modal.Title>{formTitle}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <SpaModelCreationForm
+                    <SpaModelForm
                         closeForm={closeForm}
-                        submitUrl={'/restapi/model/create'}
+                        submitUrl={submitUrl}
                         stateField={'model'}
                         formClassName={css.form}
                         callbackAfterSuccess={closeForm}
                         additionalData={additionalDataToForm}
+                        defaultFields={formDefaultFields}
                     />
                 </Modal.Body>
             </Form>
@@ -95,8 +104,9 @@ function ModelCreationFormComponent(props: ModelCreationFormProps) {
 }
 
 // eslint-disable-next-line max-len
-export const ModelCreationForm = connect<ModelCreationFormStateProps, ModelCreationFormDispatchProps, ModelCreationFormDispatchProps>(
-    ({ currentProject }: ApplicationStateT) => ({
+export const ModelForm = connect<ModelFormStateProps, ModelFormDispatchProps, ModelFormDispatchProps>(
+    ({ currentProject, model }: ApplicationStateT) => ({
         projectId: currentProject.data?.id,
+        defaultFields: model.data,
     }),
-)(ModelCreationFormComponent);
+)(ModelFormComponent);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { ApplicationStateT } from 'types';
 import { ModelT } from 'types/modelTypes';
 import { modelFetch } from 'actions/modelActions';
-import { ModelCreationForm } from 'containers/ProjectArea/ModelCreationForm/ModelCreationForm';
+import { ModelForm } from 'containers/ProjectArea/ModelForm/ModelForm';
 import { ModelEditingPage } from 'containers/ProjectArea/ModelEditingPage/ModelEditingPage';
 
 import ModelImage from './icons/model.svg';
@@ -46,9 +46,10 @@ function ModelPageComponent(props: ModelPageProps): React.ReactElement {
                 />
                 : <ModelEditingPage/>
             }
-            <ModelCreationForm
+            <ModelForm
                 opened={showModelCreationForm}
                 closeForm={closeModelCreationForm}
+                isEditing={false}
             />
         </div>
     );

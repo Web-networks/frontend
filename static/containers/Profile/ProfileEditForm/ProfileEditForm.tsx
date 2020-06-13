@@ -12,7 +12,7 @@ interface PropsT extends FormUIPropsT {
 }
 
 function ProfileEditFormComponent(props: PropsT) {
-    const { submitForm, cancelForm, firstName, lastName } = props;
+    const { submitForm, cancelForm, firstName, lastName, isReadyToSubmit } = props;
 
     return (
         <div className={css.root}>
@@ -35,6 +35,7 @@ function ProfileEditFormComponent(props: PropsT) {
                     onClick={submitForm}
                     variant={'success'}
                     className={css.saveButton}
+                    disabled={!isReadyToSubmit}
                 >
                     {'Save'}
                 </Button>

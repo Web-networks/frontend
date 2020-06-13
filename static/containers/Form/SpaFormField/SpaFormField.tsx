@@ -17,7 +17,7 @@ interface StatePropsT {
 
 interface DispatchPropsT {
     onChange: (value: any) => void;
-    createField: (fieldName: string, isRequired: boolean) => void;
+    createField: (fieldName: string, isRequired: boolean, defaultValue?: any) => void;
 }
 
 interface InjectedPropsT {
@@ -33,14 +33,14 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
             createField,
             fieldName,
             isRequired = false,
-            onChange,
             defaultValue,
         } = props;
         React.useEffect(() => {
-            createField(fieldName, isRequired);
             // eslint-disable-next-line no-undefined
             if (defaultValue !== undefined) {
-                onChange(defaultValue);
+                createField(fieldName, isRequired, defaultValue);
+            } else {
+                createField(fieldName, isRequired);
             }
         }, []);
 
@@ -60,7 +60,9 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
         (dispatch, ownProps) => {
             const { fieldName } = ownProps;
             return {
-                createField: (fieldName, isRequired) => dispatch(addFieldForm(fieldName, isRequired)),
+                createField: (fieldName, isRequired, defaultValue) => dispatch(
+                    addFieldForm(fieldName, isRequired, defaultValue),
+                ),
                 onChange: value => dispatch(changeFieldForm(fieldName, value)),
             };
         },

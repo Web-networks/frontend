@@ -11,12 +11,14 @@ import {
 } from 'actions/formActions';
 import { FormUI } from 'components/Form/FormUI/FormUI';
 import { FormUIPropsT } from 'types/formTypes';
+import { changedFieldsSelector } from 'selectors/formSelectors';
 import { ApplicationStateT, StateFieldKeyT } from 'types';
 
 interface SpaFormStateProps {
     error: string | null;
     pending: boolean;
     isSubmeted: boolean;
+    changedFields: string[];
 }
 
 interface SpaFormDispatchProps {
@@ -38,6 +40,7 @@ interface InjectedOutProps {
 interface InjectedInProps {
     submitForm: FormUIPropsT['submitForm'];
     cancelForm: FormUIPropsT['cancelForm'];
+    isReadyToSubmit: FormUIPropsT['isReadyToSubmit'];
 }
 
 
@@ -59,6 +62,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             isSubmeted,
             addFormData,
             additionalData,
+            changedFields,
         } = props;
         React.useEffect(() => {
             onFormMount();
@@ -78,6 +82,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             () => onFormSubmit(submitUrl, stateField, redirectSuccessUrl),
             [submitUrl, onFormSubmit, stateField],
         );
+        const isReadyToSubmit = Boolean(changedFields.length);
 
         return (
             <FormUI
@@ -88,6 +93,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
                 <FormComponent
                     cancelForm={onFormCancel}
                     submitForm={submitForm}
+                    isReadyToSubmit={isReadyToSubmit}
                     {...props as BaseProps} />
             </FormUI>
         );
@@ -96,10 +102,11 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
     SpaForm.displayName = `Spa${FormComponent.name}`;
     type OwnHocProps = Diff<SpaFormProps, SpaFormStateProps & SpaFormDispatchProps>;
     return connect<SpaFormStateProps, SpaFormDispatchProps, OwnHocProps>(
-        ({ form }: ApplicationStateT, _) => ({
-            error: form.error,
-            pending: form.pending,
-            isSubmeted: form.isSubmeted,
+        (state: ApplicationStateT, _) => ({
+            error: state.form.error,
+            pending: state.form.pending,
+            isSubmeted: state.form.isSubmeted,
+            changedFields: changedFieldsSelector(state),
         }),
         dispatch => ({
             onFormSubmit: (submitUrl, stateField, redirectSuccessUrl) => dispatch(formSubmit.emitRequest({

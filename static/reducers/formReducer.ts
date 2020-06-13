@@ -25,14 +25,14 @@ export const FORM_INITIAL_STATE: FormStateT = {
     isSubmeted: false,
 };
 
-function createFormField(form: FormStateT, fieldName: string, isRequired: boolean): FormStateT {
+function createFormField(form: FormStateT, fieldName: string, isRequired: boolean, defaultValue?: any): FormStateT {
     const { data } = form;
     return {
         ...form,
         data: {
             ...data,
             [fieldName]: {
-                value: null,
+                value: defaultValue || null,
                 error: null,
                 isRequired,
                 isChanged: false,
@@ -58,8 +58,8 @@ export const formReducer = handleActions<FormStateT, any>({
     }),
 
     [ADD_FIELD_FORM]: (form, action: AddFieldFormActionT) => {
-        const { payload: { fieldName, isRequired } } = action;
-        return createFormField(form, fieldName, isRequired);
+        const { payload: { fieldName, isRequired, defaultValue } } = action;
+        return createFormField(form, fieldName, isRequired, defaultValue);
     },
 
     [ADD_FORM_DATA]: (form, action: AddFormDataActionT) => ({

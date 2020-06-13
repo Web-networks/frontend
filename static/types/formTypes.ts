@@ -21,4 +21,5 @@ export interface FormUIPropsT {
     submitForm: () => void;
     cancelForm: () => void;
     formClassName?: string;
+    isReadyToSubmit: boolean;
 }

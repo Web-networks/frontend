@@ -11,7 +11,7 @@ interface OwnPropsT extends FormUIPropsT {}
 type PropsT = OwnPropsT;
 
 function UserSignInFormComponent(props: PropsT) {
-    const { submitForm } = props;
+    const { submitForm, isReadyToSubmit } = props;
 
 
     return (
@@ -29,7 +29,12 @@ function UserSignInFormComponent(props: PropsT) {
                 fieldName='password'
                 isRequired={true}
             />
-            <Button onClick={submitForm} variant={'success'} className={css.loginButton}>{'Log In'}</Button>
+            <Button
+                onClick={submitForm}
+                variant={'success'}
+                className={css.loginButton}
+                disabled={!isReadyToSubmit}
+            >{'Log In'}</Button>
         </Form>
     );
 }

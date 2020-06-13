@@ -12,7 +12,7 @@ interface OwnPropsT extends FormUIPropsT {}
 type PropsT = OwnPropsT;
 
 function UserSignUpFormComponent(props: PropsT) {
-    const { submitForm } = props;
+    const { submitForm, isReadyToSubmit } = props;
 
     return (
         <Form>
@@ -35,7 +35,12 @@ function UserSignUpFormComponent(props: PropsT) {
                 fieldName='password'
                 isRequired={true}
             />
-            <Button onClick={submitForm} variant={'success'} className={css.signupButton}>{'Sign Up'}</Button>
+            <Button
+                onClick={submitForm}
+                variant={'success'}
+                className={css.signupButton}
+                disabled={!isReadyToSubmit}
+            >{'Sign Up'}</Button>
         </Form>
     );
 }

@@ -1,10 +1,10 @@
 import { makeFetchableAction, MinEmitFetchActionPayloadT, EmitFetchActionT } from 'actions/utils';
 
-export interface ModelEmitPayloadT extends MinEmitFetchActionPayloadT {
+export interface ModelFetchEmitRequestPayloadT extends MinEmitFetchActionPayloadT {
     project: string;
 }
-export type ModelEmitRequestActionT = EmitFetchActionT<ModelEmitPayloadT>;
+export type ModelFetchEmitRequestActionT = EmitFetchActionT<ModelFetchEmitRequestPayloadT>;
 export const [
     MODEL_FETCH,
     modelFetch,
-] = makeFetchableAction<ModelEmitPayloadT>('MODEL_FETCH');
+] = makeFetchableAction<ModelFetchEmitRequestPayloadT>('MODEL_FETCH');

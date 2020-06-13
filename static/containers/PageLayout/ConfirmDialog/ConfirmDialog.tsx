@@ -32,15 +32,14 @@ function ConfirmDialogComponent(props: ConfirmDialogProps): React.ReactElement {
             show={opened}
             backdrop='static'
             keyboard={false}
-            size='sm'
             centered
         >
             <Modal.Header>
                 <Modal.Title>{message}</Modal.Title>
             </Modal.Header>
             <Modal.Footer>
-                <Button variant='danger' onClick={onApprove}>{rejectText}</Button>
-                <Button variant='success' onClick={onReject}>{approveText}</Button>
+                <Button variant='danger' onClick={onReject}>{rejectText}</Button>
+                <Button variant='success' onClick={onApprove}>{approveText}</Button>
             </Modal.Footer>
         </Modal>
     );

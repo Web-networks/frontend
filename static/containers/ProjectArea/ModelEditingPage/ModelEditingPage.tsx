@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { Image, Button } from 'react-bootstrap';
 import { ApplicationStateT } from 'types';
 import { ModelT } from 'types/modelTypes';
+import { modelRemove } from 'actions/modelActions';
 
 import NerveImage from './icons/nerve.svg';
 import DeleteImage from './icons/delete.svg';
@@ -15,6 +16,7 @@ interface ModelEditingPageConnectProps {
 }
 
 interface ModelEditingPageDispatchProps {
+    onRemoveModel: () => void;
 }
 
 interface ModelEditingPageOwnProps {
@@ -23,7 +25,7 @@ interface ModelEditingPageOwnProps {
 type ModelEditingPageProps = ModelEditingPageConnectProps & ModelEditingPageDispatchProps & ModelEditingPageOwnProps;
 
 function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactElement {
-    const { model } = props;
+    const { model, onRemoveModel } = props;
     return (
         <div className={css.root}>
             <div className={css.header}>
@@ -46,7 +48,13 @@ function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactEle
                 </div>
                 <Button className={css.button} variant='warning'>{'Edit'}</Button>
                 <Button className={css.button} variant='success'>{'Learn'}</Button>
-                <Image className={classnames(css.button, css.deleteButton)} src={DeleteImage} width={40} height={40} />
+                <Image
+                    className={classnames(css.button, css.deleteButton)}
+                    src={DeleteImage}
+                    width={40}
+                    height={40}
+                    onClick={onRemoveModel}
+                />
             </div>
         </div>
     );
@@ -56,5 +64,8 @@ function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactEle
 export const ModelEditingPage = connect<ModelEditingPageConnectProps, ModelEditingPageDispatchProps, ModelEditingPageOwnProps>(
     ({ model }: ApplicationStateT) => ({
         model: model.data!,
+    }),
+    dispatch => ({
+        onRemoveModel: () => dispatch(modelRemove.emitRequest({})),
     }),
 )(ModelEditingPageComponent);

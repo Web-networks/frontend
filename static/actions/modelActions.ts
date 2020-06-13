@@ -8,3 +8,5 @@ export const [
     MODEL_FETCH,
     modelFetch,
 ] = makeFetchableAction<ModelFetchEmitRequestPayloadT>('MODEL_FETCH');
+
+export const [MODEL_REMOVE, modelRemove] = makeFetchableAction('MODEL_REMOVE');

@@ -2,10 +2,10 @@ import { createAction, Action } from 'redux-actions';
 import { ConfirmDialogStateT } from 'types/confirmDialogTypes';
 
 export enum CONFIRM_DIALOG {
-    SHOW = 'SHOW',
-    CLOSE = 'CLOSE',
-    APPROVE = 'APPROVE',
-    REJECT = 'REJECT'
+    SHOW = 'CONFIRM_DIALOG.SHOW',
+    CLOSE = 'CONFIRM_DIALOG.CLOSE',
+    APPROVE = 'CONFIRM_DIALOG.APPROVE',
+    REJECT = 'CONFIRM_DIALOG.REJECT'
 }
 
 type ShowPayloadT = Partial<Omit<ConfirmDialogStateT, 'opened'>>;

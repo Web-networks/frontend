@@ -12,7 +12,7 @@ import {
 
     FormEmitRequestActionT,
 } from 'actions/formActions';
-import { formDataSelect, isFormWithErrors } from 'selectors/formSelectors';
+import { formDataSelect, isFormWithErrors, additionalDataSelect } from 'selectors/formSelectors';
 import { postSaga } from 'sagas/fetchSagas';
 
 export function* formSaga() {
@@ -36,7 +36,9 @@ function* formSubmitSaga(action: FormEmitRequestActionT) {
         return;
     }
     const formData = yield select(formDataSelect);
-    const response: Response = yield call(postSaga, url, formData);
+    const additionalData = yield select(additionalDataSelect);
+    const requestData = Object.assign({}, formData, additionalData);
+    const response: Response = yield call(postSaga, url, requestData);
     if (!response.ok) {
         let error: string;
         if (response.status !== 400) {

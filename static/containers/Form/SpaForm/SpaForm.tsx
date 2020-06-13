@@ -2,15 +2,21 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Diff } from 'utility-types';
 
-import { formMount, formSubmit, formUnmount, formCancel } from 'actions/formActions';
+import {
+    formMount,
+    formSubmit,
+    formUnmount,
+    formCancel,
+    addFormData,
+} from 'actions/formActions';
 import { FormUI } from 'components/Form/FormUI/FormUI';
 import { FormUIPropsT } from 'types/formTypes';
 import { ApplicationStateT, StateFieldKeyT } from 'types';
 
-
 interface SpaFormStateProps {
     error: string | null;
     pending: boolean;
+    isSubmeted: boolean;
 }
 
 interface SpaFormDispatchProps {
@@ -18,12 +24,15 @@ interface SpaFormDispatchProps {
     onFormCancel: () => void;
     onFormMount: () => void;
     onFormUnmount: () => void;
+    addFormData: (additionalData: Record<string, any>) => void;
 }
 
 interface InjectedOutProps {
     submitUrl: string;
     stateField: StateFieldKeyT;
     redirectSuccessUrl?: string;
+    additionalData?: Record<string, any>;
+    callbackAfterSuccess?: Function;
 }
 
 interface InjectedInProps {
@@ -46,11 +55,25 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             pending,
             onFormCancel,
             formClassName,
+            callbackAfterSuccess,
+            isSubmeted,
+            addFormData,
+            additionalData,
         } = props;
         React.useEffect(() => {
             onFormMount();
         }, []);
         React.useEffect(() => onFormUnmount, [onFormUnmount]);
+        React.useEffect(() => {
+            if (isSubmeted && callbackAfterSuccess) {
+                callbackAfterSuccess();
+            }
+        }, [isSubmeted]);
+        React.useEffect(() => {
+            if (additionalData) {
+                addFormData(additionalData);
+            }
+        }, [additionalData]);
         const submitForm = React.useCallback(
             () => onFormSubmit(submitUrl, stateField, redirectSuccessUrl),
             [submitUrl, onFormSubmit, stateField],
@@ -76,6 +99,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
         ({ form }: ApplicationStateT, _) => ({
             error: form.error,
             pending: form.pending,
+            isSubmeted: form.isSubmeted,
         }),
         dispatch => ({
             onFormSubmit: (submitUrl, stateField, redirectSuccessUrl) => dispatch(formSubmit.emitRequest({
@@ -86,6 +110,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             onFormMount: () => dispatch(formMount()),
             onFormUnmount: () => dispatch(formUnmount()),
             onFormCancel: () => dispatch(formCancel()),
+            addFormData: additionalData => dispatch(addFormData(additionalData)),
         }),
     )(SpaForm as any);
 }

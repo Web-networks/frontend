@@ -3,9 +3,15 @@ import { ApplicationStateT, StateFieldKeyT } from 'types';
 import { makeFetchableAction, MinEmitFetchActionPayloadT, EmitFetchActionT } from 'actions/utils';
 
 export const FORM_MOUNT = 'FORM_MOUNT';
-export type FormMountActionT = Action<{}>;
-export function formMount(): FormMountActionT {
-    return { type: FORM_MOUNT, payload: {} };
+export type FormMountActionT = Action<{additionalData?: Record<string, any>}>;
+export function formMount(additionalData?: Record<string, any>): FormMountActionT {
+    return { type: FORM_MOUNT, payload: { additionalData } };
+}
+
+export const ADD_FORM_DATA = 'ADD_FORM_DATA';
+export type AddFormDataActionT = Action<{additionalData: Record<string, any>}>;
+export function addFormData(additionalData: Record<string, any>): AddFormDataActionT {
+    return { type: ADD_FORM_DATA, payload: { additionalData } };
 }
 
 export const ADD_FIELD_FORM = 'ADD_FIELD_FORM';

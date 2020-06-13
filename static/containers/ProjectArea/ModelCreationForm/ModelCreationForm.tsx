@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { ApplicationStateT } from 'types';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
 import { FormUIPropsT } from 'types/formTypes';
 import { FormTypeahead } from 'containers/Form/SpaFormField/SpaFormField';
@@ -7,7 +9,8 @@ import { ModelCreationSettings } from 'settings/ModelCreationSettings';
 
 import css from './ModelCreationForm.module.css';
 
-interface ModelCreationFormConnectProps {
+interface ModelCreationFormStateProps {
+    projectId?: string;
 }
 
 interface ModelCreationFormDispatchProps {
@@ -19,7 +22,7 @@ interface ModelCreationFormOwnProps {
 }
 
 type ModelCreationFormProps =
-    ModelCreationFormConnectProps &
+    ModelCreationFormStateProps &
     ModelCreationFormDispatchProps &
     ModelCreationFormOwnProps;
 
@@ -60,8 +63,12 @@ function CreationForm(props: CreationFormProps) {
 
 const SpaModelCreationForm = createSpaForm(CreationForm);
 
-export function ModelCreationForm(props: ModelCreationFormProps): React.ReactElement {
-    const { opened, closeForm } = props;
+function ModelCreationFormComponent(props: ModelCreationFormProps) {
+    const { opened, closeForm, projectId } = props;
+    if (!projectId) {
+        return null;
+    }
+    const additionalDataToForm = { project: projectId };
     return (
         <Modal
             show={opened}
@@ -78,9 +85,18 @@ export function ModelCreationForm(props: ModelCreationFormProps): React.ReactEle
                         submitUrl={'/restapi/model/create'}
                         stateField={'model'}
                         formClassName={css.form}
+                        callbackAfterSuccess={closeForm}
+                        additionalData={additionalDataToForm}
                     />
                 </Modal.Body>
             </Form>
         </Modal>
     );
 }
+
+// eslint-disable-next-line max-len
+export const ModelCreationForm = connect<ModelCreationFormStateProps, ModelCreationFormDispatchProps, ModelCreationFormDispatchProps>(
+    ({ currentProject }: ApplicationStateT) => ({
+        projectId: currentProject.data?.id,
+    }),
+)(ModelCreationFormComponent);

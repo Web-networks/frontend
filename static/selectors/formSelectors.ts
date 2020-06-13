@@ -15,3 +15,7 @@ export function formDataSelect({ form: { data } }: ApplicationStateT): Record<st
     }, {});
     return changedData;
 }
+
+export function additionalDataSelect({ form: { additionalData } }: ApplicationStateT) {
+    return Object.assign({}, additionalData);
+}

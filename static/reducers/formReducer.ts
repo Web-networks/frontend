@@ -2,10 +2,13 @@ import { handleActions } from 'redux-actions';
 
 import { FormDataFieldT, FormStateT } from 'types/formTypes';
 import {
-    ADD_FIELD_FORM,
     AddFieldFormActionT,
-    CHANGE_FIELD_FORM,
+    AddFormDataActionT,
+    FormMountActionT,
     ChangeFieldFormActionT,
+    CHANGE_FIELD_FORM,
+    ADD_FIELD_FORM,
+    ADD_FORM_DATA,
     FORM_MOUNT,
     FORM_UNMOUNT,
     FORM_VALIDATE,
@@ -16,8 +19,10 @@ import { FailureFetchActionT } from 'actions/utils';
 
 export const FORM_INITIAL_STATE: FormStateT = {
     data: {},
+    additionalData: {},
     pending: false,
     error: null,
+    isSubmeted: false,
 };
 
 function createFormField(form: FormStateT, fieldName: string, isRequired: boolean): FormStateT {
@@ -46,17 +51,31 @@ function updateFormFields(form: FormStateT, nextFormData: {[key: string]: Partia
 }
 
 export const formReducer = handleActions<FormStateT, any>({
-    [FORM_MOUNT]: form => ({ ...FORM_INITIAL_STATE, ...form }),
+    [FORM_MOUNT]: (form, action: FormMountActionT) => ({
+        ...FORM_INITIAL_STATE,
+        ...form,
+        additionalData: Object.assign({}, action.payload.additionalData),
+    }),
 
     [ADD_FIELD_FORM]: (form, action: AddFieldFormActionT) => {
         const { payload: { fieldName, isRequired } } = action;
         return createFormField(form, fieldName, isRequired);
     },
 
+    [ADD_FORM_DATA]: (form, action: AddFormDataActionT) => ({
+        ...form,
+        additionalData: {
+            ...form.additionalData,
+            ...action.payload.additionalData,
+        },
+    }),
+
     [FORM_SUBMIT.REQUEST_FAILURE]: (form, action: FailureFetchActionT) => {
         const { payload: { message } } = action;
         return { ...form, error: message };
     },
+
+    [FORM_SUBMIT.REQUEST_SUCCESS]: form => ({ ...form, isSubmeted: true }),
 
     [FORM_SUBMIT.REQUEST_END]: form => ({ ...form, pending: false }),
 

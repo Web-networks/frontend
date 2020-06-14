@@ -6,6 +6,7 @@ import { ModelStateT } from 'types/modelTypes';
 import { LayersStateT } from 'types/layersTypes';
 import { CurrentProjectStateT } from 'types/currentProjectTypes';
 import { ConfirmDialogStateT } from 'types/confirmDialogTypes';
+import { NotificationsT } from './notificationsTypes';
 
 export type StateFieldKeyT =
     'form' |
@@ -25,4 +26,5 @@ export interface ApplicationStateT extends BaseApplicationStateT {
     model: ModelStateT;
     layers: LayersStateT;
     confirmDialog: ConfirmDialogStateT;
+    notifications: NotificationsT;
 }

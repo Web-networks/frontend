@@ -8,6 +8,7 @@ import { currentProjectsReducer } from 'reducers/currentProjectReducer';
 import { modelReducer } from 'reducers/modelReducer';
 import { layersReducer } from 'reducers/layersReducer';
 import { confirmDialogReducer } from 'reducers/confirmDialogReducer';
+import { notificationsReducer } from 'reducers/notificationsReducer';
 
 // @ts-ignore due to some problem with types of router
 export const createRootReducer = history => combineReducers({
@@ -17,6 +18,7 @@ export const createRootReducer = history => combineReducers({
     currentProject: currentProjectsReducer,
     model: modelReducer,
     layers: layersReducer,
-    router: connectRouter(history),
+    notifications: notificationsReducer,
     confirmDialog: confirmDialogReducer,
+    router: connectRouter(history),
 });

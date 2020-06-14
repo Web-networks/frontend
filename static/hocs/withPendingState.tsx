@@ -49,10 +49,6 @@ export function withPendingState<T>(Component: React.ComponentType<T>, ...depend
     )(WithPendingState as any);
 }
 
-interface ParanjaProps {
-    anchor: HTMLElement | null;
-}
-
 function Paranja() {
     return (
         <div className={css.paranja}>

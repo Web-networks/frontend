@@ -1,0 +1,15 @@
+.root
+{
+    position: absolute;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    right: 50px;
+    bottom: 20px;
+}
+
+.notification
+{
+    margin-bottom: 30px;
+    min-height: 70px;
+}

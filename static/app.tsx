@@ -13,6 +13,7 @@ import { Landing } from 'containers/Landing/Landing';
 import { EntranceForm } from 'components/Form/EntranceForm/EntranceForm';
 import { ProfilePage } from 'containers/Profile/ProfilePage/ProfilePage';
 import { ConfirmDialog } from 'containers/PageLayout/ConfirmDialog/ConfirmDialog';
+import { NotificationsCenter } from 'containers/PageLayout/NotificationsCenter/NotificationsCenter';
 
 interface AppI {
     store: any;
@@ -39,6 +40,7 @@ export function App(props: AppI): React.ReactElement {
                 </Switch>
             </ConnectedRouter>
             <ConfirmDialog/>
+            <NotificationsCenter/>
         </Provider>
     );
 }

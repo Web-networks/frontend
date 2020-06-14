@@ -7,6 +7,7 @@ import { ModelT } from 'types/modelTypes';
 import { modelFetch } from 'actions/modelActions';
 import { ModelForm } from 'containers/ProjectArea/ModelForm/ModelForm';
 import { ModelEditingPage } from 'containers/ProjectArea/ModelEditingPage/ModelEditingPage';
+import { withPendingState } from 'hocs/withPendingState';
 
 import ModelImage from './icons/model.svg';
 
@@ -27,8 +28,8 @@ interface ModelPageOwnProps {
 
 type ModelPageProps = ModelPageConnectProps & ModelPageDispatchProps & ModelPageOwnProps;
 
-function ModelPageComponent(props: ModelPageProps): React.ReactElement {
-    const { modelData, projectId, fetchModel } = props;
+function ModelPageComponent(props: ModelPageProps) {
+    const { modelData, projectId, fetchModel, isPending } = props;
     React.useEffect(() => {
         if (projectId) {
             fetchModel(projectId);
@@ -38,6 +39,9 @@ function ModelPageComponent(props: ModelPageProps): React.ReactElement {
     const closeModelCreationForm = React.useCallback(() => toogleModelCreationForm(false), [toogleModelCreationForm]);
     const openModelCreationForm = React.useCallback(() => toogleModelCreationForm(true), [toogleModelCreationForm]);
     const isEmptyPage = !modelData;
+    if (isPending) {
+        return null;
+    }
     return (
         <div className={classnames(css.root, { [css.withModelData]: !isEmptyPage })}>
             { isEmptyPage ?
@@ -81,4 +85,4 @@ export const ModelPage = connect<ModelPageConnectProps, ModelPageDispatchProps, 
     dispatch => ({
         fetchModel: projectId => dispatch(modelFetch.emitRequest({ project: projectId })),
     }),
-)(ModelPageComponent);
+)(withPendingState(ModelPageComponent, 'model'));

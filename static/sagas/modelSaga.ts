@@ -26,6 +26,7 @@ export function* modelSaga() {
 function* modelFetchSaga(action: ModelFetchEmitRequestActionT) {
     const { project } = action.payload;
     try {
+        yield put(modelFetch.requestStart());
         const { data } = yield axios.get('/restapi/model/get', {
             params: {
                 project,

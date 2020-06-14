@@ -38,6 +38,7 @@ function* formSubmitSaga(action: FormEmitRequestActionT) {
     const formData = yield select(formDataSelect);
     const additionalData = yield select(additionalDataSelect);
     const requestData = Object.assign({}, formData, additionalData);
+    yield put(formSubmit.requestStart());
     const response: Response = yield call(postSaga, url, requestData);
     if (!response.ok) {
         let error: string;

@@ -75,7 +75,7 @@ function ModelFormComponent(props: ModelFormProps) {
     }
     const submitUrl = isEditing ? '/restapi/model/edit' : '/restapi/model/create';
     const formTitle = isEditing ? 'Edit model' : 'Model creation';
-    const additionalDataToForm = { project: projectId };
+    const additionalData = isEditing && defaultFields ? { modelId: defaultFields.id } : { project: projectId };
     const formDefaultFields = defaultFields || {};
     return (
         <Modal
@@ -94,7 +94,7 @@ function ModelFormComponent(props: ModelFormProps) {
                         stateField={'model'}
                         formClassName={css.form}
                         callbackAfterSuccess={closeForm}
-                        additionalData={additionalDataToForm}
+                        additionalData={additionalData}
                         defaultFields={formDefaultFields}
                     />
                 </Modal.Body>

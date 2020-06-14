@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { find } from 'lodash';
 import {
     takeEvery,
@@ -6,6 +5,7 @@ import {
     race,
     take,
     select,
+    call,
 } from 'redux-saga/effects';
 import {
     MODEL_FETCH,
@@ -16,6 +16,7 @@ import {
 } from 'actions/modelActions';
 import { confirmDialog, CONFIRM_DIALOG } from 'actions/confirmDialogActions';
 import { modelDataSelector } from 'selectors/modelSelectors';
+import { fetchSaga } from 'sagas/fetchSagas';
 
 
 export function* modelSaga() {
@@ -25,21 +26,12 @@ export function* modelSaga() {
 
 function* modelFetchSaga(action: ModelFetchEmitRequestActionT) {
     const { project } = action.payload;
-    try {
-        yield put(modelFetch.requestStart());
-        const { data } = yield axios.get('/restapi/model/get', {
-            params: {
-                project,
-            },
-        });
-        yield put(modelFetch.requestSuccess(data));
-    } catch (error) {
-        console.error(error);
-        const { response: { data } } = error;
-        yield put(modelFetch.requestFailure(data.message));
-    } finally {
-        yield put(modelFetch.requestEnd());
-    }
+    const fetchUrl = '/restapi/model/get';
+    yield call(fetchSaga, modelFetch, fetchUrl, {
+        queryParams: {
+            project,
+        },
+    });
 }
 
 function* modelRemoveSaga() {
@@ -49,23 +41,14 @@ function* modelRemoveSaga() {
         take(CONFIRM_DIALOG.REJECT),
         take(CONFIRM_DIALOG.APPROVE),
     ]);
+    yield put(confirmDialog.close());
     if (find(actions, { type: CONFIRM_DIALOG.APPROVE })) {
-        yield put(modelRemove.requestStart());
-        yield put(confirmDialog.close());
-        const { id } = yield select(modelDataSelector);
-        try {
-            yield axios.get('/restapi/model/remove', {
-                params: {
-                    modelId: id,
-                },
-            });
-            yield put(modelRemove.requestSuccess(null));
-        } catch (error) {
-            yield put(modelRemove.requestFailure(error.toString()));
-        } finally {
-            yield put(modelRemove.requestEnd());
-        }
-    } else {
-        yield put(confirmDialog.close());
+        const { id: modelId } = yield select(modelDataSelector);
+        const fetchUrl = '/restapi/model/remove';
+        yield call(fetchSaga, modelRemove, fetchUrl, {
+            queryParams: {
+                modelId,
+            },
+        });
     }
 }

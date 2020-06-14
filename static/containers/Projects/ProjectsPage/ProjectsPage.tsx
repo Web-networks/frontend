@@ -8,6 +8,7 @@ import { EmptyProjectsPage } from 'components/Projects/EmptyProjectsPage/EmptyPr
 import { ProjectForm } from 'containers/Projects/ProjectForm/ProjectForm';
 import { ApplicationStateT } from 'types';
 import { ProjectT } from 'types/projectsTypes';
+import { withPendingState } from 'hocs/withPendingState';
 
 import PlusIcon from './icons/plus.png';
 import css from './ProjectsPage.module.css';
@@ -110,4 +111,4 @@ export const ProjectsPage = connect<ProjectsPageConnectProps, ProjectsPageDispat
     }),
     null,
     { pure: false },
-)(ProjectsPageComponent);
+)(withPendingState(ProjectsPageComponent, 'projects'));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { LeftPannel } from 'containers/PageLayout/LeftPannel/LeftPannel';
+import { withPendingState } from 'hocs/withPendingState';
 
 import css from './Layout.module.css';
 
@@ -7,7 +8,7 @@ interface OwnPropsT {
     children?: React.ReactNode;
 }
 
-export function Layout(props: OwnPropsT) {
+function LayoutComponent(props: OwnPropsT) {
     const { children } = props;
     return (
         <div className={css.root}>
@@ -18,3 +19,5 @@ export function Layout(props: OwnPropsT) {
         </div>
     );
 }
+
+export const Layout = withPendingState(LayoutComponent, 'user');

@@ -19,7 +19,7 @@ export type FailureFetchActionT = Action<{message: string}>;
 export type SuccesFetchActionT = Action<{body: any}>;
 export type RequestEndFetchActionT = Action<{}>;
 
-interface FetchableFuncActionT<Payload extends MinEmitFetchActionPayloadT> {
+export interface FetchableFuncActionT<Payload extends MinEmitFetchActionPayloadT> {
     emitRequest: (payload: Omit<Payload, 'action'>) => EmitFetchActionT<Payload>;
     requestStart: () => RequestStartFetchActionT;
     requestFailure: (message: string) => FailureFetchActionT;

@@ -13,7 +13,7 @@ import {
     FormEmitRequestActionT,
 } from 'actions/formActions';
 import { formDataSelect, isFormWithErrors, additionalDataSelect } from 'selectors/formSelectors';
-import { postSaga } from 'sagas/fetchSagas';
+import { fetchSaga } from 'sagas/fetchSagas';
 
 export function* formSaga() {
     yield takeEvery(FORM_SUBMIT.EMIT_REQUEST, formSubmitSaga);
@@ -38,25 +38,11 @@ function* formSubmitSaga(action: FormEmitRequestActionT) {
     const formData = yield select(formDataSelect);
     const additionalData = yield select(additionalDataSelect);
     const requestData = Object.assign({}, formData, additionalData);
-    yield put(formSubmit.requestStart());
-    const response: Response = yield call(postSaga, url, requestData);
-    if (!response.ok) {
-        let error: string;
-        if (response.status !== 400) {
-            error = `${response.status}: ${response.statusText}`;
-        } else {
-            const body = yield response.json();
-            const { message, error: bodyError } = body;
-            error = message || bodyError;
-        }
-        yield put(formSubmit.requestFailure(error));
-    } else {
-        const body = yield response.json();
-        yield put(formSubmit.requestSuccess(body));
+    const body = yield call(fetchSaga, formSubmit, url, { body: requestData });
+    if (body) {
         yield put(updateStateData(stateField, body));
     }
-    yield put(formSubmit.requestEnd());
-    if (response.ok && redirectSuccessUrl) {
+    if (body && redirectSuccessUrl) {
         yield put(push(redirectSuccessUrl));
     }
 }

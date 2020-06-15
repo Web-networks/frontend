@@ -85,6 +85,7 @@ function ProjectsPageComponent(props: ProjectsPageProps) {
                     <ProjectForm
                         submitUrl='/restapi/projects/add'
                         stateField='projects'
+                        redirectSuccessUrl={ownProjectsUrl}
                     />
                 </Route>
                 <Route path={'/:user/projects'}>

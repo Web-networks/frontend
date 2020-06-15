@@ -6,6 +6,8 @@ import { ApplicationStateT } from 'types';
 import { ConfirmDialogStateT } from 'types/confirmDialogTypes';
 import { confirmDialog } from 'actions/confirmDialogActions';
 
+import css from './ConfirmDialog.module.css';
+
 type ConfirmDialogConnectProps = ConfirmDialogStateT;
 
 interface ConfirmDialogDispatchProps {
@@ -34,13 +36,13 @@ function ConfirmDialogComponent(props: ConfirmDialogProps): React.ReactElement {
             keyboard={false}
             centered
         >
-            <Modal.Header>
-                <Modal.Title>{message}</Modal.Title>
-            </Modal.Header>
-            <Modal.Footer>
-                <Button variant='danger' onClick={onReject}>{rejectText}</Button>
-                <Button variant='success' onClick={onApprove}>{approveText}</Button>
-            </Modal.Footer>
+            <Modal.Body>
+                <div className={css.message}>{message}</div>
+                <div className={css.buttons}>
+                    <Button variant='danger' size='lg' onClick={onReject}>{rejectText}</Button>
+                    <Button variant='success' size='lg' onClick={onApprove}>{approveText}</Button>
+                </div>
+            </Modal.Body>
         </Modal>
     );
 }

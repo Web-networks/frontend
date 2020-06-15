@@ -11,3 +11,23 @@
 {
     margin-bottom: 12px;
 }
+
+.withModelData
+{
+    position: relative;
+    display: block;
+}
+
+.withModelData::after
+{
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.2;
+    background-image: url('./images/cells.jpg');
+    background-repeat: repeat;
+}

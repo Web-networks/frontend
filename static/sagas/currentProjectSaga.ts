@@ -1,11 +1,11 @@
-import { takeEvery, put, race, take } from 'redux-saga/effects';
-import axios from 'axios';
+import { takeEvery, put, race, take, call } from 'redux-saga/effects';
 import {
     CURRENT_PROJECT_FETCH,
     CurrentProjectEmitRequestActionT,
     currentProjectFetch,
 } from 'actions/currentProjectActions';
 import { FORM_SUBMIT, FormEmitRequestActionT } from 'actions/formActions';
+import { fetchSaga } from 'sagas/fetchSagas';
 import { SuccesFetchActionT, FailureFetchActionT } from 'actions/utils';
 import { makeProjectUrl } from 'lib/url';
 import { push } from 'connected-react-router';
@@ -17,19 +17,13 @@ export function* currentProjectSaga() {
 
 function* currentProjectFetchSaga(action: CurrentProjectEmitRequestActionT) {
     const { project, user } = action.payload;
-    yield put(currentProjectFetch.requestStart());
-    try {
-        const response = yield axios.get('/restapi/projects/info', {
-            params: {
-                project,
-                user,
-            },
-        });
-        yield put(currentProjectFetch.requestSuccess(response.data));
-    } catch (error) {
-        yield put(currentProjectFetch.requestFailure(String(error)));
-    }
-    yield put(currentProjectFetch.requestEnd());
+    const url = '/restapi/projects/info';
+    yield call(fetchSaga, currentProjectFetch, url, {
+        queryParams: {
+            project,
+            user,
+        },
+    });
 }
 
 function* projectEditFormSubmitSaga(action: FormEmitRequestActionT) {

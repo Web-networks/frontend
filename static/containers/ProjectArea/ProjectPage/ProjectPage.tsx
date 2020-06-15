@@ -12,6 +12,7 @@ import { ProjectEditForm } from 'containers/ProjectArea/ProjectEditForm/ProjectE
 import { makeProjectUrl } from 'lib/url';
 import { ModelPage } from 'containers/ProjectArea/ModelPage/ModelPage';
 import { DataPage } from 'containers/ProjectArea/DataPage/DataPage';
+import { withPendingState } from 'hocs/withPendingState';
 
 import LogoImg from '@assets/logo.png';
 import BrainImg from './icons/neuro.svg';
@@ -78,7 +79,7 @@ function ProjectPageComponent(props: ProjectPageProps) {
                     <Image src={BrainImg} width={60}/>
                     <div className={css.projectNameText}>{currentProjectInfo.displayName}</div>
                 </div>
-                <Image src={userImg} width={60} className={css.userAvatar} roundedCircle/>
+                <Image src={userImg} width={60} height={60} className={css.userAvatar} roundedCircle/>
             </div>
             <div className={css.body}>
                 <div className={css.menu}>
@@ -123,4 +124,4 @@ export const ProjectPage = withRouter(connect<ProjectPageConnectProps, ProjectPa
     (dispatch: Dispatch) => ({
         fetchCurrentProject: (project, user) => dispatch(currentProjectFetch.emitRequest({ project, user })),
     }),
-)(ProjectPageComponent));
+)(withPendingState(ProjectPageComponent, 'currentProject')));

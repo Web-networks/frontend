@@ -15,3 +15,17 @@ export function formDataSelect({ form: { data } }: ApplicationStateT): Record<st
     }, {});
     return changedData;
 }
+
+export function changedFieldsSelector({ form: { data } }: ApplicationStateT): string[] {
+    return Object.keys(data).reduce((currentFields: string[], key) => {
+        const { isChanged } = data[key];
+        if (isChanged) {
+            return currentFields.concat(key);
+        }
+        return currentFields;
+    }, []);
+}
+
+export function additionalDataSelect({ form: { additionalData } }: ApplicationStateT) {
+    return Object.assign({}, additionalData);
+}

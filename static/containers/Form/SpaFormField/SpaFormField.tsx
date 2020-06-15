@@ -7,6 +7,7 @@ import { TextInput } from 'components/Controls/TextInput/TextInput';
 import { UserSuggest } from 'containers/User/UserSuggest/UserSuggest';
 import { Switcher } from 'components/Controls/Switcher/Switcher';
 import { RadioButton } from 'components/Controls/RadioButton/RadioButton';
+import { Typeahead } from 'components/Controls/Typeahead/Typeahead';
 import { ApplicationStateT } from 'types';
 
 interface StatePropsT {
@@ -16,7 +17,7 @@ interface StatePropsT {
 
 interface DispatchPropsT {
     onChange: (value: any) => void;
-    createField: (fieldName: string, isRequired: boolean) => void;
+    createField: (fieldName: string, isRequired: boolean, defaultValue?: any) => void;
 }
 
 interface InjectedPropsT {
@@ -32,14 +33,14 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
             createField,
             fieldName,
             isRequired = false,
-            onChange,
             defaultValue,
         } = props;
         React.useEffect(() => {
-            createField(fieldName, isRequired);
             // eslint-disable-next-line no-undefined
             if (defaultValue !== undefined) {
-                onChange(defaultValue);
+                createField(fieldName, isRequired, defaultValue);
+            } else {
+                createField(fieldName, isRequired);
             }
         }, []);
 
@@ -59,7 +60,9 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
         (dispatch, ownProps) => {
             const { fieldName } = ownProps;
             return {
-                createField: (fieldName, isRequired) => dispatch(addFieldForm(fieldName, isRequired)),
+                createField: (fieldName, isRequired, defaultValue) => dispatch(
+                    addFieldForm(fieldName, isRequired, defaultValue),
+                ),
                 onChange: value => dispatch(changeFieldForm(fieldName, value)),
             };
         },
@@ -70,3 +73,4 @@ export const FormTextInput = createSpaFormField(TextInput);
 export const FormUserSuggest = createSpaFormField(UserSuggest);
 export const FormSwitcher = createSpaFormField(Switcher);
 export const FormRadioButton = createSpaFormField(RadioButton);
+export const FormTypeahead = createSpaFormField(Typeahead);

@@ -23,7 +23,7 @@ interface ProjectOwnPropsT extends FormUIPropsT {}
 type ProjectFormProps = ProjectOwnPropsT & ProjectFormDispatchPropsT & ProjectFormStatePropsT;
 
 function ProjectFormComponent(props: ProjectFormProps): React.ReactElement {
-    const { submitForm, displayName, onChange } = props;
+    const { submitForm, displayName, onChange, isReadyToSubmit } = props;
     React.useEffect(() => {
         if (typeof displayName === 'string' && displayName) {
             const nextName = displayName
@@ -70,7 +70,9 @@ function ProjectFormComponent(props: ProjectFormProps): React.ReactElement {
             />
             <Button
                 className={css.submitButton}
-                onClick={submitForm} variant='primary'>{'Create'}</Button>
+                onClick={submitForm} variant='primary'
+                disabled={!isReadyToSubmit}
+            >{'Create'}</Button>
         </div>
     );
 }

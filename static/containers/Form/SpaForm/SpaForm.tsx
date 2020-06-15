@@ -2,15 +2,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Diff } from 'utility-types';
 
-import { formMount, formSubmit, formUnmount, formCancel } from 'actions/formActions';
+import {
+    formMount,
+    formSubmit,
+    formUnmount,
+    formCancel,
+    addFormData,
+} from 'actions/formActions';
 import { FormUI } from 'components/Form/FormUI/FormUI';
 import { FormUIPropsT } from 'types/formTypes';
+import { changedFieldsSelector } from 'selectors/formSelectors';
 import { ApplicationStateT, StateFieldKeyT } from 'types';
-
 
 interface SpaFormStateProps {
     error: string | null;
     pending: boolean;
+    isSubmeted: boolean;
+    changedFields: string[];
 }
 
 interface SpaFormDispatchProps {
@@ -18,17 +26,21 @@ interface SpaFormDispatchProps {
     onFormCancel: () => void;
     onFormMount: () => void;
     onFormUnmount: () => void;
+    addFormData: (additionalData: Record<string, any>) => void;
 }
 
 interface InjectedOutProps {
     submitUrl: string;
     stateField: StateFieldKeyT;
     redirectSuccessUrl?: string;
+    additionalData?: Record<string, any>;
+    callbackAfterSuccess?: Function;
 }
 
 interface InjectedInProps {
     submitForm: FormUIPropsT['submitForm'];
     cancelForm: FormUIPropsT['cancelForm'];
+    isReadyToSubmit: FormUIPropsT['isReadyToSubmit'];
 }
 
 
@@ -46,15 +58,31 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             pending,
             onFormCancel,
             formClassName,
+            callbackAfterSuccess,
+            isSubmeted,
+            addFormData,
+            additionalData,
+            changedFields,
         } = props;
         React.useEffect(() => {
             onFormMount();
         }, []);
         React.useEffect(() => onFormUnmount, [onFormUnmount]);
+        React.useEffect(() => {
+            if (isSubmeted && callbackAfterSuccess) {
+                callbackAfterSuccess();
+            }
+        }, [isSubmeted]);
+        React.useEffect(() => {
+            if (additionalData) {
+                addFormData(additionalData);
+            }
+        }, [additionalData]);
         const submitForm = React.useCallback(
             () => onFormSubmit(submitUrl, stateField, redirectSuccessUrl),
             [submitUrl, onFormSubmit, stateField],
         );
+        const isReadyToSubmit = Boolean(changedFields.length);
 
         return (
             <FormUI
@@ -65,6 +93,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
                 <FormComponent
                     cancelForm={onFormCancel}
                     submitForm={submitForm}
+                    isReadyToSubmit={isReadyToSubmit}
                     {...props as BaseProps} />
             </FormUI>
         );
@@ -73,9 +102,11 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
     SpaForm.displayName = `Spa${FormComponent.name}`;
     type OwnHocProps = Diff<SpaFormProps, SpaFormStateProps & SpaFormDispatchProps>;
     return connect<SpaFormStateProps, SpaFormDispatchProps, OwnHocProps>(
-        ({ form }: ApplicationStateT, _) => ({
-            error: form.error,
-            pending: form.pending,
+        (state: ApplicationStateT, _) => ({
+            error: state.form.error,
+            pending: state.form.pending,
+            isSubmeted: state.form.isSubmeted,
+            changedFields: changedFieldsSelector(state),
         }),
         dispatch => ({
             onFormSubmit: (submitUrl, stateField, redirectSuccessUrl) => dispatch(formSubmit.emitRequest({
@@ -86,6 +117,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
             onFormMount: () => dispatch(formMount()),
             onFormUnmount: () => dispatch(formUnmount()),
             onFormCancel: () => dispatch(formCancel()),
+            addFormData: additionalData => dispatch(addFormData(additionalData)),
         }),
     )(SpaForm as any);
 }

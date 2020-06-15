@@ -1,0 +1,40 @@
+.root
+{
+
+}
+
+.selectItem
+{
+    display: flex;
+    padding: 7px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.selectItem:hover
+{
+    background-color: teal;
+    color: white;
+}
+
+.highlighted
+{
+    background-color: teal;
+    color: white;
+}
+
+.popup
+{
+    background-color: white;
+    z-index: 9999;
+    position: absolute;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.popup ul
+{
+    padding: 0;
+    list-style: none;
+}

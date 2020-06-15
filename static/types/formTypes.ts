@@ -2,6 +2,8 @@ import { StateFieldT } from 'types/utilityTypes';
 
 export interface FormStateT extends StateFieldT {
     data: FormDataT;
+    additionalData: Record<string, any>;
+    isSubmeted: boolean;
 }
 
 export interface FormDataT {
@@ -19,4 +21,5 @@ export interface FormUIPropsT {
     submitForm: () => void;
     cancelForm: () => void;
     formClassName?: string;
+    isReadyToSubmit: boolean;
 }

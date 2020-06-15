@@ -1,0 +1,45 @@
+.root
+{
+    font-size: 20px;
+}
+
+.header
+{
+    display: flex;
+    height: 100px;
+    background-color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.modelParam
+{
+    margin-left: 20px;
+}
+
+.button:first-of-type
+{
+    margin-left: auto;
+}
+
+.button
+{
+    margin-right: 15px;
+}
+
+.deleteButton
+{
+    transition: all 300ms;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.deleteButton:hover
+{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+}

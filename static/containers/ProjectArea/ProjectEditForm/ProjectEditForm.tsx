@@ -41,6 +41,7 @@ function ProjectEditFormComponent(props: ProjectEditFormProps) {
         sharedWith,
         name,
         onChange,
+        isReadyToSubmit,
     } = props;
 
     React.useEffect(() => {
@@ -93,6 +94,7 @@ function ProjectEditFormComponent(props: ProjectEditFormProps) {
                     onClick={submitForm}
                     variant={'success'}
                     className={css.saveButton}
+                    disabled={!isReadyToSubmit}
                 >
                     {'Save'}
                 </Button>

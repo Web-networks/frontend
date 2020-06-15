@@ -6,6 +6,7 @@ import {
     SuccesFetchActionT,
     RequestEndFetchActionT,
 } from 'actions/utils';
+import { addNotification } from 'actions/notificationsActions';
 
 interface FetchSagaOptionsT {
     body?: Object;
@@ -36,6 +37,7 @@ export function* fetchSaga<T extends BaseType>(actionCreator: T, url: string, op
             || error.response.data.error
             || error.toString();
         console.error(error);
+        yield put(addNotification({ type: 'danger', text: errMessage }));
         yield put(actionCreator.requestFailure(errMessage));
         // return "false" if failed
         return false;

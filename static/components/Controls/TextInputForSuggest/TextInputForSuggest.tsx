@@ -27,7 +27,6 @@ export function TextInputForSuggest<T>(props: TextInputForSuggestProps<T>): Reac
     } = props;
     const isInvalid = Boolean(error);
     const onInputChange: any = onChange;
-    // inputRef && inputRef('hello');
     return (
         <Form.Group>
             {label && <Form.Label>{label}</Form.Label>}

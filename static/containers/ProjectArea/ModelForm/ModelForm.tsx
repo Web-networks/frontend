@@ -83,22 +83,20 @@ function ModelFormComponent(props: ModelFormProps) {
             onHide={closeForm}
             centered
         >
-            <Form>
-                <Modal.Header closeButton>
-                    <Modal.Title>{formTitle}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <SpaModelForm
-                        closeForm={closeForm}
-                        submitUrl={submitUrl}
-                        stateField={'model'}
-                        formClassName={css.form}
-                        callbackAfterSuccess={closeForm}
-                        additionalData={additionalData}
-                        defaultFields={formDefaultFields}
-                    />
-                </Modal.Body>
-            </Form>
+            <Modal.Header closeButton>
+                <Modal.Title>{formTitle}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <SpaModelForm
+                    closeForm={closeForm}
+                    submitUrl={submitUrl}
+                    stateField={'model'}
+                    formClassName={css.form}
+                    callbackAfterSuccess={closeForm}
+                    additionalData={additionalData}
+                    defaultFields={formDefaultFields}
+                />
+            </Modal.Body>
         </Modal>
     );
 }

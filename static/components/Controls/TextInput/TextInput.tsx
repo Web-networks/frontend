@@ -1,25 +1,25 @@
 import React, { SyntheticEvent } from 'react';
 import { Form } from 'react-bootstrap';
 
-export interface TextInputPropsT {
+type FormControlProps = React.ComponentProps<typeof Form.Control>;
+export interface TextInputPropsT extends FormControlProps {
     error?: string | null;
     label: string;
-    value?: string;
     onChange?: (value?: any) => void;
     placeholder?: string;
-    type?: 'email' | 'password' | 'text';
     as?: 'textarea' | 'select';
+    clarification?: string;
 }
 
 export function TextInput(props: TextInputPropsT) {
     const {
         error,
-        value,
         onChange,
         label,
         placeholder,
-        type,
         as,
+        clarification,
+        ...restProps
     } = props;
     const isInvalid = Boolean(error);
     const onChangeValue = React.useCallback(
@@ -33,11 +33,11 @@ export function TextInput(props: TextInputPropsT) {
             <Form.Control
                 placeholder={placeholder}
                 isInvalid={isInvalid}
-                value={value}
-                type={type}
                 onChange={onInputChange}
                 as={as}
+                {...restProps}
             />
+            <Form.Text className={'text-muted'}>{clarification}</Form.Text>
             <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
         </Form.Group>
     );

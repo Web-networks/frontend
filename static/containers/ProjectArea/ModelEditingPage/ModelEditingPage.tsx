@@ -7,7 +7,7 @@ import { ApplicationStateT } from 'types';
 import { ModelT } from 'types/modelTypes';
 import { modelRemove } from 'actions/modelActions';
 import { ModelForm } from 'containers/ProjectArea/ModelForm/ModelForm';
-import { LayerBlock } from 'components/Layers/LayerBlock/LayerBlock';
+import { LayersPreview } from 'components/Layers/LayersPreview/LayersPreview';
 import { layersFetch } from 'actions/layersActions';
 import { LayerT } from 'types/layersTypes';
 
@@ -83,15 +83,7 @@ function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactEle
                     isEditing={true}
                 />
             </div>
-            <div className={css.layers}>
-                {layers && layers.map(layer =>
-                    <LayerBlock
-                        key={layer.id}
-                        layer={layer}
-                    />,
-                )}
-                <LayerBlock />
-            </div>
+            {layers && <LayersPreview layers={layers} />}
         </div>
     );
 }

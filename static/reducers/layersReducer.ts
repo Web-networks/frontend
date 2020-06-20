@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 
 import { LayersStateT } from 'types/layersTypes';
 import { UPDATE_STATE_DATA } from 'actions/formActions';
-import { LAYERS_FETCH } from 'actions/layersActions';
+import { LAYERS_FETCH, LAYER_REMOVE } from 'actions/layersActions';
 import { updateStateDataFieldReducer, getFetchReducers } from './utils';
 
 const LayersInitialState: LayersStateT = {
@@ -15,4 +15,5 @@ export const layersReducer = handleActions<LayersStateT, any>({
     [UPDATE_STATE_DATA]: updateStateDataFieldReducer('layers'),
 
     ...getFetchReducers(LAYERS_FETCH),
+    ...getFetchReducers(LAYER_REMOVE),
 }, LayersInitialState);

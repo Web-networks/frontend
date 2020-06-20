@@ -8,3 +8,12 @@ export const [
     LAYERS_FETCH,
     layersFetch,
 ] = makeFetchableAction<LayersFetchEmitPayloadT>('LAYERS_FETCH');
+
+export interface LayerRemoveEmitRequestPayloadT extends MinEmitFetchActionPayloadT {
+    id: string;
+}
+export type LayerRemoveEmitRequestActionT = EmitFetchActionT<LayerRemoveEmitRequestPayloadT>;
+export const [
+    LAYER_REMOVE,
+    layerRemove,
+] = makeFetchableAction<LayerRemoveEmitRequestPayloadT>('LAYER_REMOVE');

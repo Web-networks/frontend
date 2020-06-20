@@ -10,6 +10,8 @@ import {
     FormTextInput,
     FormTypeahead,
 } from 'containers/Form/SpaFormField/SpaFormField';
+import { LayerT } from 'types/layersTypes';
+import { layerRemove } from 'actions/layersActions';
 import { ApplicationStateT } from 'types';
 
 import css from './LayerFormDeclaration.module.css';
@@ -18,8 +20,13 @@ interface LayerFormDeclarationConnectedProps {
     type?: LayerType;
 }
 
+interface LayerFormDeclarationDispatchProps {
+    onLayerRemove: (id: string) => void;
+}
+
 interface LayerFormDeclarationOwnProps extends FormUIPropsT {
     closeForm: () => void;
+    layer?: LayerT;
 }
 
 interface BaseControlType {
@@ -30,6 +37,7 @@ interface BaseControlType {
     default?: any;
     options?: string[];
     type?: string;
+    defaultValue?: any;
 }
 
 const FieldComponents: Record<FieldType, React.ComponentType<BaseControlType>> = {
@@ -44,10 +52,28 @@ const controlTypes: Partial<Record<FieldType, string>> = {
     number: 'number',
 };
 
-type LayerFormDeclarationProps = LayerFormDeclarationOwnProps & LayerFormDeclarationConnectedProps;
+type LayerFormDeclarationProps = LayerFormDeclarationOwnProps
+& LayerFormDeclarationConnectedProps
+& LayerFormDeclarationDispatchProps;
 
 function LayerFormDeclarationComponent(props: LayerFormDeclarationProps) {
-    const { isReadyToSubmit, closeForm, submitForm, type: layerType } = props;
+    const {
+        isReadyToSubmit,
+        closeForm,
+        submitForm,
+        type: layerType,
+        layer,
+        onLayerRemove,
+    } = props;
+    const isCreation = !layer;
+    const sumbitTextButton = isCreation ? 'Create' : 'Edit';
+    const onRemoveButtonClick = React.useCallback(() => {
+        if (!layer) {
+            return;
+        }
+        onLayerRemove(layer.id);
+        closeForm();
+    }, [onLayerRemove, layer, closeForm]);
     return (
         <Form>
             <div>
@@ -57,6 +83,7 @@ function LayerFormDeclarationComponent(props: LayerFormDeclarationProps) {
                     label={'Layer type'}
                     options={Object.keys(LayerDependsSettings)}
                     maxSuggestHeight={200}
+                    defaultValue={layer?.type}
                 />
                 {layerType && Object.keys(LayerDependsSettings[layerType]).map(paramName => {
                     const setting = LayerDependsSettings[layerType][paramName];
@@ -72,21 +99,29 @@ function LayerFormDeclarationComponent(props: LayerFormDeclarationProps) {
                             options={setting.options}
                             default={setting.default}
                             type={controlTypes[setting.fieldType]}
+                            defaultValue={layer?.params[paramName]}
                         />
                     );
                 })}
                 <div className={css.buttons}>
                     <Button variant='secondary' onClick={closeForm}>{'Close'}</Button>
-                    <Button variant='success' onClick={submitForm} disabled={!isReadyToSubmit}>{'Submit'}</Button>
+                    {!isCreation && <Button variant='danger' onClick={onRemoveButtonClick}>{'Remove'}</Button>}
+                    <Button
+                        variant='success'
+                        onClick={submitForm}
+                        disabled={!isReadyToSubmit}>{sumbitTextButton}</Button>
                 </div>
             </div>
         </Form>
     );
 }
 
-export const LayerFormDeclaration = connect<LayerFormDeclarationConnectedProps>(
+export const LayerFormDeclaration = connect<LayerFormDeclarationConnectedProps, LayerFormDeclarationDispatchProps>(
     ({ form }: ApplicationStateT) => ({
         type: form.data.type?.value,
+    }),
+    dispatch => ({
+        onLayerRemove: id => dispatch(layerRemove.emitRequest({ id })),
     }),
 )(createSpaForm(LayerFormDeclarationComponent));
 

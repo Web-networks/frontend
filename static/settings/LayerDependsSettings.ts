@@ -1,6 +1,8 @@
 import { DenseParams } from 'settings/LayerParamsSettings/Dense';
+import { DropoutParams } from 'settings/LayerParamsSettings/Dropout';
 
-export type LayerType = 'Dense';
+export type LayerType = 'Dense'
+| 'Dropout';
 /* | 'Activation'
 | 'Dropout'
 | 'Conv1D'
@@ -23,10 +25,15 @@ export interface FormFieldSetting {
     clarification?: string;
     options?: string[];
     default?: boolean | string;
+
+    step?: number;
+    min?: number;
+    max?: number;
 }
 
 type LayerDependsSettings = Record<LayerType, Record<string, FormFieldSetting>>;
 
 export const LayerDependsSettings: LayerDependsSettings = {
     Dense: DenseParams,
+    Dropout: DropoutParams,
 };

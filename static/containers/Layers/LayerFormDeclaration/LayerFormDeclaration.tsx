@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { LayerDependsSettings, LayerType, FieldType } from 'settings/LayerDependsSettings';
+import { LayerDependsSettings, LayerType, FieldType, FormFieldSetting } from 'settings/LayerDependsSettings';
 import { FormUIPropsT } from 'types/formTypes';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
 import {
@@ -29,18 +29,15 @@ interface LayerFormDeclarationOwnProps extends FormUIPropsT {
     layer?: LayerT;
 }
 
-interface BaseControlType {
+interface BaseControlType extends Omit<FormFieldSetting, 'required' | 'default' | 'fieldType'> {
     fieldName: string;
     isRequired?: boolean;
-    label?: string;
-    clarification?: string;
-    default?: any;
-    options?: string[];
+    defaultValue: any;
     type?: string;
-    defaultValue?: any;
 }
 
 const FieldComponents: Record<FieldType, React.ComponentType<BaseControlType>> = {
+    // @ts-ignore TODO: разобраться в чем ошибка
     select: FormTypeahead,
     string: FormTextInput,
     number: FormTextInput,
@@ -89,17 +86,16 @@ function LayerFormDeclarationComponent(props: LayerFormDeclarationProps) {
                     const setting = LayerDependsSettings[layerType][paramName];
                     const Control = FieldComponents[setting.fieldType];
                     const fieldName = `params.${paramName}`;
+                    const { default: settingDefault, required, fieldType, ...restProps } = setting;
+                    const defaultValue = layer?.params[paramName] || settingDefault;
                     return (
                         <Control
                             key={fieldName}
                             fieldName={fieldName}
-                            isRequired={setting.required}
-                            label={setting.label}
-                            clarification={setting.clarification}
-                            options={setting.options}
-                            default={setting.default}
-                            type={controlTypes[setting.fieldType]}
-                            defaultValue={layer?.params[paramName]}
+                            defaultValue={defaultValue}
+                            isRequired={required}
+                            type={controlTypes[fieldType]}
+                            {...restProps}
                         />
                     );
                 })}

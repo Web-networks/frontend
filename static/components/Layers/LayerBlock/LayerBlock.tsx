@@ -15,6 +15,7 @@ interface LayerBlockProps {
 
 const layerIcons: Record<LayerType, string> = {
     Dense: CoreLayerImage,
+    Dropout: CoreLayerImage,
 };
 
 export function LayerBlock(props: LayerBlockProps): React.ReactElement {

@@ -9,6 +9,7 @@ import {
     FormSwitcher,
     FormTextInput,
     FormTypeahead,
+    FormArrayTextInput,
 } from 'containers/Form/SpaFormField/SpaFormField';
 import { LayerT } from 'types/layersTypes';
 import { layerRemove } from 'actions/layersActions';
@@ -37,16 +38,11 @@ interface BaseControlType extends Omit<FormFieldSetting, 'required' | 'default' 
 }
 
 const FieldComponents: Record<FieldType, React.ComponentType<BaseControlType>> = {
-    // @ts-ignore TODO: разобраться в чем ошибка
-    select: FormTypeahead,
-    string: FormTextInput,
-    number: FormTextInput,
+    input: FormTextInput,
     boolean: FormSwitcher,
-};
-
-const controlTypes: Partial<Record<FieldType, string>> = {
-    string: 'text',
-    number: 'number',
+    array: FormArrayTextInput,
+    // @ts-ignore TODO: soleve problem
+    select: FormTypeahead,
 };
 
 type LayerFormDeclarationProps = LayerFormDeclarationOwnProps
@@ -86,7 +82,7 @@ function LayerFormDeclarationComponent(props: LayerFormDeclarationProps) {
                     const setting = LayerDependsSettings[layerType][paramName];
                     const Control = FieldComponents[setting.fieldType];
                     const fieldName = `params.${paramName}`;
-                    const { default: settingDefault, required, fieldType, ...restProps } = setting;
+                    const { default: settingDefault, required, ...restProps } = setting;
                     const defaultValue = layer?.params[paramName] || settingDefault;
                     return (
                         <Control
@@ -94,7 +90,6 @@ function LayerFormDeclarationComponent(props: LayerFormDeclarationProps) {
                             fieldName={fieldName}
                             defaultValue={defaultValue}
                             isRequired={required}
-                            type={controlTypes[fieldType]}
                             {...restProps}
                         />
                     );

@@ -8,6 +8,8 @@ import { LayerType } from 'settings/LayerDependsSettings';
 
 import css from './LayerBlock.module.css';
 import CoreLayerImage from './icons/core-layers.svg';
+import ConvLayerImage from './icons/convolutional-layers.svg';
+import PoolingLayerImage from './icons/pooling-layers.svg';
 
 interface LayerBlockProps {
     layer?: LayerT;
@@ -16,6 +18,9 @@ interface LayerBlockProps {
 const layerIcons: Record<LayerType, string> = {
     Dense: CoreLayerImage,
     Dropout: CoreLayerImage,
+    Conv2D: ConvLayerImage,
+    Flatten: ConvLayerImage,
+    MaxPooling2D: PoolingLayerImage,
 };
 
 export function LayerBlock(props: LayerBlockProps): React.ReactElement {

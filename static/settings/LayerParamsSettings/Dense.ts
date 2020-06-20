@@ -8,14 +8,15 @@ import {
 
 export const DenseParams: Record<string, FormFieldSetting> = {
     units: {
-        fieldType: 'number',
+        fieldType: 'input',
         required: true,
         label: 'Units',
         clarification: 'Positive integer, dimensionality of the output space',
+        type: 'number',
     },
     activation: {
         fieldType: 'select',
-        required: false,
+        required: true,
         label: 'Activation function',
         clarification: 'If you don\'t specify anything, no activation is applied (ie. "linear" activation: a(x) = x)',
         options: activations,

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ApplicationStateT } from 'types';
 import { InfoElement } from 'components/Profile/InfoElement/InfoElement';
 import { ProfileEditForm } from 'containers/Profile/ProfileEditForm/ProfileEditForm';
+import { Layout } from 'containers/PageLayout/Layout/Layout';
 import { withPendingState } from 'hocs/withPendingState';
 
 import EditInfo from './icons/edit_profile.svg';
@@ -26,46 +27,48 @@ function ProfilePageComponent(props: ProfilePageProps) {
         return null;
     }
     return (
-        <div className={css.root}>
-            <div className={css.header}>
-                <Image className={css.editIcon} src={EditInfo} width={60} />
-                <h2 style={{ margin: 0 }}>{'Profile page'}</h2>
-            </div>
-            <div className={css.content}>
-                <Switch>
-                    <Route path={profileEditPageUrl} >
-                        <ProfileEditForm
-                            submitUrl={'/passport/editinfo'}
-                            stateField={'user'}
-                            redirectSuccessUrl={profilePageUrl}
-                            firstName={firstName}
-                            lastName={lastName}
-                        />
-                    </Route>
-                    <Route>
-                        <>
-                            <InfoElement name={'email'} value={email} />
-                            <InfoElement
-                                name={'First name'}
-                                value={firstName}
-                                title={'first name'}
+        <Layout>
+            <div className={css.root}>
+                <div className={css.header}>
+                    <Image className={css.editIcon} src={EditInfo} width={60} />
+                    <h2 style={{ margin: 0 }}>{'Profile page'}</h2>
+                </div>
+                <div className={css.content}>
+                    <Switch>
+                        <Route path={profileEditPageUrl} >
+                            <ProfileEditForm
+                                submitUrl={'/passport/editinfo'}
+                                stateField={'user'}
+                                redirectSuccessUrl={profilePageUrl}
+                                firstName={firstName}
+                                lastName={lastName}
                             />
-                            <InfoElement
-                                name={'Last name'}
-                                value={lastName}
-                                title={'last name'}
-                            />
-                            <Button
-                                variant='primary'
-                                className={css.editButton}
-                                to={profileEditPageUrl}
-                                as={Link}
-                            >{'Edit'}</Button>
-                        </>
-                    </Route>
-                </Switch>
+                        </Route>
+                        <Route>
+                            <>
+                                <InfoElement name={'email'} value={email} />
+                                <InfoElement
+                                    name={'First name'}
+                                    value={firstName}
+                                    title={'first name'}
+                                />
+                                <InfoElement
+                                    name={'Last name'}
+                                    value={lastName}
+                                    title={'last name'}
+                                />
+                                <Button
+                                    variant='primary'
+                                    className={css.editButton}
+                                    to={profileEditPageUrl}
+                                    as={Link}
+                                >{'Edit'}</Button>
+                            </>
+                        </Route>
+                    </Switch>
+                </div>
             </div>
-        </div>
+        </Layout>
     );
 }
 

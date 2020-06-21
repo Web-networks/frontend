@@ -9,7 +9,7 @@ export const Conv2DParams: Record<string, FormFieldSetting> = {
         label: 'Input shape',
         length: 3,
         min: 1,
-        default: [1, 1, 1],
+        // default: [1, 1, 1],
     },
     filters: {
         fieldType: 'input',
@@ -17,7 +17,7 @@ export const Conv2DParams: Record<string, FormFieldSetting> = {
         label: 'Filters',
         clarification: 'Integer, the dimensionality of the output space',
         min: 1,
-        default: 1,
+        // default: 1,
         required: true,
     },
     kernel_size: {
@@ -26,7 +26,7 @@ export const Conv2DParams: Record<string, FormFieldSetting> = {
         label: 'Kernel size',
         clarification: 'An integer or tuple/list of 2 integers, specifying the height and width of the 2D convolution window',
         length: 2,
-        default: [3, 3],
+        // default: [3, 3],
         min: 1,
     },
     padding: {

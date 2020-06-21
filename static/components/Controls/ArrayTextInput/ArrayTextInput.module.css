@@ -1,0 +1,10 @@
+.arrayControls
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.control
+{
+    margin-right: 8px;
+}

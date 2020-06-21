@@ -9,6 +9,7 @@ import { ProjectForm } from 'containers/Projects/ProjectForm/ProjectForm';
 import { ApplicationStateT } from 'types';
 import { ProjectT } from 'types/projectsTypes';
 import { withPendingState } from 'hocs/withPendingState';
+import { Layout } from 'containers/PageLayout/Layout/Layout';
 
 import PlusIcon from './icons/plus.png';
 import css from './ProjectsPage.module.css';
@@ -41,60 +42,63 @@ function ProjectsPageComponent(props: ProjectsPageProps) {
     if (!username) {
         return null;
     }
-    const ownProjectsUrl = `/${username}/projects/`;
+    const ownProjectsUrl = `/${username}/projects`;
     const availableProjectsUrl = `/${username}/projects/available_projects/`;
     const creationProjectUrl = `/${username}/projects/create_project/`;
 
     return (
-        <div className={css.root}>
-            <div className={css.header}>
-                <h2>{'Projects'}</h2>
-                <Link
-                    to={creationProjectUrl}
-                    className={css.createLink}
-                >
-                    <div>{'Create'}</div>
-                    <Image src={PlusIcon} width={30} />
-                </Link>
+        <Layout>
+            <div className={css.root}>
+                <div className={css.header}>
+                    <h2>{'Projects'}</h2>
+                    <Link
+                        to={creationProjectUrl}
+                        className={css.createLink}
+                    >
+                        <div>{'Create'}</div>
+                        <Image src={PlusIcon} width={30} />
+                    </Link>
+                </div>
+                <div className={css.menu}>
+                    <NavLink
+                        exact
+                        to={ownProjectsUrl}
+                        className={css.menuItem}
+                        activeClassName={css.activeMenuItem}
+                    >{'Own projects'}</NavLink>
+                    <NavLink
+                        exact
+                        to={availableProjectsUrl}
+                        className={css.menuItem}
+                        activeClassName={css.activeMenuItem}
+                    >
+                        {'Shared projects'}
+                    </NavLink>
+                    <div className={css.lastMenuItem}></div>
+                </div>
+                <Switch>
+                    <Route exact path={'/:user/projects/available_projects'}>
+                        {availableProjects.length
+                            ? <ProjectsList projects={availableProjects}/>
+                            : <EmptyProjectsPage />
+                        }
+                    </Route>
+                    <Route exact path={'/:user/projects/create_project'}>
+                        <ProjectForm
+                            submitUrl='/restapi/projects/add'
+                            stateField='projects'
+                            redirectSuccessUrl={ownProjectsUrl}
+                        />
+                    </Route>
+                    <Route exact path={'/:user/projects'}>
+                        {projects.length
+                            ? <ProjectsList projects={projects}/>
+                            : <EmptyProjectsPage />
+                        }
+                    </Route>
+                </Switch>
             </div>
-            <div className={css.menu}>
-                <NavLink
-                    exact
-                    to={ownProjectsUrl}
-                    className={css.menuItem}
-                    activeClassName={css.activeMenuItem}
-                >{'Own projects'}</NavLink>
-                <NavLink
-                    exact
-                    to={availableProjectsUrl}
-                    className={css.menuItem}
-                    activeClassName={css.activeMenuItem}
-                >
-                    {'Shared projects'}
-                </NavLink>
-                <div className={css.lastMenuItem}></div>
-            </div>
-            <Switch>
-                <Route path={'/:user/projects/available_projects'}>
-                    {availableProjects.length
-                        ? <ProjectsList projects={availableProjects}/>
-                        : <EmptyProjectsPage />
-                    }
-                </Route>
-                <Route path={'/:user/projects/create_project'}>
-                    <ProjectForm
-                        submitUrl='/restapi/projects/add'
-                        stateField='projects'
-                    />
-                </Route>
-                <Route path={'/:user/projects'}>
-                    {projects.length
-                        ? <ProjectsList projects={projects}/>
-                        : <EmptyProjectsPage />
-                    }
-                </Route>
-            </Switch>
-        </div>
+        </Layout>
     );
 }
 

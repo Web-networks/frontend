@@ -9,12 +9,10 @@ export function updateStateDataFieldReducer<T extends StateFieldKeyT>(stateField
         if (actionField !== stateField) {
             return state;
         }
+        const nextData = Array.isArray(data) ? data : { ...state.data, ...data };
         return {
             ...state,
-            data: {
-                ...state.data,
-                ...data,
-            },
+            data: nextData,
         };
     };
 }

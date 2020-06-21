@@ -1,0 +1,60 @@
+.root
+{
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    padding-left: 20px;
+}
+
+.groupColumn
+{
+    display: flex;
+    align-self: stretch;
+    width: 250px;
+    margin-right: 20px;
+    flex-direction: column;
+}
+
+.reverseColumn
+{
+    flex-direction: column-reverse;
+}
+
+.reverseColumn .arrowDown
+{
+    transform: rotate(270deg);
+}
+
+.emptyGroup
+{
+    display: flex;
+    align-self: stretch;
+    flex-direction: column-reverse;
+    margin-right: 20px;
+}
+
+.emptyGroupReverse
+{
+    flex-direction: column;
+}
+
+.arrowDown
+{
+    transform: rotate(90deg);
+    height: 70px;
+}
+
+.arrowRight
+{
+    width: 70px;
+}
+
+.arrowRightWrapper
+{
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    width: 120px;
+}

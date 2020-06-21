@@ -85,4 +85,4 @@ export const ModelPage = connect<ModelPageConnectProps, ModelPageDispatchProps, 
     dispatch => ({
         fetchModel: projectId => dispatch(modelFetch.emitRequest({ project: projectId })),
     }),
-)(withPendingState(ModelPageComponent, 'model'));
+)(withPendingState(ModelPageComponent, 'model', 'layers'));

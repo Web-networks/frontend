@@ -1,4 +1,4 @@
-import { take, put, select, call, takeEvery } from 'redux-saga/effects';
+import { put, select, call, takeEvery } from 'redux-saga/effects';
 import { goBack, push } from 'connected-react-router';
 
 import {
@@ -21,7 +21,6 @@ export function* formSaga() {
 }
 
 function* formCancelSaga() {
-    yield take(FORM_CANCEL);
     yield put(goBack());
 }
 

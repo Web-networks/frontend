@@ -6,7 +6,7 @@ export enum NOTIFICATION {
     REMOVE = 'NOTIFICATION.REMOVE',
 }
 
-interface AddNotifictionPayloadT {
+export interface AddNotifictionPayloadT {
     type: AlertProps['variant'];
     text: string;
 }

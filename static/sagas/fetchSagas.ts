@@ -6,11 +6,12 @@ import {
     SuccesFetchActionT,
     RequestEndFetchActionT,
 } from 'actions/utils';
-import { addNotification } from 'actions/notificationsActions';
+import { addNotification, AddNotifictionPayloadT } from 'actions/notificationsActions';
 
 interface FetchSagaOptionsT {
     body?: Object;
     queryParams?: Object;
+    successNotification?: AddNotifictionPayloadT;
 }
 
 interface BaseType {
@@ -31,6 +32,9 @@ export function* fetchSaga<T extends BaseType>(actionCreator: T, url: string, op
                 params: options?.queryParams,
             });
         yield put(actionCreator.requestSuccess(response.data || null));
+        if (options?.successNotification) {
+            yield put(addNotification(options.successNotification));
+        }
         return response.data;
     } catch (error) {
         const errMessage = error.response.data.message

@@ -1,3 +1,4 @@
+import dot from 'dot-object';
 import { ApplicationStateT } from 'types';
 
 export function isFormWithErrors({ form: { data } }: ApplicationStateT) {
@@ -13,7 +14,7 @@ export function formDataSelect({ form: { data } }: ApplicationStateT): Record<st
         }
         return currentData;
     }, {});
-    return changedData;
+    return dot.object(changedData);
 }
 
 export function changedFieldsSelector({ form: { data } }: ApplicationStateT): string[] {

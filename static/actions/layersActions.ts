@@ -1,10 +1,19 @@
 import { makeFetchableAction, MinEmitFetchActionPayloadT, EmitFetchActionT } from 'actions/utils';
 
-export interface LayersEmitPayloadT extends MinEmitFetchActionPayloadT {
+export interface LayersFetchEmitPayloadT extends MinEmitFetchActionPayloadT {
     model: string;
 }
-export type LayersEmitRequestActionT = EmitFetchActionT<LayersEmitPayloadT>;
+export type LayersFetchEmitRequestActionT = EmitFetchActionT<LayersFetchEmitPayloadT>;
 export const [
     LAYERS_FETCH,
     layersFetch,
-] = makeFetchableAction<LayersEmitPayloadT>('LAYERS_FETCH');
+] = makeFetchableAction<LayersFetchEmitPayloadT>('LAYERS_FETCH');
+
+export interface LayerRemoveEmitRequestPayloadT extends MinEmitFetchActionPayloadT {
+    id: string;
+}
+export type LayerRemoveEmitRequestActionT = EmitFetchActionT<LayerRemoveEmitRequestPayloadT>;
+export const [
+    LAYER_REMOVE,
+    layerRemove,
+] = makeFetchableAction<LayerRemoveEmitRequestPayloadT>('LAYER_REMOVE');

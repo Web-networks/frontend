@@ -1,9 +1,8 @@
 import { StateFieldT } from 'types/utilityTypes';
-import { ModelT } from 'types/modelTypes';
 
 export interface LayerT {
     id: string;
-    model: ModelT;
+    model: string;
     type: string;
     params: Record<string, any>;
 }

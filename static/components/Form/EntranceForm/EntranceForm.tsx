@@ -1,10 +1,9 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
 import LogoImg from '@assets/logo.png';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, NavLink } from 'react-router-dom';
 import { UserSignUpForm } from 'containers/User/UserSignUpForm/UserSignUpForm';
 import { UserSignInForm } from 'containers/User/UserSignInForm/UserSignInForm';
-import { NavLink } from 'react-router-dom';
 import ProjectImg from '@assets/project.png';
 import EntranceImg from '@assets/entranceImage.jpg';
 

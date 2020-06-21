@@ -41,7 +41,7 @@ function ProjectsPageComponent(props: ProjectsPageProps) {
     if (!username) {
         return null;
     }
-    const ownProjectsUrl = `/${username}/projects/`;
+    const ownProjectsUrl = `/${username}/projects`;
     const availableProjectsUrl = `/${username}/projects/available_projects/`;
     const creationProjectUrl = `/${username}/projects/create_project/`;
 
@@ -75,20 +75,20 @@ function ProjectsPageComponent(props: ProjectsPageProps) {
                 <div className={css.lastMenuItem}></div>
             </div>
             <Switch>
-                <Route path={'/:user/projects/available_projects'}>
+                <Route exact path={'/:user/projects/available_projects'}>
                     {availableProjects.length
                         ? <ProjectsList projects={availableProjects}/>
                         : <EmptyProjectsPage />
                     }
                 </Route>
-                <Route path={'/:user/projects/create_project'}>
+                <Route exact path={'/:user/projects/create_project'}>
                     <ProjectForm
                         submitUrl='/restapi/projects/add'
                         stateField='projects'
                         redirectSuccessUrl={ownProjectsUrl}
                     />
                 </Route>
-                <Route path={'/:user/projects'}>
+                <Route exact path={'/:user/projects'}>
                     {projects.length
                         ? <ProjectsList projects={projects}/>
                         : <EmptyProjectsPage />

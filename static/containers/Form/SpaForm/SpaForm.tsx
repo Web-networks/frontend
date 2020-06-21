@@ -80,7 +80,7 @@ export function createSpaForm<BaseProps extends FormUIPropsT>(FormComponent: Rea
         }, [additionalData]);
         const submitForm = React.useCallback(
             () => onFormSubmit(submitUrl, stateField, redirectSuccessUrl),
-            [submitUrl, onFormSubmit, stateField],
+            [submitUrl, onFormSubmit, stateField, redirectSuccessUrl],
         );
         const isReadyToSubmit = Boolean(changedFields.length);
 

@@ -25,6 +25,7 @@ interface InjectedPropsT {
     fieldName: string;
     isRequired?: boolean;
     defaultValue?: any;
+    type?: string;
 }
 
 function createSpaFormField<BaseProps extends Object>(Component: React.ComponentType<BaseProps>) {
@@ -35,6 +36,9 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
             fieldName,
             isRequired = false,
             defaultValue,
+            onChange,
+            type,
+            ...restProps
         } = props;
         React.useEffect(() => {
             // eslint-disable-next-line no-undefined
@@ -44,9 +48,21 @@ function createSpaFormField<BaseProps extends Object>(Component: React.Component
                 createField(fieldName, isRequired);
             }
         }, []);
+        const onChangeWithType = React.useCallback(value => {
+            if (type === 'number') {
+                const numericValue = Array.isArray(value) ? value.map(Number) : Number(value);
+                onChange(numericValue);
+            } else {
+                onChange(value);
+            }
+        }, [onChange, type]);
 
         return (
-            <Component {...props} />
+            <Component
+                onChange={onChangeWithType}
+                type={type}
+                {...restProps as BaseProps}
+            />
         );
     }
 

@@ -41,6 +41,17 @@ function createFormField(form: FormStateT, fieldName: string, isRequired: boolea
     };
 }
 
+function isEmpty(value: any) {
+    if (Array.isArray(value)) {
+        const initialLength = value.length;
+        // eslint-disable-next-line no-undefined
+        const filteredLength = value.filter(item => item !== undefined && item !== null).length;
+        return filteredLength !== initialLength;
+    }
+    // eslint-disable-next-line no-undefined
+    return value === undefined || value === null;
+}
+
 function updateFormFields(form: FormStateT, nextFormData: {[key: string]: Partial<FormDataFieldT>}): FormStateT {
     const { data } = form;
     const nextData = Object.assign({}, data);
@@ -87,7 +98,7 @@ export const formReducer = handleActions<FormStateT, any>({
     [FORM_VALIDATE]: form => {
         const { data } = form;
         const errors = Object.keys(data).reduce((currentErrors, fieldName) => {
-            if (data[fieldName].isRequired && !data[fieldName].value) {
+            if (data[fieldName].isRequired && isEmpty(data[fieldName].value)) {
                 return { ...currentErrors, [fieldName]: {
                     error: 'required field',
                 } };

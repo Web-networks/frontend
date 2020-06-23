@@ -1,0 +1,32 @@
+.root
+{
+
+}
+
+.table
+{
+    display: grid;
+    width: 350px;
+    grid-template-columns: 1fr 1fr;
+    justify-items: start;
+    align-items: center;
+    margin-left: 16px;
+}
+
+.description
+{
+    font-size: 20px;
+    color: gray;
+    margin-right: 20px;
+    padding: 25px 0;
+}
+
+.numbers
+{
+    background-color: #47c971;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 10px;
+}

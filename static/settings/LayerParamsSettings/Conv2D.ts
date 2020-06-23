@@ -1,24 +1,16 @@
-import { FormFieldSetting } from 'settings/LayerDependsSettings';
+import { FormFieldSetting } from 'settings/types';
 import { activations } from 'settings/LayerParamsSettings/Common';
 
 /* eslint-disable max-len */
 export const Conv2DParams: Record<string, FormFieldSetting> = {
-    input_shape: {
-        fieldType: 'array',
-        required: true,
-        label: 'Input shape',
-        length: 3,
-        min: 1,
-        // default: [1, 1, 1],
-    },
     filters: {
         fieldType: 'input',
         type: 'number',
         label: 'Filters',
         clarification: 'Integer, the dimensionality of the output space',
         min: 1,
-        // default: 1,
         required: true,
+        // default: 1,
     },
     kernel_size: {
         fieldType: 'array',
@@ -26,8 +18,9 @@ export const Conv2DParams: Record<string, FormFieldSetting> = {
         label: 'Kernel size',
         clarification: 'An integer or tuple/list of 2 integers, specifying the height and width of the 2D convolution window',
         length: 2,
-        // default: [3, 3],
+        type: 'number',
         min: 1,
+        // default: [3, 3],
     },
     padding: {
         fieldType: 'select',
@@ -36,7 +29,7 @@ export const Conv2DParams: Record<string, FormFieldSetting> = {
         clarification: 'Padding is a special form of masking were the masked steps are at the start or at the beginning of a sequence',
         options: ['valid', 'same'],
     },
-    acivation: {
+    activation: {
         fieldType: 'select',
         required: false,
         label: 'Activation function',

@@ -8,3 +8,9 @@ export function modelDataSelector(state: ApplicationStateT): ModelT {
     }
     return Object.assign({}, model.data);
 }
+
+export function modelTaskSelector(state: ApplicationStateT): string | void {
+    const { model } = state;
+    // console.log(model.data);
+    return model.data?.task;
+}

@@ -58,7 +58,7 @@ interface ArrayControlFieldProps extends Omit<FormControlProps, 'onChange'> {
 }
 
 function ArrayControlField(props: ArrayControlFieldProps) {
-    const { order, value, onChange, width, ...restProps } = props;
+    const { order, value, onChange, width, isInvalid, ...restProps } = props;
     const onChangeValue = React.useCallback(
         (inputEvent: SyntheticEvent<HTMLInputElement>) => {
             if (typeof onChange === 'function') {
@@ -69,11 +69,14 @@ function ArrayControlField(props: ArrayControlFieldProps) {
         }, [onChange, value]);
     // eslint-disable-next-line no-undefined
     const fieldValue = value[order] !== undefined ? String(value[order]) : undefined;
+    // eslint-disable-next-line no-undefined
+    const withError = isInvalid && (fieldValue === undefined || fieldValue === null);
     return (
         <Form.Control
             className={css.control}
             value={fieldValue}
             onChange={onChangeValue}
+            isInvalid={withError}
             style={{
                 flexBasis: width + '%',
             }}

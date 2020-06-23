@@ -2,15 +2,11 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { LayerDependsSettings, LayerType, FieldType, FormFieldSetting } from 'settings/LayerDependsSettings';
+import { LayerDependsSettings, LayerType } from 'settings/LayerDependsSettings';
+import { FormTypeahead } from 'containers/Form/SpaFormField/SpaFormField';
 import { FormUIPropsT } from 'types/formTypes';
 import { createSpaForm } from 'containers/Form/SpaForm/SpaForm';
-import {
-    FormSwitcher,
-    FormTextInput,
-    FormTypeahead,
-    FormArrayTextInput,
-} from 'containers/Form/SpaFormField/SpaFormField';
+import { FieldComponents } from 'settings/controls';
 import { LayerT } from 'types/layersTypes';
 import { layerRemove } from 'actions/layersActions';
 import { ApplicationStateT } from 'types';
@@ -29,21 +25,6 @@ interface LayerFormDeclarationOwnProps extends FormUIPropsT {
     closeForm: () => void;
     layer?: LayerT;
 }
-
-interface BaseControlType extends Omit<FormFieldSetting, 'required' | 'default' | 'fieldType'> {
-    fieldName: string;
-    isRequired?: boolean;
-    defaultValue: any;
-    type?: string;
-}
-
-const FieldComponents: Record<FieldType, React.ComponentType<BaseControlType>> = {
-    input: FormTextInput,
-    boolean: FormSwitcher,
-    array: FormArrayTextInput,
-    // @ts-ignore TODO: soleve problem
-    select: FormTypeahead,
-};
 
 type LayerFormDeclarationProps = LayerFormDeclarationOwnProps
 & LayerFormDeclarationConnectedProps

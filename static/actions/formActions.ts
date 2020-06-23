@@ -41,10 +41,13 @@ export type FormEmitRequestActionT = EmitFetchActionT<FormPayloadT>;
 export const [FORM_SUBMIT, formSubmit] = makeFetchableAction<FormPayloadT>('FORM_SUBMIT');
 
 export const UPDATE_STATE_DATA = 'UPDATE_STATE_DATA';
-export type UpdateStateDataActionT<T extends StateFieldKeyT> = Action<{data: ApplicationStateT[T]; stateField: T}>;
+export type UpdateStateDataActionT<T extends StateFieldKeyT> = Action<{
+    data: Partial<ApplicationStateT[T]['data']>;
+    stateField: T;
+}>;
 export function updateStateData<T extends StateFieldKeyT>(
     stateField: T,
-    data: ApplicationStateT[T],
+    data: Partial<ApplicationStateT[T]['data']>,
 ): UpdateStateDataActionT<T> {
     return { type: UPDATE_STATE_DATA, payload: { stateField, data } };
 }

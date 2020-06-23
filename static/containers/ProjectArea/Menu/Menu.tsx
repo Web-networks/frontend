@@ -6,6 +6,7 @@ import InfoIcon from './icons/info.svg';
 import NeuronIcon from './icons/neuron.svg';
 import DataIcon from './icons/data.svg';
 import ExitIcon from './icons/exit.png';
+import GymIcon from './icons/gym.svg';
 
 import css from './Menu.module.css';
 import { NavLink } from 'react-router-dom';
@@ -33,19 +34,23 @@ interface MenuItem {
 function MenuComponent(props: MenuProps): React.ReactElement {
     const { className, projectOwner, projectName } = props;
     const MenuItems: MenuItem[] = [{
-        displayName: 'Project info',
+        displayName: 'PROJECT INFO',
         to: `/${projectOwner}/${projectName}/`,
         icon: InfoIcon,
     }, {
-        displayName: 'Model',
+        displayName: 'MODEL PROTOTYPE',
         to: `/${projectOwner}/${projectName}/model/`,
         icon: NeuronIcon,
     }, {
-        displayName: 'Data',
+        displayName: 'TRAINING RESULTS',
+        to: `/${projectOwner}/${projectName}/training`,
+        icon: GymIcon,
+    }, {
+        displayName: 'DATA',
         to: `/${projectOwner}/${projectName}/data`,
         icon: DataIcon,
     }, {
-        displayName: 'Exit',
+        displayName: 'RETURN TO PROJECTS',
         to: `/${projectOwner}/projects/`,
         icon: ExitIcon,
     }];

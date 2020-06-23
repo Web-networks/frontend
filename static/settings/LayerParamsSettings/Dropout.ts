@@ -1,4 +1,4 @@
-import { FormFieldSetting } from 'settings/LayerDependsSettings';
+import { FormFieldSetting } from 'settings/types';
 
 /* eslint-disable max-len */
 export const DropoutParams: Record<string, FormFieldSetting> = {

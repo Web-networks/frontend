@@ -6,7 +6,8 @@ import { ModelStateT } from 'types/modelTypes';
 import { LayersStateT } from 'types/layersTypes';
 import { CurrentProjectStateT } from 'types/currentProjectTypes';
 import { ConfirmDialogStateT } from 'types/confirmDialogTypes';
-import { NotificationsT } from './notificationsTypes';
+import { NotificationsT } from 'types/notificationsTypes';
+import { LearningTaskStateT } from 'types/learningTaskTypes';
 
 export type StateFieldKeyT =
     'form' |
@@ -14,7 +15,8 @@ export type StateFieldKeyT =
     'projects' |
     'currentProject' |
     'model' |
-    'layers';
+    'layers' |
+    'learningTask';
 
 type BaseApplicationStateT = Record<StateFieldKeyT, StateFieldT>;
 
@@ -27,4 +29,5 @@ export interface ApplicationStateT extends BaseApplicationStateT {
     layers: LayersStateT;
     confirmDialog: ConfirmDialogStateT;
     notifications: NotificationsT;
+    learningTask: LearningTaskStateT;
 }

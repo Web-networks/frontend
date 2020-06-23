@@ -43,11 +43,11 @@ export const ModelCreationSettings: ModelCreationSettingsT = {
         options: [
             'sgd',
             'RMSprop',
-            'Adagrad',
-            'Adadelta',
-            'Adam',
-            'Adamax',
-            'Nadam',
+            'adagrad',
+            'adadelta',
+            'adam',
+            'adamax',
+            'nadam',
         ],
     },
     metrics: {

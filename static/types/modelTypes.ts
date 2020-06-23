@@ -7,7 +7,8 @@ export interface ModelT {
     optimizer?: string;
     metrics?: string;
     project: ProjectT;
-    layers: any;
+    layers: string[];
+    task?: string;
 }
 
 export interface ModelStateT extends StateFieldT {

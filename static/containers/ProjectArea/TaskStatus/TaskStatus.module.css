@@ -1,0 +1,34 @@
+.root
+{
+    padding: 8px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.waiting
+{
+    background-color: #ababab;
+}
+
+.failed
+{
+    background-color: #f50e1d;
+}
+
+.success
+{
+    background-color: #47c971;
+}
+
+.initialized
+{
+    background-color: #3caff0;
+}
+
+.notInitialized
+{
+    color: black;
+    background-color: white;
+}

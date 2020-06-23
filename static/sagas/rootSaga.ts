@@ -5,6 +5,7 @@ import { projectsSaga } from 'sagas/projectsSaga';
 import { currentProjectSaga } from 'sagas/currentProjectSaga';
 import { modelSaga } from 'sagas/modelSaga';
 import { layersSaga } from 'sagas/layersSaga';
+import { learningTaskSaga } from 'sagas/learningTaskSaga';
 
 export function* rootSaga() {
     yield fork(formSaga);
@@ -13,4 +14,5 @@ export function* rootSaga() {
     yield fork(currentProjectSaga);
     yield fork(modelSaga);
     yield fork(layersSaga);
+    yield fork(learningTaskSaga);
 }

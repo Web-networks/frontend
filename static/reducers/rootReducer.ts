@@ -9,6 +9,7 @@ import { modelReducer } from 'reducers/modelReducer';
 import { layersReducer } from 'reducers/layersReducer';
 import { confirmDialogReducer } from 'reducers/confirmDialogReducer';
 import { notificationsReducer } from 'reducers/notificationsReducer';
+import { learningTaskReducer } from 'reducers/learningTaskReducer';
 
 // @ts-ignore due to some problem with types of router
 export const createRootReducer = history => combineReducers({
@@ -20,5 +21,6 @@ export const createRootReducer = history => combineReducers({
     layers: layersReducer,
     notifications: notificationsReducer,
     confirmDialog: confirmDialogReducer,
+    learningTask: learningTaskReducer,
     router: connectRouter(history),
 });

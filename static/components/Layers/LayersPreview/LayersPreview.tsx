@@ -10,6 +10,7 @@ import css from './LayersPreview.module.css';
 
 interface LayersPreviewProps {
     layers: LayerT[];
+    isLearning: boolean;
 }
 
 function splitForGroups<T>(array: T[], maxNumberInGroup: number) {
@@ -24,7 +25,7 @@ function splitForGroups<T>(array: T[], maxNumberInGroup: number) {
 }
 
 export function LayersPreview(props: LayersPreviewProps): React.ReactElement {
-    const { layers } = props;
+    const { layers, isLearning } = props;
     const N = 4;
     const layersWithEmptyLayer: Array<LayerT | null> = [...layers, null];
     const layersGroups = splitForGroups(layersWithEmptyLayer, N);
@@ -41,7 +42,10 @@ export function LayersPreview(props: LayersPreviewProps): React.ReactElement {
                         {group.map((layer, layerIndex) =>
                             <>
                                 {layer && <LayerBlock key={layer.id} layer={layer} /> || <LayerBlock/>}
-                                {layerIndex + 1 !== group.length && <Image src={ArrowRight} className={css.arrowDown}/>}
+                                {layerIndex + 1 !== group.length &&
+                                <Image src={ArrowRight} className={classnames(css.arrowDown, {
+                                    [css.pulse]: isLearning,
+                                })}/>}
                             </>,
                         )}
                     </div>
@@ -50,7 +54,9 @@ export function LayersPreview(props: LayersPreviewProps): React.ReactElement {
                             [css.emptyGroupReverse]: groupIndex % 2 === 1,
                         })}>
                             <div className={css.arrowRightWrapper}>
-                                <Image src={ArrowRight} className={css.arrowRight} />
+                                <Image src={ArrowRight} className={classnames(css.arrowRight, {
+                                    [css.pulse]: isLearning,
+                                })} />
                             </div>
                         </div>
                     }

@@ -37,8 +37,8 @@ export function* fetchSaga<T extends BaseType>(actionCreator: T, url: string, op
         }
         return response.data;
     } catch (error) {
-        const errMessage = error.response.data.message
-            || error.response.data.error
+        const errMessage = error.response?.data?.message
+            || error.response?.data?.error
             || error.toString();
         console.error(error);
         yield put(addNotification({ type: 'danger', text: errMessage }));

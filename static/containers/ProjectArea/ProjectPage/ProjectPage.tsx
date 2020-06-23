@@ -12,6 +12,7 @@ import { ProjectEditForm } from 'containers/ProjectArea/ProjectEditForm/ProjectE
 import { makeProjectUrl } from 'lib/url';
 import { ModelPage } from 'containers/ProjectArea/ModelPage/ModelPage';
 import { DataPage } from 'containers/ProjectArea/DataPage/DataPage';
+import { LearningResults } from 'containers/ProjectArea/LearningResults/LearningResults';
 import { withPendingState } from 'hocs/withPendingState';
 
 import LogoImg from '@assets/logo.png';
@@ -66,6 +67,7 @@ function ProjectPageComponent(props: ProjectPageProps) {
     const projectPageUrl = makeProjectUrl(projectOwner, project);
     const projectEditPageUrl = `${projectPageUrl}/edit`;
     const projectModelPageUrl = `${projectPageUrl}/model`;
+    const projectTrainigPageUrl = `${projectPageUrl}/training`;
     const projectDataPageUrl = `${projectPageUrl}/data`;
     const submitUrl = `/restapi/projects/${id}/edit`;
     return (
@@ -102,6 +104,9 @@ function ProjectPageComponent(props: ProjectPageProps) {
                         </Route>
                         <Route exact path={projectModelPageUrl}>
                             <ModelPage/>
+                        </Route>
+                        <Route exact path={projectTrainigPageUrl}>
+                            <LearningResults/>
                         </Route>
                         <Route exact path={projectDataPageUrl}>
                             <DataPage/>

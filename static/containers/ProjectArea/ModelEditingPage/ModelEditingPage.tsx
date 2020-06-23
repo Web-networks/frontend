@@ -9,8 +9,10 @@ import { modelRemove } from 'actions/modelActions';
 import { ModelForm } from 'containers/ProjectArea/ModelForm/ModelForm';
 import { LearnModelForm } from 'containers/ProjectArea/LearnModelForm/LearnModelForm';
 import { LayersPreview } from 'components/Layers/LayersPreview/LayersPreview';
+import { TaskStatus } from 'containers/ProjectArea/TaskStatus/TaskStatus';
 import { layersFetch } from 'actions/layersActions';
 import { LayerT } from 'types/layersTypes';
+import { LearningTasksStatuses } from 'types/learningTaskTypes';
 
 import NerveImage from './icons/nerve.svg';
 import DeleteImage from './icons/delete.svg';
@@ -20,6 +22,7 @@ import css from './ModelEditingPage.module.css';
 interface ModelEditingPageConnectProps {
     model: ModelT;
     layers?: LayerT[] | null;
+    currentTaskStatus?: LearningTasksStatuses;
 }
 
 interface ModelEditingPageDispatchProps {
@@ -38,12 +41,15 @@ function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactEle
         onRemoveModel,
         fetchLayers,
         layers,
+        currentTaskStatus,
     } = props;
     const [openedModelForm, toggleModelForm] = React.useState<boolean>(false);
     const [openedLearnModelForm, setOpenedLearnForm] = React.useState<boolean>(false);
     React.useEffect(() => {
         fetchLayers(model.id);
     }, []);
+    const isLearning = Boolean(currentTaskStatus
+        && [LearningTasksStatuses.INITIAL, LearningTasksStatuses.WAITING].includes(currentTaskStatus));
     const closeModelForm = React.useCallback(() => toggleModelForm(false), [toggleModelForm]);
     const openModelForm = React.useCallback(() => toggleModelForm(true), [toggleModelForm]);
     const openLearnForm = React.useCallback(() => setOpenedLearnForm(true), [setOpenedLearnForm]);
@@ -57,16 +63,19 @@ function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactEle
                     height={70}
                 />
                 <div className={css.modelParam}>
-                    <strong>{'Loss function: '}</strong>
-                    <span>{model.loss}</span>
+                    <div>{'Loss function'}</div>
+                    <div>{model.loss}</div>
                 </div>
                 <div className={css.modelParam}>
-                    <strong>{'Optimizer: '}</strong>
-                    <span>{model.optimizer}</span>
+                    <div>{'Optimizer'}</div>
+                    <div>{model.optimizer}</div>
                 </div>
                 <div className={css.modelParam}>
-                    <strong>{'Metrics: '}</strong>
-                    <span>{model.metrics}</span>
+                    <div>{'Metrics'}</div>
+                    <div>{model.metrics}</div>
+                </div>
+                <div className={css.taskStatus}>
+                    <TaskStatus/>
                 </div>
                 <Button
                     className={css.button}
@@ -77,6 +86,7 @@ function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactEle
                     className={css.button}
                     variant='success'
                     onClick={openLearnForm}
+                    disabled={isLearning}
                 >{'Learn'}</Button>
                 <Image
                     className={classnames(css.button, css.deleteButton)}
@@ -95,16 +105,17 @@ function ModelEditingPageComponent(props: ModelEditingPageProps): React.ReactEle
                     closeForm={closeLearnForm}
                 />
             </div>
-            {layers && <LayersPreview layers={layers} />}
+            {layers && <LayersPreview layers={layers} isLearning={isLearning} />}
         </div>
     );
 }
 
 // eslint-disable-next-line max-len
 export const ModelEditingPage = connect<ModelEditingPageConnectProps, ModelEditingPageDispatchProps, ModelEditingPageOwnProps>(
-    ({ model, layers }: ApplicationStateT) => ({
+    ({ model, layers, learningTask }: ApplicationStateT) => ({
         model: model.data!,
         layers: layers.data,
+        currentTaskStatus: learningTask.data?.status,
     }),
     dispatch => ({
         onRemoveModel: () => dispatch(modelRemove.emitRequest({})),

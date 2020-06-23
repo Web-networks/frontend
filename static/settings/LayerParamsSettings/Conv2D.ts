@@ -29,7 +29,7 @@ export const Conv2DParams: Record<string, FormFieldSetting> = {
         clarification: 'Padding is a special form of masking were the masked steps are at the start or at the beginning of a sequence',
         options: ['valid', 'same'],
     },
-    acivation: {
+    activation: {
         fieldType: 'select',
         required: false,
         label: 'Activation function',

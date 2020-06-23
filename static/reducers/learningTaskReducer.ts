@@ -40,12 +40,6 @@ export const learningTaskReducer = handleActions<LearningTaskStateT, any>({
         if (Array.isArray(valAccuracy)) {
             metrics = Object.assign({}, metrics, { accuracy: accuracyProcess(last(valAccuracy)) });
         }
-        metrics = {
-            loss: 0.0149,
-            accuracy: 99.5,
-            valLoss: 0.08,
-            valAccuracy: 97.9,
-        };
         const nextData = Object.assign({}, state.data, { metrics, status });
         return {
             ...state,

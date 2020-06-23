@@ -1,6 +1,5 @@
 import { StateFieldT } from 'types/utilityTypes';
 import { ProjectT } from 'types/projectsTypes';
-import { LayerT } from 'types/layersTypes';
 
 export interface ModelT {
     id: string;
@@ -8,7 +7,7 @@ export interface ModelT {
     optimizer?: string;
     metrics?: string;
     project: ProjectT;
-    layers: LayerT;
+    layers: string[];
     task?: string;
 }
 

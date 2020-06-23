@@ -19,8 +19,8 @@ export const createRootReducer = history => combineReducers({
     currentProject: currentProjectsReducer,
     model: modelReducer,
     layers: layersReducer,
+    learningTask: learningTaskReducer,
     notifications: notificationsReducer,
     confirmDialog: confirmDialogReducer,
-    learningTask: learningTaskReducer,
     router: connectRouter(history),
 });

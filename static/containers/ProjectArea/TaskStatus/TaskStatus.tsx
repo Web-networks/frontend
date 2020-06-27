@@ -39,7 +39,7 @@ function TaskStatusComponent(props: TaskStatusProps) {
             [css.waiting]: status === LearningTasksStatuses.WAITING,
             [css.failed]: status === LearningTasksStatuses.FAILED,
             [css.initialized]: status === LearningTasksStatuses.INITIAL,
-            /* [css.waiting]: status === LearningTasksStatuses.NOT_INITIALIZED, */
+            [css.notInitialized]: status === LearningTasksStatuses.NOT_INITIALIZED,
         })}>{status}</div>
     );
 }

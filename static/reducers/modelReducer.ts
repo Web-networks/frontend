@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 
 import { ModelStateT } from 'types/modelTypes';
 import { UPDATE_STATE_DATA } from 'actions/formActions';
-import { MODEL_FETCH, MODEL_REMOVE } from 'actions/modelActions';
+import { MODEL_FETCH, MODEL_REMOVE, CLEAN_MODEL } from 'actions/modelActions';
 import { updateStateDataFieldReducer, getFetchReducers } from './utils';
 
 const ModelInitialState: ModelStateT = {
@@ -16,4 +16,6 @@ export const modelReducer = handleActions<ModelStateT, any>({
 
     ...getFetchReducers(MODEL_FETCH),
     ...getFetchReducers(MODEL_REMOVE),
+
+    [CLEAN_MODEL]: () => ModelInitialState,
 }, ModelInitialState);

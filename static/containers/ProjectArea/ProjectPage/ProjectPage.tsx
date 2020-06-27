@@ -5,7 +5,9 @@ import { Image } from 'react-bootstrap';
 import { ApplicationStateT } from 'types';
 import { CurrentProjectDataT } from 'types/currentProjectTypes';
 import { withRouter, match, Link, Route, Switch } from 'react-router-dom';
-import { currentProjectFetch } from 'actions/currentProjectActions';
+import { currentProjectFetch, cleanProject } from 'actions/currentProjectActions';
+import { cleanLayers } from 'actions/layersActions';
+import { cleanModel } from 'actions/modelActions';
 import { Menu } from 'containers/ProjectArea/Menu/Menu';
 import { ProjectInfo } from 'components/Project/ProjectInfo/ProjectInfo';
 import { ProjectEditForm } from 'containers/ProjectArea/ProjectEditForm/ProjectEditForm';
@@ -32,6 +34,7 @@ interface ProjectPageConnectProps {
 
 interface ProjectPageDispatchProps {
     fetchCurrentProject: (project: string, user: string) => void;
+    onProjectPageUnmount: () => void;
 }
 
 interface ProjectPageOwnProps {
@@ -52,13 +55,14 @@ type ProjectPageProps = ProjectPageConnectProps
 & ProjectPageInjectedProps;
 
 function ProjectPageComponent(props: ProjectPageProps) {
-    const { fetchCurrentProject, match, currentProjectInfo, userAvatar, username } = props;
+    const { fetchCurrentProject, match, currentProjectInfo, userAvatar, username, onProjectPageUnmount } = props;
     const { project, user: projectOwner } = match.params;
     React.useEffect(() => {
         if (projectOwner) {
             fetchCurrentProject(project, projectOwner);
         }
     }, [projectOwner]);
+    React.useEffect(() => onProjectPageUnmount, []);
     if (!currentProjectInfo || !username) {
         return null;
     }
@@ -128,5 +132,10 @@ export const ProjectPage = withRouter(connect<ProjectPageConnectProps, ProjectPa
     }),
     (dispatch: Dispatch) => ({
         fetchCurrentProject: (project, user) => dispatch(currentProjectFetch.emitRequest({ project, user })),
+        onProjectPageUnmount: () => {
+            dispatch(cleanLayers());
+            dispatch(cleanModel());
+            dispatch(cleanProject());
+        },
     }),
 )(withPendingState(ProjectPageComponent, 'currentProject')));

@@ -4,7 +4,7 @@ import { last } from 'lodash';
 import { LearningTaskStateT } from 'types/learningTaskTypes';
 import { UPDATE_STATE_DATA } from 'actions/formActions';
 import { updateStateDataFieldReducer, getFetchReducers } from 'reducers/utils';
-import { LEARNING_TASK_FETCH } from 'actions/learningTaskActions';
+import { LEARNING_TASK_FETCH, CLEAN_LEARNING_TASK } from 'actions/learningTaskActions';
 import { SuccesFetchActionT } from 'actions/utils';
 
 const LearningTaskInitialState: LearningTaskStateT = {
@@ -38,7 +38,7 @@ export const learningTaskReducer = handleActions<LearningTaskStateT, any>({
             metrics = Object.assign({}, metrics, { valLoss: lossProcess(last(valLoss)) });
         }
         if (Array.isArray(valAccuracy)) {
-            metrics = Object.assign({}, metrics, { accuracy: accuracyProcess(last(valAccuracy)) });
+            metrics = Object.assign({}, metrics, { valAccuracy: accuracyProcess(last(valAccuracy)) });
         }
         const nextData = Object.assign({}, state.data, { metrics, status });
         return {
@@ -46,5 +46,7 @@ export const learningTaskReducer = handleActions<LearningTaskStateT, any>({
             data: nextData,
         };
     },
+
+    [CLEAN_LEARNING_TASK]: () => LearningTaskInitialState,
 
 }, LearningTaskInitialState);

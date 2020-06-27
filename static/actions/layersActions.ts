@@ -1,3 +1,4 @@
+import { createAction } from 'redux-actions';
 import { makeFetchableAction, MinEmitFetchActionPayloadT, EmitFetchActionT } from 'actions/utils';
 
 export interface LayersFetchEmitPayloadT extends MinEmitFetchActionPayloadT {
@@ -17,3 +18,6 @@ export const [
     LAYER_REMOVE,
     layerRemove,
 ] = makeFetchableAction<LayerRemoveEmitRequestPayloadT>('LAYER_REMOVE');
+
+export const CLEAN_LAYERS = 'CLEAN_LAYERS';
+export const cleanLayers = createAction(CLEAN_LAYERS);

@@ -1,6 +1,8 @@
 .root
 {
-
+    display: grid;
+    grid-template-columns: 350px auto;
+    overflow: auto;
 }
 
 .table
@@ -11,6 +13,7 @@
     justify-items: start;
     align-items: center;
     margin-left: 16px;
+    max-height: 500px;
 }
 
 .description
@@ -29,4 +32,11 @@
     font-size: 18px;
     padding: 8px;
     border-radius: 10px;
+}
+
+.graphics
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 20px;
 }

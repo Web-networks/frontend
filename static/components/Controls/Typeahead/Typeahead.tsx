@@ -89,8 +89,8 @@ function PopupContainer(props: PopupContainerProps) {
     const position = anchor.getBoundingClientRect();
     const suggestMaxHeight = maxSuggestHeight || 400;
     const stylesForPopup = {
-        top: position.bottom + 'px',
-        left: position.left + 'px',
+        top: position.bottom + pageYOffset + 'px',
+        left: position.left + pageXOffset + 'px',
         width: anchorWidth,
         'max-height': suggestMaxHeight + 'px',
     };

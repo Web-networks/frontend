@@ -18,6 +18,7 @@ export enum LearningTasksStatuses {
 export interface LearningTaskT {
     id: string;
     metrics: MetricsT | null;
+    graphics: any[];
     status: LearningTasksStatuses;
 }
 

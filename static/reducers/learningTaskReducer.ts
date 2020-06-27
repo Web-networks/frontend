@@ -13,6 +13,62 @@ const LearningTaskInitialState: LearningTaskStateT = {
     error: null,
 };
 
+interface TaskResultsHistory {
+    loss?: string[];
+    accuracy?: string[];
+    valLoss?: string[];
+    valAccuracy?: string[];
+}
+
+function getGraphicsData(taskResults: TaskResultsHistory) {
+    const basicSettings = {
+        type: 'line',
+        xAxis: {
+            title: 'Number of epoch',
+        },
+        xGrid: {
+            enabled: true,
+        },
+        yGrid: {
+            enabled: true,
+        },
+    };
+    const res = [];
+    if (taskResults.accuracy) {
+        const data = taskResults.accuracy.map((val, index) => [`Epoch ${index + 1}`, Number(val)]);
+        res.push({
+            ...basicSettings,
+            title: 'Accuracy',
+            data,
+        });
+    }
+    if (taskResults.loss) {
+        const data = taskResults.loss.map((val, index) => [`Epoch ${index + 1}`, Number(val)]);
+        res.push({
+            ...basicSettings,
+            title: 'Loss',
+            data,
+        });
+    }
+    if (taskResults.valAccuracy) {
+        const data = taskResults.valAccuracy.map((val, index) => [`Epoch ${index + 1}`, Number(val)]);
+        res.push({
+            ...basicSettings,
+            title: 'Validation accuracy',
+            data,
+        });
+    }
+    if (taskResults.valLoss) {
+        const data = taskResults.valLoss.map((val, index) => [`Epoch ${index + 1}`, Number(val)]);
+        res.push({
+            ...basicSettings,
+            title: 'Validation loss',
+            data,
+        });
+    }
+    return res;
+}
+
 export const learningTaskReducer = handleActions<LearningTaskStateT, any>({
     [UPDATE_STATE_DATA]: updateStateDataFieldReducer('learningTask'),
 
@@ -25,6 +81,7 @@ export const learningTaskReducer = handleActions<LearningTaskStateT, any>({
         const accuracy = body.metrics?.history?.accuracy;
         const valLoss = body.metrics?.history?.val_loss;
         const valAccuracy = body.metrics?.history?.val_accuracy;
+        const graphics = getGraphicsData({ loss, accuracy, valLoss, valAccuracy });
         let metrics = null;
         const lossProcess = (str: string) => Math.round(Number(str) * 1e4) / 1e4;
         const accuracyProcess = (str: string) => Math.round(Number(str) * 1e3) / 10;
@@ -40,7 +97,7 @@ export const learningTaskReducer = handleActions<LearningTaskStateT, any>({
         if (Array.isArray(valAccuracy)) {
             metrics = Object.assign({}, metrics, { valAccuracy: accuracyProcess(last(valAccuracy)) });
         }
-        const nextData = Object.assign({}, state.data, { metrics, status });
+        const nextData = Object.assign({}, state.data, { metrics, status, graphics });
         return {
             ...state,
             data: nextData,
